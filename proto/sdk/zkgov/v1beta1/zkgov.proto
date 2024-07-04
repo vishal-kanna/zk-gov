@@ -1,0 +1,7 @@
+syntax = "proto3";
+package sdk.zkgov.v1beta1;
+option go_package = "github.com/vishal-kanna/zk/zk-gov/x/zkgov/types";
+message Commitment {
+  string commitment = 1;
+  uint64 commitment_id = 2;
+}

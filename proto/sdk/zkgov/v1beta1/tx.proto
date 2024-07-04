@@ -1,0 +1,22 @@
+syntax = "proto3";
+package sdk.zkgov.v1beta1;
+
+import "cosmos/msg/v1/msg.proto";
+
+option go_package = "github.com/vishal-kanna/zk/zk-gov/x/zkgov/types";
+
+// Msg service for the zk-giv service
+service Msg {
+  option (cosmos.msg.v1.service) = true;
+  rpc RegisterCommitment(RegisterCommitmentRequest)
+      returns (RegisterCommitmentResponse);
+}
+
+// RegisterCommitmentRequest defines the Msg/RegisterCommitment request type
+message RegisterCommitmentRequest {
+  option (cosmos.msg.v1.signer) = "sender";
+  string commitment = 1;
+  string sender = 2;
+}
+
+message RegisterCommitmentResponse {}
