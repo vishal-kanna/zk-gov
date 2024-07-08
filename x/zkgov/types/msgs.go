@@ -6,6 +6,7 @@ import (
 
 var (
 	_ sdk.Msg = &RegisterCommitmentRequest{}
+	_ sdk.Msg = &RegisterUserRequest{}
 )
 
 func NewRegisterCommitmentRequest(commitment string) *RegisterCommitmentRequest {
@@ -15,5 +16,12 @@ func (msg RegisterCommitmentRequest) ValidateBasic() error {
 	if msg.Commitment == "" {
 		return EmptyCommitment
 	}
+	return nil
+}
+
+func NewRegisterUserRequest() *RegisterUserRequest {
+	return &RegisterUserRequest{}
+}
+func (msg RegisterUserRequest) ValidateBasic() error {
 	return nil
 }

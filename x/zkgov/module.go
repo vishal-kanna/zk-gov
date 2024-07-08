@@ -1,9 +1,9 @@
 package zkgov
 
 import (
+	"context"
+
 	gwruntime "github.com/grpc-ecosystem/grpc-gateway/runtime"
-	"github.com/spf13/cobra"
-	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/client/cli"
 	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/keeper"
 
 	"cosmossdk.io/core/appmodule"
@@ -44,14 +44,14 @@ func (AppModuleBasic) RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
 
 // RegisterGRPCGatewayRoutes registers the gRPC Gateway routes for the params module.
 func (AppModuleBasic) RegisterGRPCGatewayRoutes(clientCtx client.Context, mux *gwruntime.ServeMux) {
-	// if err := proposal.RegisterQueryHandlerClient(context.Background(), mux, proposal.NewQueryClient(clientCtx)); err != nil {
-	// 	panic(err)
-	// }
+	if err := zktypes.RegisterQueryHandlerClient(context.Background(), mux, zktypes.NewQueryClient(clientCtx)); err != nil {
+		panic(err)
+	}
 }
-func (ab AppModuleBasic) GetTxCmd() *cobra.Command {
-	return cli.NewTxCmd()
 
-}
+// func (ab AppModuleBasic) GetTxCmd() *cobra.Command {
+// 	return cli.NewTxCmd()
+// }
 
 func (am AppModuleBasic) RegisterInterfaces(registry codectypes.InterfaceRegistry) {
 	zktypes.RegisterInterfaces(registry)
@@ -84,7 +84,8 @@ func (AppModule) GenerateGenesisState(simState *module.SimulationState) {}
 // RegisterServices registers a gRPC query service to respond to the
 // module-specific gRPC queries.
 func (am AppModule) RegisterServices(cfg module.Configurator) {
-	// zktypes.RegisterQueryServer(cfg.QueryServer(), am.keeper)
+	zktypes.RegisterMsgServer(cfg.MsgServer(), keeper.NewMsgServerImpl(am.keeper))
+	zktypes.RegisterQueryServer(cfg.QueryServer(), am.keeper)
 }
 
 // RegisterStoreDecoder doesn't register any type.

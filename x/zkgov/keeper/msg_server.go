@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/types"
 )
@@ -17,6 +18,7 @@ func NewMsgServerImpl(k Keeper) types.MsgServer {
 		Keeper: k,
 	}
 }
+
 func (k msgServer) RegisterCommitment(ctx context.Context, req *types.RegisterCommitmentRequest) (*types.RegisterCommitmentResponse, error) {
 	if req.Commitment == "" {
 		return nil, types.EmptyCommitment
@@ -27,3 +29,16 @@ func (k msgServer) RegisterCommitment(ctx context.Context, req *types.RegisterCo
 	}
 	return &types.RegisterCommitmentResponse{}, nil
 }
+
+func (k msgServer) RegisterUser(ctx context.Context, req *types.RegisterUserRequest) (*types.RegisterUserResponse, error) {
+	fmt.Println("I'm here>>>>>>>>>>>.")
+	err := k.RegisterUsr(ctx)
+	if err != nil {
+		return &types.RegisterUserResponse{}, err
+	}
+	return &types.RegisterUserResponse{}, nil
+}
+
+// generate userId it should in seq
+// generate the random number to get the nullifier
+//

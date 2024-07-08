@@ -8,8 +8,16 @@ option go_package = "github.com/vishal-kanna/zk/zk-gov/x/zkgov/types";
 // Msg service for the zk-giv service
 service Msg {
   option (cosmos.msg.v1.service) = true;
+
+  // RegisterCommitment
   rpc RegisterCommitment(RegisterCommitmentRequest)
       returns (RegisterCommitmentResponse);
+
+  // RegisterUser
+  rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse);
+
+  // GenerateProof
+  rpc GenerateProof(GenerateProofRequest)returns (GenerateProofResponse);
 }
 
 // RegisterCommitmentRequest defines the Msg/RegisterCommitment request type
@@ -19,4 +27,25 @@ message RegisterCommitmentRequest {
   string sender = 2;
 }
 
+// RegisterCommitmentResponse
 message RegisterCommitmentResponse {}
+
+// RegisterUserRequest
+message RegisterUserRequest {
+  option (cosmos.msg.v1.signer) = "sender";
+  string sender = 1;
+  string user_name = 2;
+}
+
+// RegisterUserResponser
+message RegisterUserResponse {}
+
+// GenerateProofRequest
+message GenerateProofRequest{
+  option (cosmos.msg.v1.signer) = "sender";
+  string sender = 1;
+  uint64 user_id=2;
+}
+
+// GenerateProofRequest
+message GenerateProofResponse{}
