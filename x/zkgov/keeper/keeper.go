@@ -49,7 +49,10 @@ func (k *Keeper) Vote(ctx context.Context, votePropal types.MsgVoteProposal) err
 
 	//
 	publicWitness := circuit.PreparePublicWitness(nullifier, uint64(voteOption), merkleRoot)
-	zkProof := circuit.UnMarshalZkProof(zkProofBytes[:])
+	zkProof, err := circuit.UnMarshalZkProof(zkProofBytes[:])
+	if err != nil {
+		return err
+	}
 
 	// verifier key should be initialized at genesis
 	var vkey groth16.VerifyingKey

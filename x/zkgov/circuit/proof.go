@@ -1,14 +1,20 @@
 package circuit
 
 import (
-	"github.com/consensys/gnark-crypto/ecc"
+	"encoding/json"
+
 	"github.com/consensys/gnark/backend/groth16"
+	bn254 "github.com/consensys/gnark/backend/groth16/bn254"
 )
 
-func UnMarshalZkProof(zkProofBytes []byte) groth16.Proof {
-	curveID := ecc.BN254
-	zkProof := groth16.NewProof(curveID)
+func UnMarshalZkProof(zkProofBytes []byte) (groth16.Proof, error) {
 
-	// TODO: use proof bytes
-	return zkProof
+	// unmarshal sig into proof
+	zkProof := new(bn254.Proof)
+	err := json.Unmarshal(zkProofBytes, zkProof)
+	if err != nil {
+		return nil, err
+	}
+
+	return zkProof, nil
 }
