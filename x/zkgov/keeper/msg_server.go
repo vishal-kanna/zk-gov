@@ -18,32 +18,31 @@ func NewMsgServerImpl(k Keeper) types.MsgServer {
 	}
 }
 
-func (k msgServer) RegisterCommitment(ctx context.Context, req *types.RegisterCommitmentRequest) (*types.RegisterCommitmentResponse, error) {
-	if req.Commitment == "" {
-		return nil, types.EmptyCommitment
-	}
-	err := k.StoreCommitment(ctx, req.Commitment)
+// register users who wants to vote for a certain proposal
+// a user can register only once for one proposal. Similar;y, he can vote only once.
+func (k msgServer) RegisterUser(ctx context.Context, req *types.MsgRegisterUser) (*types.MsgRegisterUserResponse, error) {
+	err := req.ValidateBasic()
 	if err != nil {
-		return nil, nil
+		return nil, err
 	}
-	return &types.RegisterCommitmentResponse{}, nil
-}
-
-func (k msgServer) RegisterUser(ctx context.Context, req *types.RegisterUserRequest) (*types.RegisterUserResponse, error) {
-	err := k.RegisterUsr(ctx)
+	err = k.Keeper.RegisterUser(ctx, req.Commitment, req.Sender, req.ProposalId)
 	if err != nil {
-		return &types.RegisterUserResponse{}, err
+		return nil, err
 	}
-	return &types.RegisterUserResponse{}, nil
+	return &types.MsgRegisterUserResponse{}, nil
 }
 
 // generate userId it should in seq
 // generate the random number to get the nullifier
-func (k msgServer) GenerateProof(ctx context.Context, req *types.GenerateProofRequest) (*types.GenerateProofResponse, error) {
+func (k msgServer) VoteProposal(ctx context.Context, req *types.MsgVoteProposal) (*types.MsgVoteProposalResponse, error) {
 
-	if req.UserId == 0 {
-		return &types.GenerateProofResponse{}, types.No_user
+	if err := req.ValidateBasic(); err != nil {
+		return nil, err
 	}
-	k.ProofGeneration(ctx, req.UserId)
-	return &types.GenerateProofResponse{}, nil
+
+	if err := k.Keeper.Vote(ctx, *req); err != nil {
+		return nil, err
+	}
+
+	return &types.MsgVoteProposalResponse{}, nil
 }

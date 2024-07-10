@@ -5,23 +5,25 @@ import (
 )
 
 var (
-	_ sdk.Msg = &RegisterCommitmentRequest{}
-	_ sdk.Msg = &RegisterUserRequest{}
+	_ sdk.Msg = &MsgRegisterUser{}
+	_ sdk.Msg = &MsgVoteProposal{}
 )
 
-func NewRegisterCommitmentRequest(commitment string) *RegisterCommitmentRequest {
-	return &RegisterCommitmentRequest{Commitment: commitment}
+func NewMsgRegisterUser(commitment string, sender string, proposalID uint64) *MsgRegisterUser {
+	return &MsgRegisterUser{Commitment: commitment, Sender: sender, ProposalId: proposalID}
 }
-func (msg RegisterCommitmentRequest) ValidateBasic() error {
-	if msg.Commitment == "" {
-		return EmptyCommitment
-	}
+func (msg MsgRegisterUser) ValidateBasic() error {
+	// TODO: commitment size
+	// TODO: sender should be valid secp256k1 address
+	// TODO: proposalID not nill
 	return nil
 }
 
-func NewRegisterUserRequest() *RegisterUserRequest {
-	return &RegisterUserRequest{}
+func NewMsgVoteProposal() *MsgVoteProposal {
+	return &MsgVoteProposal{}
 }
-func (msg RegisterUserRequest) ValidateBasic() error {
+func (msg MsgVoteProposal) ValidateBasic() error {
+	// TODO: null size
+	// TODO: state root size
 	return nil
 }

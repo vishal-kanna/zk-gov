@@ -1,55 +1,87 @@
 package circuit
 
 import (
+	"crypto/sha256"
+	"encoding/binary"
+	"fmt"
+	"math/big"
+
+	"github.com/consensys/gnark-crypto/ecc"
+	"github.com/consensys/gnark/backend/witness"
 	"github.com/consensys/gnark/frontend"
 	"github.com/consensys/gnark/std/accumulator/merkle"
-	"github.com/consensys/gnark/std/hash/mimc"
+	"github.com/consensys/gnark/std/math/emulated"
+	"github.com/consensys/gnark/std/signature/ecdsa"
 )
 
 // Define the circuit
-type Circuit struct {
-	UniqueId1  frontend.Variable
-	ProofIndex frontend.Variable `gnark:",public"`
-	UniqueId2  frontend.Variable
-	Commitment frontend.Variable
-	Nullifier  frontend.Variable `gnark:",public"`
-	VoteOption frontend.Variable `gnark:",public"`
-	//Signature   eddsa.Signature //todo
-	MerkleProof merkle.MerkleProof
-	MerkleRoot  frontend.Variable
+type PrivateVotingCircuit[T, S emulated.FieldParams] struct {
+	SecretUniqueId1 frontend.Variable // randomly generated
+	SecretUniqueId2 frontend.Variable // randomly generated
+
+	Commitment frontend.Variable //  hash(secret1 + secret2 + pubkey)
+	Nullifier  frontend.Variable `gnark:",public"` // hash(secret2 + pubkey)
+	// VoteOption       frontend.Variable `gnark:",public"`
+	Signature        ecdsa.Signature[S]
+	Message          emulated.Element[S] `gnark:",public"` // hash(nullifier and vote option)
+	Publickey        ecdsa.PublicKey[T, S]
+	MerkleProofIndex frontend.Variable // commitment index in the list of commitments stored on chain
+	MerkleProof      merkle.MerkleProof
+	MerkleRoot       frontend.Variable `gnark:",public"`
 }
 
-func (circuit *Circuit) Define(api frontend.API) error {
-	hashFunc, err := mimc.NewMiMC(api)
+func (circuit *PrivateVotingCircuit[T, S]) Define(api frontend.API) error {
+
+	// TODO: circuit logic
+	return nil
+}
+
+func PreparePublicWitness(nullifier string, voteOption uint64, merkleRoot string) witness.Witness {
+	nullifierBytes := []byte(nullifier)
+	merkleRootBytes := []byte(merkleRoot)
+
+	voteOptionBytes := make([]byte, 8)
+	binary.BigEndian.PutUint64(voteOptionBytes, voteOption)
+	message := append(nullifierBytes, merkleRootBytes...)
+	message = append(message, voteOptionBytes...)
+	messageHash := Sha256Hash(message)
+
+	field := ecc.BN254.ScalarField()
+	publicWitness, err := ConstructWitness(field, merkleRootBytes, nullifierBytes, messageHash)
 	if err != nil {
 		panic(err)
 	}
-	hashFunc.Write(circuit.UniqueId1, circuit.UniqueId2)
-	commitment := hashFunc.Sum()
 
-	// Ensure the commitment matches the provided commitment
-	api.AssertIsEqual(commitment, circuit.Commitment)
+	return publicWitness
 
-	api.AssertIsEqual(circuit.MerkleProof.RootHash, circuit.MerkleRoot)
+}
 
-	// Hash the commitment to generate nullifier
-	hashFunc.Reset()
-	hashFunc.Write(circuit.UniqueId2)
-	nullifier := hashFunc.Sum()
+// constructs new public witness using assignment's public inputs
+func ConstructWitness(field *big.Int, merkleRootBytes []byte, nullifierBytes []byte, message []byte) (witness.Witness, error) {
+	newWitness, err := witness.New(field)
+	if err != nil {
+		return nil, err
+	}
 
-	// Comparing the circuit generated nullifier with provided nullifier
-	api.AssertIsEqual(nullifier, circuit.Nullifier)
-	hashFunc.Reset()
-	circuit.MerkleProof.VerifyProof(api, &hashFunc, circuit.ProofIndex)
+	witnessChan := make(chan any)
+	go passPubInputs(&witnessChan, merkleRootBytes, nullifierBytes, message)
+	newWitness.Fill(3, 0, witnessChan)
 
-	//// Signature verification
-	//curve, err := twistededwards.NewEdCurve(api, tedwards.BN254)
-	//if err != nil {
-	//	return err
-	//}
-	//
-	//hashFunc.Reset()
-	//err = eddsa.Verify(curve, circuit.Signature, circuit.VoteOption, circuit.PubKey, &hashFunc)
+	return newWitness, nil
+}
 
-	return err
+// close the channel after passing the values to end the for loop over channel values
+func passPubInputs(witnessChan *chan any, merkleRootBytes []byte, nullifierBytes []byte, message []byte) {
+	*witnessChan <- nullifierBytes
+	*witnessChan <- message
+	*witnessChan <- merkleRootBytes
+
+	fmt.Println("pulbic values sent via channel for witness construction...")
+	close(*witnessChan)
+}
+
+func Sha256Hash(message []byte) []byte {
+	shaFunc := sha256.New()
+	shaFunc.Write(message)
+	return shaFunc.Sum(nil)
 }

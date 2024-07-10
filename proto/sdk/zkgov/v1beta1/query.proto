@@ -10,7 +10,7 @@ service Query {
   // Balance queries the balance of a single coin for a single account.
   rpc CommitmentMerkleProof(QueryCommitmentMerkleProofRequest)
       returns (QueryCommitmentMerkleProofResponse) {
-    option (google.api.http).get = "/zk-gov/{commitment}";
+    option (google.api.http).get = "/zk-gov/{proposal_id}/{commitment}";
   }
 }
 
@@ -18,8 +18,8 @@ service Query {
 message QueryCommitmentMerkleProofRequest {
   option (gogoproto.equal) = false;
   option (gogoproto.goproto_getters) = false;
-
-  uint64 commitment = 1;
+  uint64 proposal_id = 1;
+  string commitment = 2;
 }
 
 // QueryCommitmentMerkleProofResponse

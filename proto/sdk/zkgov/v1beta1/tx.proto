@@ -22,7 +22,7 @@ message MsgRegisterUser {
   option (cosmos.msg.v1.signer) = "sender";
   string sender = 1;
   string commitment = 2;
-  string proposal_id = 3;
+  uint64 proposal_id = 3;
 }
 
 // RegisterUserResponser
@@ -32,10 +32,10 @@ message MsgRegisterUserResponse {}
 message MsgVoteProposal {
   option (cosmos.msg.v1.signer) = "sender";
   string nullifier = 1;
-  string proposal_id = 2;
+  uint64 proposal_id = 2;
   VoteOption vote_option = 3;
   string proposal_state_root = 4;
-  repeated bytes zk_proof = 5;
+  bytes zk_proof = 5;
 }
 
 // GenerateProofRequest

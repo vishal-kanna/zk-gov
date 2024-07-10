@@ -105,8 +105,8 @@ func (x *fastReflection_MsgRegisterUser) Range(f func(protoreflect.FieldDescript
 			return
 		}
 	}
-	if x.ProposalId != "" {
-		value := protoreflect.ValueOfString(x.ProposalId)
+	if x.ProposalId != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.ProposalId)
 		if !f(fd_MsgRegisterUser_proposal_id, value) {
 			return
 		}
@@ -131,7 +131,7 @@ func (x *fastReflection_MsgRegisterUser) Has(fd protoreflect.FieldDescriptor) bo
 	case "sdk.zkgov.v1beta1.MsgRegisterUser.commitment":
 		return x.Commitment != ""
 	case "sdk.zkgov.v1beta1.MsgRegisterUser.proposal_id":
-		return x.ProposalId != ""
+		return x.ProposalId != uint64(0)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgRegisterUser"))
@@ -153,7 +153,7 @@ func (x *fastReflection_MsgRegisterUser) Clear(fd protoreflect.FieldDescriptor) 
 	case "sdk.zkgov.v1beta1.MsgRegisterUser.commitment":
 		x.Commitment = ""
 	case "sdk.zkgov.v1beta1.MsgRegisterUser.proposal_id":
-		x.ProposalId = ""
+		x.ProposalId = uint64(0)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgRegisterUser"))
@@ -178,7 +178,7 @@ func (x *fastReflection_MsgRegisterUser) Get(descriptor protoreflect.FieldDescri
 		return protoreflect.ValueOfString(value)
 	case "sdk.zkgov.v1beta1.MsgRegisterUser.proposal_id":
 		value := x.ProposalId
-		return protoreflect.ValueOfString(value)
+		return protoreflect.ValueOfUint64(value)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgRegisterUser"))
@@ -204,7 +204,7 @@ func (x *fastReflection_MsgRegisterUser) Set(fd protoreflect.FieldDescriptor, va
 	case "sdk.zkgov.v1beta1.MsgRegisterUser.commitment":
 		x.Commitment = value.Interface().(string)
 	case "sdk.zkgov.v1beta1.MsgRegisterUser.proposal_id":
-		x.ProposalId = value.Interface().(string)
+		x.ProposalId = value.Uint()
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgRegisterUser"))
@@ -249,7 +249,7 @@ func (x *fastReflection_MsgRegisterUser) NewField(fd protoreflect.FieldDescripto
 	case "sdk.zkgov.v1beta1.MsgRegisterUser.commitment":
 		return protoreflect.ValueOfString("")
 	case "sdk.zkgov.v1beta1.MsgRegisterUser.proposal_id":
-		return protoreflect.ValueOfString("")
+		return protoreflect.ValueOfUint64(uint64(0))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgRegisterUser"))
@@ -327,9 +327,8 @@ func (x *fastReflection_MsgRegisterUser) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		l = len(x.ProposalId)
-		if l > 0 {
-			n += 1 + l + runtime.Sov(uint64(l))
+		if x.ProposalId != 0 {
+			n += 1 + runtime.Sov(uint64(x.ProposalId))
 		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
@@ -360,12 +359,10 @@ func (x *fastReflection_MsgRegisterUser) ProtoMethods() *protoiface.Methods {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
-		if len(x.ProposalId) > 0 {
-			i -= len(x.ProposalId)
-			copy(dAtA[i:], x.ProposalId)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.ProposalId)))
+		if x.ProposalId != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.ProposalId))
 			i--
-			dAtA[i] = 0x1a
+			dAtA[i] = 0x18
 		}
 		if len(x.Commitment) > 0 {
 			i -= len(x.Commitment)
@@ -495,10 +492,10 @@ func (x *fastReflection_MsgRegisterUser) ProtoMethods() *protoiface.Methods {
 				x.Commitment = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			case 3:
-				if wireType != 2 {
+				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ProposalId", wireType)
 				}
-				var stringLen uint64
+				x.ProposalId = 0
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -508,24 +505,11 @@ func (x *fastReflection_MsgRegisterUser) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					x.ProposalId |= uint64(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + intStringLen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.ProposalId = string(dAtA[iNdEx:postIndex])
-				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -917,52 +901,6 @@ func (x *fastReflection_MsgRegisterUserResponse) ProtoMethods() *protoiface.Meth
 	}
 }
 
-var _ protoreflect.List = (*_MsgVoteProposal_5_list)(nil)
-
-type _MsgVoteProposal_5_list struct {
-	list *[][]byte
-}
-
-func (x *_MsgVoteProposal_5_list) Len() int {
-	if x.list == nil {
-		return 0
-	}
-	return len(*x.list)
-}
-
-func (x *_MsgVoteProposal_5_list) Get(i int) protoreflect.Value {
-	return protoreflect.ValueOfBytes((*x.list)[i])
-}
-
-func (x *_MsgVoteProposal_5_list) Set(i int, value protoreflect.Value) {
-	valueUnwrapped := value.Bytes()
-	concreteValue := valueUnwrapped
-	(*x.list)[i] = concreteValue
-}
-
-func (x *_MsgVoteProposal_5_list) Append(value protoreflect.Value) {
-	valueUnwrapped := value.Bytes()
-	concreteValue := valueUnwrapped
-	*x.list = append(*x.list, concreteValue)
-}
-
-func (x *_MsgVoteProposal_5_list) AppendMutable() protoreflect.Value {
-	panic(fmt.Errorf("AppendMutable can not be called on message MsgVoteProposal at list field ZkProof as it is not of Message kind"))
-}
-
-func (x *_MsgVoteProposal_5_list) Truncate(n int) {
-	*x.list = (*x.list)[:n]
-}
-
-func (x *_MsgVoteProposal_5_list) NewElement() protoreflect.Value {
-	var v []byte
-	return protoreflect.ValueOfBytes(v)
-}
-
-func (x *_MsgVoteProposal_5_list) IsValid() bool {
-	return x.list != nil
-}
-
 var (
 	md_MsgVoteProposal                     protoreflect.MessageDescriptor
 	fd_MsgVoteProposal_nullifier           protoreflect.FieldDescriptor
@@ -1053,8 +991,8 @@ func (x *fastReflection_MsgVoteProposal) Range(f func(protoreflect.FieldDescript
 			return
 		}
 	}
-	if x.ProposalId != "" {
-		value := protoreflect.ValueOfString(x.ProposalId)
+	if x.ProposalId != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.ProposalId)
 		if !f(fd_MsgVoteProposal_proposal_id, value) {
 			return
 		}
@@ -1072,7 +1010,7 @@ func (x *fastReflection_MsgVoteProposal) Range(f func(protoreflect.FieldDescript
 		}
 	}
 	if len(x.ZkProof) != 0 {
-		value := protoreflect.ValueOfList(&_MsgVoteProposal_5_list{list: &x.ZkProof})
+		value := protoreflect.ValueOfBytes(x.ZkProof)
 		if !f(fd_MsgVoteProposal_zk_proof, value) {
 			return
 		}
@@ -1095,7 +1033,7 @@ func (x *fastReflection_MsgVoteProposal) Has(fd protoreflect.FieldDescriptor) bo
 	case "sdk.zkgov.v1beta1.MsgVoteProposal.nullifier":
 		return x.Nullifier != ""
 	case "sdk.zkgov.v1beta1.MsgVoteProposal.proposal_id":
-		return x.ProposalId != ""
+		return x.ProposalId != uint64(0)
 	case "sdk.zkgov.v1beta1.MsgVoteProposal.vote_option":
 		return x.VoteOption != 0
 	case "sdk.zkgov.v1beta1.MsgVoteProposal.proposal_state_root":
@@ -1121,7 +1059,7 @@ func (x *fastReflection_MsgVoteProposal) Clear(fd protoreflect.FieldDescriptor) 
 	case "sdk.zkgov.v1beta1.MsgVoteProposal.nullifier":
 		x.Nullifier = ""
 	case "sdk.zkgov.v1beta1.MsgVoteProposal.proposal_id":
-		x.ProposalId = ""
+		x.ProposalId = uint64(0)
 	case "sdk.zkgov.v1beta1.MsgVoteProposal.vote_option":
 		x.VoteOption = 0
 	case "sdk.zkgov.v1beta1.MsgVoteProposal.proposal_state_root":
@@ -1149,7 +1087,7 @@ func (x *fastReflection_MsgVoteProposal) Get(descriptor protoreflect.FieldDescri
 		return protoreflect.ValueOfString(value)
 	case "sdk.zkgov.v1beta1.MsgVoteProposal.proposal_id":
 		value := x.ProposalId
-		return protoreflect.ValueOfString(value)
+		return protoreflect.ValueOfUint64(value)
 	case "sdk.zkgov.v1beta1.MsgVoteProposal.vote_option":
 		value := x.VoteOption
 		return protoreflect.ValueOfEnum((protoreflect.EnumNumber)(value))
@@ -1157,11 +1095,8 @@ func (x *fastReflection_MsgVoteProposal) Get(descriptor protoreflect.FieldDescri
 		value := x.ProposalStateRoot
 		return protoreflect.ValueOfString(value)
 	case "sdk.zkgov.v1beta1.MsgVoteProposal.zk_proof":
-		if len(x.ZkProof) == 0 {
-			return protoreflect.ValueOfList(&_MsgVoteProposal_5_list{})
-		}
-		listValue := &_MsgVoteProposal_5_list{list: &x.ZkProof}
-		return protoreflect.ValueOfList(listValue)
+		value := x.ZkProof
+		return protoreflect.ValueOfBytes(value)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgVoteProposal"))
@@ -1185,15 +1120,13 @@ func (x *fastReflection_MsgVoteProposal) Set(fd protoreflect.FieldDescriptor, va
 	case "sdk.zkgov.v1beta1.MsgVoteProposal.nullifier":
 		x.Nullifier = value.Interface().(string)
 	case "sdk.zkgov.v1beta1.MsgVoteProposal.proposal_id":
-		x.ProposalId = value.Interface().(string)
+		x.ProposalId = value.Uint()
 	case "sdk.zkgov.v1beta1.MsgVoteProposal.vote_option":
 		x.VoteOption = (VoteOption)(value.Enum())
 	case "sdk.zkgov.v1beta1.MsgVoteProposal.proposal_state_root":
 		x.ProposalStateRoot = value.Interface().(string)
 	case "sdk.zkgov.v1beta1.MsgVoteProposal.zk_proof":
-		lv := value.List()
-		clv := lv.(*_MsgVoteProposal_5_list)
-		x.ZkProof = *clv.list
+		x.ZkProof = value.Bytes()
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgVoteProposal"))
@@ -1214,12 +1147,6 @@ func (x *fastReflection_MsgVoteProposal) Set(fd protoreflect.FieldDescriptor, va
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_MsgVoteProposal) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "sdk.zkgov.v1beta1.MsgVoteProposal.zk_proof":
-		if x.ZkProof == nil {
-			x.ZkProof = [][]byte{}
-		}
-		value := &_MsgVoteProposal_5_list{list: &x.ZkProof}
-		return protoreflect.ValueOfList(value)
 	case "sdk.zkgov.v1beta1.MsgVoteProposal.nullifier":
 		panic(fmt.Errorf("field nullifier of message sdk.zkgov.v1beta1.MsgVoteProposal is not mutable"))
 	case "sdk.zkgov.v1beta1.MsgVoteProposal.proposal_id":
@@ -1228,6 +1155,8 @@ func (x *fastReflection_MsgVoteProposal) Mutable(fd protoreflect.FieldDescriptor
 		panic(fmt.Errorf("field vote_option of message sdk.zkgov.v1beta1.MsgVoteProposal is not mutable"))
 	case "sdk.zkgov.v1beta1.MsgVoteProposal.proposal_state_root":
 		panic(fmt.Errorf("field proposal_state_root of message sdk.zkgov.v1beta1.MsgVoteProposal is not mutable"))
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.zk_proof":
+		panic(fmt.Errorf("field zk_proof of message sdk.zkgov.v1beta1.MsgVoteProposal is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgVoteProposal"))
@@ -1244,14 +1173,13 @@ func (x *fastReflection_MsgVoteProposal) NewField(fd protoreflect.FieldDescripto
 	case "sdk.zkgov.v1beta1.MsgVoteProposal.nullifier":
 		return protoreflect.ValueOfString("")
 	case "sdk.zkgov.v1beta1.MsgVoteProposal.proposal_id":
-		return protoreflect.ValueOfString("")
+		return protoreflect.ValueOfUint64(uint64(0))
 	case "sdk.zkgov.v1beta1.MsgVoteProposal.vote_option":
 		return protoreflect.ValueOfEnum(0)
 	case "sdk.zkgov.v1beta1.MsgVoteProposal.proposal_state_root":
 		return protoreflect.ValueOfString("")
 	case "sdk.zkgov.v1beta1.MsgVoteProposal.zk_proof":
-		list := [][]byte{}
-		return protoreflect.ValueOfList(&_MsgVoteProposal_5_list{list: &list})
+		return protoreflect.ValueOfBytes(nil)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgVoteProposal"))
@@ -1325,9 +1253,8 @@ func (x *fastReflection_MsgVoteProposal) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		l = len(x.ProposalId)
-		if l > 0 {
-			n += 1 + l + runtime.Sov(uint64(l))
+		if x.ProposalId != 0 {
+			n += 1 + runtime.Sov(uint64(x.ProposalId))
 		}
 		if x.VoteOption != 0 {
 			n += 1 + runtime.Sov(uint64(x.VoteOption))
@@ -1336,11 +1263,9 @@ func (x *fastReflection_MsgVoteProposal) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		if len(x.ZkProof) > 0 {
-			for _, b := range x.ZkProof {
-				l = len(b)
-				n += 1 + l + runtime.Sov(uint64(l))
-			}
+		l = len(x.ZkProof)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
@@ -1372,13 +1297,11 @@ func (x *fastReflection_MsgVoteProposal) ProtoMethods() *protoiface.Methods {
 			copy(dAtA[i:], x.unknownFields)
 		}
 		if len(x.ZkProof) > 0 {
-			for iNdEx := len(x.ZkProof) - 1; iNdEx >= 0; iNdEx-- {
-				i -= len(x.ZkProof[iNdEx])
-				copy(dAtA[i:], x.ZkProof[iNdEx])
-				i = runtime.EncodeVarint(dAtA, i, uint64(len(x.ZkProof[iNdEx])))
-				i--
-				dAtA[i] = 0x2a
-			}
+			i -= len(x.ZkProof)
+			copy(dAtA[i:], x.ZkProof)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.ZkProof)))
+			i--
+			dAtA[i] = 0x2a
 		}
 		if len(x.ProposalStateRoot) > 0 {
 			i -= len(x.ProposalStateRoot)
@@ -1392,12 +1315,10 @@ func (x *fastReflection_MsgVoteProposal) ProtoMethods() *protoiface.Methods {
 			i--
 			dAtA[i] = 0x18
 		}
-		if len(x.ProposalId) > 0 {
-			i -= len(x.ProposalId)
-			copy(dAtA[i:], x.ProposalId)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.ProposalId)))
+		if x.ProposalId != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.ProposalId))
 			i--
-			dAtA[i] = 0x12
+			dAtA[i] = 0x10
 		}
 		if len(x.Nullifier) > 0 {
 			i -= len(x.Nullifier)
@@ -1488,10 +1409,10 @@ func (x *fastReflection_MsgVoteProposal) ProtoMethods() *protoiface.Methods {
 				x.Nullifier = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			case 2:
-				if wireType != 2 {
+				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ProposalId", wireType)
 				}
-				var stringLen uint64
+				x.ProposalId = 0
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -1501,24 +1422,11 @@ func (x *fastReflection_MsgVoteProposal) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					x.ProposalId |= uint64(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + intStringLen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.ProposalId = string(dAtA[iNdEx:postIndex])
-				iNdEx = postIndex
 			case 3:
 				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field VoteOption", wireType)
@@ -1599,8 +1507,10 @@ func (x *fastReflection_MsgVoteProposal) ProtoMethods() *protoiface.Methods {
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.ZkProof = append(x.ZkProof, make([]byte, postIndex-iNdEx))
-				copy(x.ZkProof[len(x.ZkProof)-1], dAtA[iNdEx:postIndex])
+				x.ZkProof = append(x.ZkProof[:0], dAtA[iNdEx:postIndex]...)
+				if x.ZkProof == nil {
+					x.ZkProof = []byte{}
+				}
 				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
@@ -2014,7 +1924,7 @@ type MsgRegisterUser struct {
 
 	Sender     string `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
 	Commitment string `protobuf:"bytes,2,opt,name=commitment,proto3" json:"commitment,omitempty"`
-	ProposalId string `protobuf:"bytes,3,opt,name=proposal_id,json=proposalId,proto3" json:"proposal_id,omitempty"`
+	ProposalId uint64 `protobuf:"varint,3,opt,name=proposal_id,json=proposalId,proto3" json:"proposal_id,omitempty"`
 }
 
 func (x *MsgRegisterUser) Reset() {
@@ -2051,11 +1961,11 @@ func (x *MsgRegisterUser) GetCommitment() string {
 	return ""
 }
 
-func (x *MsgRegisterUser) GetProposalId() string {
+func (x *MsgRegisterUser) GetProposalId() uint64 {
 	if x != nil {
 		return x.ProposalId
 	}
-	return ""
+	return 0
 }
 
 // RegisterUserResponser
@@ -2092,10 +2002,10 @@ type MsgVoteProposal struct {
 	unknownFields protoimpl.UnknownFields
 
 	Nullifier         string     `protobuf:"bytes,1,opt,name=nullifier,proto3" json:"nullifier,omitempty"`
-	ProposalId        string     `protobuf:"bytes,2,opt,name=proposal_id,json=proposalId,proto3" json:"proposal_id,omitempty"`
+	ProposalId        uint64     `protobuf:"varint,2,opt,name=proposal_id,json=proposalId,proto3" json:"proposal_id,omitempty"`
 	VoteOption        VoteOption `protobuf:"varint,3,opt,name=vote_option,json=voteOption,proto3,enum=sdk.zkgov.v1beta1.VoteOption" json:"vote_option,omitempty"`
 	ProposalStateRoot string     `protobuf:"bytes,4,opt,name=proposal_state_root,json=proposalStateRoot,proto3" json:"proposal_state_root,omitempty"`
-	ZkProof           [][]byte   `protobuf:"bytes,5,rep,name=zk_proof,json=zkProof,proto3" json:"zk_proof,omitempty"`
+	ZkProof           []byte     `protobuf:"bytes,5,opt,name=zk_proof,json=zkProof,proto3" json:"zk_proof,omitempty"`
 }
 
 func (x *MsgVoteProposal) Reset() {
@@ -2125,11 +2035,11 @@ func (x *MsgVoteProposal) GetNullifier() string {
 	return ""
 }
 
-func (x *MsgVoteProposal) GetProposalId() string {
+func (x *MsgVoteProposal) GetProposalId() uint64 {
 	if x != nil {
 		return x.ProposalId
 	}
-	return ""
+	return 0
 }
 
 func (x *MsgVoteProposal) GetVoteOption() VoteOption {
@@ -2146,7 +2056,7 @@ func (x *MsgVoteProposal) GetProposalStateRoot() string {
 	return ""
 }
 
-func (x *MsgVoteProposal) GetZkProof() [][]byte {
+func (x *MsgVoteProposal) GetZkProof() []byte {
 	if x != nil {
 		return x.ZkProof
 	}
@@ -2195,7 +2105,7 @@ var file_sdk_zkgov_v1beta1_tx_proto_rawDesc = []byte{
 	0x65, 0x72, 0x12, 0x1e, 0x0a, 0x0a, 0x63, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x6d, 0x65, 0x6e, 0x74,
 	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x63, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x6d, 0x65,
 	0x6e, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x70, 0x72, 0x6f, 0x70, 0x6f, 0x73, 0x61, 0x6c, 0x5f, 0x69,
-	0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x70, 0x72, 0x6f, 0x70, 0x6f, 0x73, 0x61,
+	0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0a, 0x70, 0x72, 0x6f, 0x70, 0x6f, 0x73, 0x61,
 	0x6c, 0x49, 0x64, 0x3a, 0x0b, 0x82, 0xe7, 0xb0, 0x2a, 0x06, 0x73, 0x65, 0x6e, 0x64, 0x65, 0x72,
 	0x22, 0x19, 0x0a, 0x17, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x55,
 	0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xe8, 0x01, 0x0a, 0x0f,
@@ -2203,7 +2113,7 @@ var file_sdk_zkgov_v1beta1_tx_proto_rawDesc = []byte{
 	0x1c, 0x0a, 0x09, 0x6e, 0x75, 0x6c, 0x6c, 0x69, 0x66, 0x69, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01,
 	0x28, 0x09, 0x52, 0x09, 0x6e, 0x75, 0x6c, 0x6c, 0x69, 0x66, 0x69, 0x65, 0x72, 0x12, 0x1f, 0x0a,
 	0x0b, 0x70, 0x72, 0x6f, 0x70, 0x6f, 0x73, 0x61, 0x6c, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x0a, 0x70, 0x72, 0x6f, 0x70, 0x6f, 0x73, 0x61, 0x6c, 0x49, 0x64, 0x12, 0x3e,
+	0x28, 0x04, 0x52, 0x0a, 0x70, 0x72, 0x6f, 0x70, 0x6f, 0x73, 0x61, 0x6c, 0x49, 0x64, 0x12, 0x3e,
 	0x0a, 0x0b, 0x76, 0x6f, 0x74, 0x65, 0x5f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x03, 0x20,
 	0x01, 0x28, 0x0e, 0x32, 0x1d, 0x2e, 0x73, 0x64, 0x6b, 0x2e, 0x7a, 0x6b, 0x67, 0x6f, 0x76, 0x2e,
 	0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x56, 0x6f, 0x74, 0x65, 0x4f, 0x70, 0x74, 0x69,
@@ -2211,7 +2121,7 @@ var file_sdk_zkgov_v1beta1_tx_proto_rawDesc = []byte{
 	0x0a, 0x13, 0x70, 0x72, 0x6f, 0x70, 0x6f, 0x73, 0x61, 0x6c, 0x5f, 0x73, 0x74, 0x61, 0x74, 0x65,
 	0x5f, 0x72, 0x6f, 0x6f, 0x74, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x11, 0x70, 0x72, 0x6f,
 	0x70, 0x6f, 0x73, 0x61, 0x6c, 0x53, 0x74, 0x61, 0x74, 0x65, 0x52, 0x6f, 0x6f, 0x74, 0x12, 0x19,
-	0x0a, 0x08, 0x7a, 0x6b, 0x5f, 0x70, 0x72, 0x6f, 0x6f, 0x66, 0x18, 0x05, 0x20, 0x03, 0x28, 0x0c,
+	0x0a, 0x08, 0x7a, 0x6b, 0x5f, 0x70, 0x72, 0x6f, 0x6f, 0x66, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0c,
 	0x52, 0x07, 0x7a, 0x6b, 0x50, 0x72, 0x6f, 0x6f, 0x66, 0x3a, 0x0b, 0x82, 0xe7, 0xb0, 0x2a, 0x06,
 	0x73, 0x65, 0x6e, 0x64, 0x65, 0x72, 0x22, 0x19, 0x0a, 0x17, 0x4d, 0x73, 0x67, 0x56, 0x6f, 0x74,
 	0x65, 0x50, 0x72, 0x6f, 0x70, 0x6f, 0x73, 0x61, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,

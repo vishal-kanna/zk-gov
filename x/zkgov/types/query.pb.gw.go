@@ -44,12 +44,23 @@ func request_Query_CommitmentMerkleProof_0(ctx context.Context, marshaler runtim
 		_   = err
 	)
 
+	val, ok = pathParams["proposal_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "proposal_id")
+	}
+
+	protoReq.ProposalId, err = runtime.Uint64(val)
+
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "proposal_id", err)
+	}
+
 	val, ok = pathParams["commitment"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "commitment")
 	}
 
-	protoReq.Commitment, err = runtime.Uint64(val)
+	protoReq.Commitment, err = runtime.String(val)
 
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "commitment", err)
@@ -71,12 +82,23 @@ func local_request_Query_CommitmentMerkleProof_0(ctx context.Context, marshaler 
 		_   = err
 	)
 
+	val, ok = pathParams["proposal_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "proposal_id")
+	}
+
+	protoReq.ProposalId, err = runtime.Uint64(val)
+
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "proposal_id", err)
+	}
+
 	val, ok = pathParams["commitment"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "commitment")
 	}
 
-	protoReq.Commitment, err = runtime.Uint64(val)
+	protoReq.Commitment, err = runtime.String(val)
 
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "commitment", err)
@@ -181,7 +203,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 }
 
 var (
-	pattern_Query_CommitmentMerkleProof_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1}, []string{"zk-gov", "commitment"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_CommitmentMerkleProof_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 1, 0, 4, 1, 5, 2}, []string{"zk-gov", "proposal_id", "commitment"}, "", runtime.AssumeColonVerbOpt(false)))
 )
 
 var (
