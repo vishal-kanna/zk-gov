@@ -1,6 +1,7 @@
 package keeper
 
 import (
+	"bytes"
 	"context"
 	"encoding/binary"
 	"fmt"
@@ -10,10 +11,13 @@ import (
 	"math/rand"
 
 	cosmosstore "cosmossdk.io/core/store"
+	"github.com/consensys/gnark-crypto/accumulator/merkletree"
+	"github.com/consensys/gnark-crypto/ecc"
 	"github.com/consensys/gnark-crypto/ecc/bn254/fr/mimc"
 	"github.com/consensys/gnark/frontend"
 	"github.com/consensys/gnark/std/accumulator/merkle"
 	"github.com/cosmos/cosmos-sdk/codec"
+	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/circuit"
 	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/types"
 )
 
@@ -153,4 +157,56 @@ func GetMerkleProofFromBytes(rootBytes []byte, proofBytes [][]byte) merkle.Merkl
 		merkleProof.Path[i] = proofBytes[i]
 	}
 	return merkleProof
+}
+
+func (k Keeper) ProofGeneration(ctx context.Context, userid uint64) {
+	store := k.storeKey.OpenKVStore(ctx)
+	bz, err := store.Get(UserStoreKey(uint64(userid)))
+	if err != nil {
+		fmt.Println("Err", err)
+	}
+	var usr types.User
+	err = k.cdc.Unmarshal(bz, &usr)
+	if err != nil {
+		fmt.Println("Err", err)
+	}
+	commitment := usr.Commitment
+	nullifier := usr.Nullifier
+	randomNumber := usr.RandomNumber
+	var buf bytes.Buffer
+	// build merkle proof
+	dataSegments := 4
+	proofIndex := 0
+	dataSize := len(commitment)
+	hFunc := mimc.NewMiMC()
+	for j := byte(1); j <= byte(dataSegments); j++ {
+		data := commitment
+		hFunc.Reset()
+		hFunc.Write(data)
+		hash := hFunc.Sum(nil)
+
+		_, err := buf.Write(hash)
+		if err != nil {
+			fmt.Println("failed to write hash", err)
+		}
+	}
+	root, proof, numLeaves, err := merkletree.BuildReaderProof(&buf, hFunc, dataSize, uint64(proofIndex))
+	verified := merkletree.VerifyProof(hFunc, root, proof, uint64(proofIndex), numLeaves)
+	if verified {
+		fmt.Println("Proof is generated and verified")
+	}
+	// Define the inputs
+	assignment := circuit.Circuit{
+		UniqueId1:   usr.Userid,
+		ProofIndex:  0,
+		UniqueId2:   randomNumber,
+		Commitment:  commitment,
+		Nullifier:   nullifier,
+		MerkleProof: GetMerkleProofFromBytes(root, proof),
+		MerkleRoot:  root,
+		VoteOption:  1,
+	}
+	witness, err := frontend.NewWitness(&assignment, ecc.BN254.ScalarField())
+	publicWitness, err := witness.Public()
+	fmt.Println("pub", publicWitness)
 }

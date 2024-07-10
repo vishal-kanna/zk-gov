@@ -20,7 +20,8 @@ func (s *TestSuite) TestPlanByID() {
 		Sender: alice,
 	})
 	s.Require().NoError(err)
-
+	bz, _ := s.addressCodec.StringToBytes("cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5cgqjwl8sq")
+	fmt.Println(">>>>>>>>.", bz, ">>>>>>>>>>>>>")
 	res, err := s.queryClient.GetUser(s.ctx, &types.QueryUserRequset{Userid: 1})
 	fmt.Println("the result is>>>>>>>>>>", res)
 	s.Require().Equal(res.Ust.Userid, uint64(1))

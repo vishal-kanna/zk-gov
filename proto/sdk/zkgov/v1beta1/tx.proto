@@ -17,7 +17,7 @@ service Msg {
   rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse);
 
   // GenerateProof
-  rpc GenerateProof(GenerateProofRequest)returns (GenerateProofResponse);
+  rpc GenerateProof(GenerateProofRequest) returns (GenerateProofResponse);
 }
 
 // RegisterCommitmentRequest defines the Msg/RegisterCommitment request type
@@ -41,11 +41,11 @@ message RegisterUserRequest {
 message RegisterUserResponse {}
 
 // GenerateProofRequest
-message GenerateProofRequest{
+message GenerateProofRequest {
   option (cosmos.msg.v1.signer) = "sender";
   string sender = 1;
-  uint64 user_id=2;
+  uint64 user_id = 2;
 }
 
 // GenerateProofRequest
-message GenerateProofResponse{}
+message GenerateProofResponse {}
