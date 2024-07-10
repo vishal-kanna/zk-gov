@@ -19,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Query_GetUser_FullMethodName = "/sdk.zkgov.v1beta1.Query/GetUser"
+	Query_CommitmentMerkleProof_FullMethodName = "/sdk.zkgov.v1beta1.Query/CommitmentMerkleProof"
 )
 
 // QueryClient is the client API for Query service.
@@ -27,7 +27,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type QueryClient interface {
 	// Balance queries the balance of a single coin for a single account.
-	GetUser(ctx context.Context, in *QueryUserRequset, opts ...grpc.CallOption) (*QueryGetUserResponse, error)
+	CommitmentMerkleProof(ctx context.Context, in *QueryCommitmentMerkleProofRequest, opts ...grpc.CallOption) (*QueryCommitmentMerkleProofResponse, error)
 }
 
 type queryClient struct {
@@ -38,9 +38,9 @@ func NewQueryClient(cc grpc.ClientConnInterface) QueryClient {
 	return &queryClient{cc}
 }
 
-func (c *queryClient) GetUser(ctx context.Context, in *QueryUserRequset, opts ...grpc.CallOption) (*QueryGetUserResponse, error) {
-	out := new(QueryGetUserResponse)
-	err := c.cc.Invoke(ctx, Query_GetUser_FullMethodName, in, out, opts...)
+func (c *queryClient) CommitmentMerkleProof(ctx context.Context, in *QueryCommitmentMerkleProofRequest, opts ...grpc.CallOption) (*QueryCommitmentMerkleProofResponse, error) {
+	out := new(QueryCommitmentMerkleProofResponse)
+	err := c.cc.Invoke(ctx, Query_CommitmentMerkleProof_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +52,7 @@ func (c *queryClient) GetUser(ctx context.Context, in *QueryUserRequset, opts ..
 // for forward compatibility
 type QueryServer interface {
 	// Balance queries the balance of a single coin for a single account.
-	GetUser(context.Context, *QueryUserRequset) (*QueryGetUserResponse, error)
+	CommitmentMerkleProof(context.Context, *QueryCommitmentMerkleProofRequest) (*QueryCommitmentMerkleProofResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -60,8 +60,8 @@ type QueryServer interface {
 type UnimplementedQueryServer struct {
 }
 
-func (UnimplementedQueryServer) GetUser(context.Context, *QueryUserRequset) (*QueryGetUserResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
+func (UnimplementedQueryServer) CommitmentMerkleProof(context.Context, *QueryCommitmentMerkleProofRequest) (*QueryCommitmentMerkleProofResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CommitmentMerkleProof not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -76,20 +76,20 @@ func RegisterQueryServer(s grpc.ServiceRegistrar, srv QueryServer) {
 	s.RegisterService(&Query_ServiceDesc, srv)
 }
 
-func _Query_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryUserRequset)
+func _Query_CommitmentMerkleProof_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryCommitmentMerkleProofRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(QueryServer).GetUser(ctx, in)
+		return srv.(QueryServer).CommitmentMerkleProof(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Query_GetUser_FullMethodName,
+		FullMethod: Query_CommitmentMerkleProof_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).GetUser(ctx, req.(*QueryUserRequset))
+		return srv.(QueryServer).CommitmentMerkleProof(ctx, req.(*QueryCommitmentMerkleProofRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -102,8 +102,8 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*QueryServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetUser",
-			Handler:    _Query_GetUser_Handler,
+			MethodName: "CommitmentMerkleProof",
+			Handler:    _Query_CommitmentMerkleProof_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

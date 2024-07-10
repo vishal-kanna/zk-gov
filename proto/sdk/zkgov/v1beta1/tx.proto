@@ -2,6 +2,7 @@ syntax = "proto3";
 package sdk.zkgov.v1beta1;
 
 import "cosmos/msg/v1/msg.proto";
+import "sdk/zkgov/v1beta1/zkgov.proto";
 
 option go_package = "github.com/vishal-kanna/zk/zk-gov/x/zkgov/types";
 
@@ -9,43 +10,33 @@ option go_package = "github.com/vishal-kanna/zk/zk-gov/x/zkgov/types";
 service Msg {
   option (cosmos.msg.v1.service) = true;
 
-  // RegisterCommitment
-  rpc RegisterCommitment(RegisterCommitmentRequest)
-      returns (RegisterCommitmentResponse);
-
   // RegisterUser
-  rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse);
+  rpc RegisterUser(MsgRegisterUser) returns (MsgRegisterUserResponse);
 
-  // GenerateProof
-  rpc GenerateProof(GenerateProofRequest) returns (GenerateProofResponse);
+  // VoteProposal
+  rpc VoteProposal(MsgVoteProposal) returns (MsgVoteProposalResponse);
 }
-
-// RegisterCommitmentRequest defines the Msg/RegisterCommitment request type
-message RegisterCommitmentRequest {
-  option (cosmos.msg.v1.signer) = "sender";
-  string commitment = 1;
-  string sender = 2;
-}
-
-// RegisterCommitmentResponse
-message RegisterCommitmentResponse {}
 
 // RegisterUserRequest
-message RegisterUserRequest {
+message MsgRegisterUser {
   option (cosmos.msg.v1.signer) = "sender";
   string sender = 1;
-  string user_name = 2;
+  string commitment = 2;
+  string proposal_id = 3;
 }
 
 // RegisterUserResponser
-message RegisterUserResponse {}
+message MsgRegisterUserResponse {}
 
 // GenerateProofRequest
-message GenerateProofRequest {
+message MsgVoteProposal {
   option (cosmos.msg.v1.signer) = "sender";
-  string sender = 1;
-  uint64 user_id = 2;
+  string nullifier = 1;
+  string proposal_id = 2;
+  VoteOption vote_option = 3;
+  string proposal_state_root = 4;
+  repeated bytes zk_proof = 5;
 }
 
 // GenerateProofRequest
-message GenerateProofResponse {}
+message MsgVoteProposalResponse {}

@@ -19,21 +19,18 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Msg_RegisterCommitment_FullMethodName = "/sdk.zkgov.v1beta1.Msg/RegisterCommitment"
-	Msg_RegisterUser_FullMethodName       = "/sdk.zkgov.v1beta1.Msg/RegisterUser"
-	Msg_GenerateProof_FullMethodName      = "/sdk.zkgov.v1beta1.Msg/GenerateProof"
+	Msg_RegisterUser_FullMethodName = "/sdk.zkgov.v1beta1.Msg/RegisterUser"
+	Msg_VoteProposal_FullMethodName = "/sdk.zkgov.v1beta1.Msg/VoteProposal"
 )
 
 // MsgClient is the client API for Msg service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MsgClient interface {
-	// RegisterCommitment
-	RegisterCommitment(ctx context.Context, in *RegisterCommitmentRequest, opts ...grpc.CallOption) (*RegisterCommitmentResponse, error)
 	// RegisterUser
-	RegisterUser(ctx context.Context, in *RegisterUserRequest, opts ...grpc.CallOption) (*RegisterUserResponse, error)
-	// GenerateProof
-	GenerateProof(ctx context.Context, in *GenerateProofRequest, opts ...grpc.CallOption) (*GenerateProofResponse, error)
+	RegisterUser(ctx context.Context, in *MsgRegisterUser, opts ...grpc.CallOption) (*MsgRegisterUserResponse, error)
+	// VoteProposal
+	VoteProposal(ctx context.Context, in *MsgVoteProposal, opts ...grpc.CallOption) (*MsgVoteProposalResponse, error)
 }
 
 type msgClient struct {
@@ -44,17 +41,8 @@ func NewMsgClient(cc grpc.ClientConnInterface) MsgClient {
 	return &msgClient{cc}
 }
 
-func (c *msgClient) RegisterCommitment(ctx context.Context, in *RegisterCommitmentRequest, opts ...grpc.CallOption) (*RegisterCommitmentResponse, error) {
-	out := new(RegisterCommitmentResponse)
-	err := c.cc.Invoke(ctx, Msg_RegisterCommitment_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *msgClient) RegisterUser(ctx context.Context, in *RegisterUserRequest, opts ...grpc.CallOption) (*RegisterUserResponse, error) {
-	out := new(RegisterUserResponse)
+func (c *msgClient) RegisterUser(ctx context.Context, in *MsgRegisterUser, opts ...grpc.CallOption) (*MsgRegisterUserResponse, error) {
+	out := new(MsgRegisterUserResponse)
 	err := c.cc.Invoke(ctx, Msg_RegisterUser_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -62,9 +50,9 @@ func (c *msgClient) RegisterUser(ctx context.Context, in *RegisterUserRequest, o
 	return out, nil
 }
 
-func (c *msgClient) GenerateProof(ctx context.Context, in *GenerateProofRequest, opts ...grpc.CallOption) (*GenerateProofResponse, error) {
-	out := new(GenerateProofResponse)
-	err := c.cc.Invoke(ctx, Msg_GenerateProof_FullMethodName, in, out, opts...)
+func (c *msgClient) VoteProposal(ctx context.Context, in *MsgVoteProposal, opts ...grpc.CallOption) (*MsgVoteProposalResponse, error) {
+	out := new(MsgVoteProposalResponse)
+	err := c.cc.Invoke(ctx, Msg_VoteProposal_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -75,12 +63,10 @@ func (c *msgClient) GenerateProof(ctx context.Context, in *GenerateProofRequest,
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
 type MsgServer interface {
-	// RegisterCommitment
-	RegisterCommitment(context.Context, *RegisterCommitmentRequest) (*RegisterCommitmentResponse, error)
 	// RegisterUser
-	RegisterUser(context.Context, *RegisterUserRequest) (*RegisterUserResponse, error)
-	// GenerateProof
-	GenerateProof(context.Context, *GenerateProofRequest) (*GenerateProofResponse, error)
+	RegisterUser(context.Context, *MsgRegisterUser) (*MsgRegisterUserResponse, error)
+	// VoteProposal
+	VoteProposal(context.Context, *MsgVoteProposal) (*MsgVoteProposalResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -88,14 +74,11 @@ type MsgServer interface {
 type UnimplementedMsgServer struct {
 }
 
-func (UnimplementedMsgServer) RegisterCommitment(context.Context, *RegisterCommitmentRequest) (*RegisterCommitmentResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RegisterCommitment not implemented")
-}
-func (UnimplementedMsgServer) RegisterUser(context.Context, *RegisterUserRequest) (*RegisterUserResponse, error) {
+func (UnimplementedMsgServer) RegisterUser(context.Context, *MsgRegisterUser) (*MsgRegisterUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterUser not implemented")
 }
-func (UnimplementedMsgServer) GenerateProof(context.Context, *GenerateProofRequest) (*GenerateProofResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GenerateProof not implemented")
+func (UnimplementedMsgServer) VoteProposal(context.Context, *MsgVoteProposal) (*MsgVoteProposalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VoteProposal not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -110,26 +93,8 @@ func RegisterMsgServer(s grpc.ServiceRegistrar, srv MsgServer) {
 	s.RegisterService(&Msg_ServiceDesc, srv)
 }
 
-func _Msg_RegisterCommitment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RegisterCommitmentRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MsgServer).RegisterCommitment(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Msg_RegisterCommitment_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).RegisterCommitment(ctx, req.(*RegisterCommitmentRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Msg_RegisterUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RegisterUserRequest)
+	in := new(MsgRegisterUser)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -141,25 +106,25 @@ func _Msg_RegisterUser_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: Msg_RegisterUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).RegisterUser(ctx, req.(*RegisterUserRequest))
+		return srv.(MsgServer).RegisterUser(ctx, req.(*MsgRegisterUser))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_GenerateProof_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GenerateProofRequest)
+func _Msg_VoteProposal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgVoteProposal)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).GenerateProof(ctx, in)
+		return srv.(MsgServer).VoteProposal(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Msg_GenerateProof_FullMethodName,
+		FullMethod: Msg_VoteProposal_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).GenerateProof(ctx, req.(*GenerateProofRequest))
+		return srv.(MsgServer).VoteProposal(ctx, req.(*MsgVoteProposal))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -172,16 +137,12 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*MsgServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "RegisterCommitment",
-			Handler:    _Msg_RegisterCommitment_Handler,
-		},
-		{
 			MethodName: "RegisterUser",
 			Handler:    _Msg_RegisterUser_Handler,
 		},
 		{
-			MethodName: "GenerateProof",
-			Handler:    _Msg_GenerateProof_Handler,
+			MethodName: "VoteProposal",
+			Handler:    _Msg_VoteProposal_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

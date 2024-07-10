@@ -14,27 +14,29 @@ import (
 )
 
 var (
-	md_RegisterCommitmentRequest            protoreflect.MessageDescriptor
-	fd_RegisterCommitmentRequest_commitment protoreflect.FieldDescriptor
-	fd_RegisterCommitmentRequest_sender     protoreflect.FieldDescriptor
+	md_MsgRegisterUser             protoreflect.MessageDescriptor
+	fd_MsgRegisterUser_sender      protoreflect.FieldDescriptor
+	fd_MsgRegisterUser_commitment  protoreflect.FieldDescriptor
+	fd_MsgRegisterUser_proposal_id protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_sdk_zkgov_v1beta1_tx_proto_init()
-	md_RegisterCommitmentRequest = File_sdk_zkgov_v1beta1_tx_proto.Messages().ByName("RegisterCommitmentRequest")
-	fd_RegisterCommitmentRequest_commitment = md_RegisterCommitmentRequest.Fields().ByName("commitment")
-	fd_RegisterCommitmentRequest_sender = md_RegisterCommitmentRequest.Fields().ByName("sender")
+	md_MsgRegisterUser = File_sdk_zkgov_v1beta1_tx_proto.Messages().ByName("MsgRegisterUser")
+	fd_MsgRegisterUser_sender = md_MsgRegisterUser.Fields().ByName("sender")
+	fd_MsgRegisterUser_commitment = md_MsgRegisterUser.Fields().ByName("commitment")
+	fd_MsgRegisterUser_proposal_id = md_MsgRegisterUser.Fields().ByName("proposal_id")
 }
 
-var _ protoreflect.Message = (*fastReflection_RegisterCommitmentRequest)(nil)
+var _ protoreflect.Message = (*fastReflection_MsgRegisterUser)(nil)
 
-type fastReflection_RegisterCommitmentRequest RegisterCommitmentRequest
+type fastReflection_MsgRegisterUser MsgRegisterUser
 
-func (x *RegisterCommitmentRequest) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_RegisterCommitmentRequest)(x)
+func (x *MsgRegisterUser) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_MsgRegisterUser)(x)
 }
 
-func (x *RegisterCommitmentRequest) slowProtoReflect() protoreflect.Message {
+func (x *MsgRegisterUser) slowProtoReflect() protoreflect.Message {
 	mi := &file_sdk_zkgov_v1beta1_tx_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -46,43 +48,43 @@ func (x *RegisterCommitmentRequest) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_RegisterCommitmentRequest_messageType fastReflection_RegisterCommitmentRequest_messageType
-var _ protoreflect.MessageType = fastReflection_RegisterCommitmentRequest_messageType{}
+var _fastReflection_MsgRegisterUser_messageType fastReflection_MsgRegisterUser_messageType
+var _ protoreflect.MessageType = fastReflection_MsgRegisterUser_messageType{}
 
-type fastReflection_RegisterCommitmentRequest_messageType struct{}
+type fastReflection_MsgRegisterUser_messageType struct{}
 
-func (x fastReflection_RegisterCommitmentRequest_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_RegisterCommitmentRequest)(nil)
+func (x fastReflection_MsgRegisterUser_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_MsgRegisterUser)(nil)
 }
-func (x fastReflection_RegisterCommitmentRequest_messageType) New() protoreflect.Message {
-	return new(fastReflection_RegisterCommitmentRequest)
+func (x fastReflection_MsgRegisterUser_messageType) New() protoreflect.Message {
+	return new(fastReflection_MsgRegisterUser)
 }
-func (x fastReflection_RegisterCommitmentRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_RegisterCommitmentRequest
+func (x fastReflection_MsgRegisterUser_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgRegisterUser
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_RegisterCommitmentRequest) Descriptor() protoreflect.MessageDescriptor {
-	return md_RegisterCommitmentRequest
+func (x *fastReflection_MsgRegisterUser) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgRegisterUser
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_RegisterCommitmentRequest) Type() protoreflect.MessageType {
-	return _fastReflection_RegisterCommitmentRequest_messageType
+func (x *fastReflection_MsgRegisterUser) Type() protoreflect.MessageType {
+	return _fastReflection_MsgRegisterUser_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_RegisterCommitmentRequest) New() protoreflect.Message {
-	return new(fastReflection_RegisterCommitmentRequest)
+func (x *fastReflection_MsgRegisterUser) New() protoreflect.Message {
+	return new(fastReflection_MsgRegisterUser)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_RegisterCommitmentRequest) Interface() protoreflect.ProtoMessage {
-	return (*RegisterCommitmentRequest)(x)
+func (x *fastReflection_MsgRegisterUser) Interface() protoreflect.ProtoMessage {
+	return (*MsgRegisterUser)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -90,16 +92,22 @@ func (x *fastReflection_RegisterCommitmentRequest) Interface() protoreflect.Prot
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_RegisterCommitmentRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if x.Commitment != "" {
-		value := protoreflect.ValueOfString(x.Commitment)
-		if !f(fd_RegisterCommitmentRequest_commitment, value) {
+func (x *fastReflection_MsgRegisterUser) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.Sender != "" {
+		value := protoreflect.ValueOfString(x.Sender)
+		if !f(fd_MsgRegisterUser_sender, value) {
 			return
 		}
 	}
-	if x.Sender != "" {
-		value := protoreflect.ValueOfString(x.Sender)
-		if !f(fd_RegisterCommitmentRequest_sender, value) {
+	if x.Commitment != "" {
+		value := protoreflect.ValueOfString(x.Commitment)
+		if !f(fd_MsgRegisterUser_commitment, value) {
+			return
+		}
+	}
+	if x.ProposalId != "" {
+		value := protoreflect.ValueOfString(x.ProposalId)
+		if !f(fd_MsgRegisterUser_proposal_id, value) {
 			return
 		}
 	}
@@ -116,17 +124,19 @@ func (x *fastReflection_RegisterCommitmentRequest) Range(f func(protoreflect.Fie
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_RegisterCommitmentRequest) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_MsgRegisterUser) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "sdk.zkgov.v1beta1.RegisterCommitmentRequest.commitment":
-		return x.Commitment != ""
-	case "sdk.zkgov.v1beta1.RegisterCommitmentRequest.sender":
+	case "sdk.zkgov.v1beta1.MsgRegisterUser.sender":
 		return x.Sender != ""
+	case "sdk.zkgov.v1beta1.MsgRegisterUser.commitment":
+		return x.Commitment != ""
+	case "sdk.zkgov.v1beta1.MsgRegisterUser.proposal_id":
+		return x.ProposalId != ""
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.RegisterCommitmentRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgRegisterUser"))
 		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.RegisterCommitmentRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message sdk.zkgov.v1beta1.MsgRegisterUser does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -136,17 +146,19 @@ func (x *fastReflection_RegisterCommitmentRequest) Has(fd protoreflect.FieldDesc
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_RegisterCommitmentRequest) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_MsgRegisterUser) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "sdk.zkgov.v1beta1.RegisterCommitmentRequest.commitment":
-		x.Commitment = ""
-	case "sdk.zkgov.v1beta1.RegisterCommitmentRequest.sender":
+	case "sdk.zkgov.v1beta1.MsgRegisterUser.sender":
 		x.Sender = ""
+	case "sdk.zkgov.v1beta1.MsgRegisterUser.commitment":
+		x.Commitment = ""
+	case "sdk.zkgov.v1beta1.MsgRegisterUser.proposal_id":
+		x.ProposalId = ""
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.RegisterCommitmentRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgRegisterUser"))
 		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.RegisterCommitmentRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message sdk.zkgov.v1beta1.MsgRegisterUser does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -156,19 +168,22 @@ func (x *fastReflection_RegisterCommitmentRequest) Clear(fd protoreflect.FieldDe
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_RegisterCommitmentRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgRegisterUser) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "sdk.zkgov.v1beta1.RegisterCommitmentRequest.commitment":
+	case "sdk.zkgov.v1beta1.MsgRegisterUser.sender":
+		value := x.Sender
+		return protoreflect.ValueOfString(value)
+	case "sdk.zkgov.v1beta1.MsgRegisterUser.commitment":
 		value := x.Commitment
 		return protoreflect.ValueOfString(value)
-	case "sdk.zkgov.v1beta1.RegisterCommitmentRequest.sender":
-		value := x.Sender
+	case "sdk.zkgov.v1beta1.MsgRegisterUser.proposal_id":
+		value := x.ProposalId
 		return protoreflect.ValueOfString(value)
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.RegisterCommitmentRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgRegisterUser"))
 		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.RegisterCommitmentRequest does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message sdk.zkgov.v1beta1.MsgRegisterUser does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -182,17 +197,19 @@ func (x *fastReflection_RegisterCommitmentRequest) Get(descriptor protoreflect.F
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_RegisterCommitmentRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_MsgRegisterUser) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "sdk.zkgov.v1beta1.RegisterCommitmentRequest.commitment":
-		x.Commitment = value.Interface().(string)
-	case "sdk.zkgov.v1beta1.RegisterCommitmentRequest.sender":
+	case "sdk.zkgov.v1beta1.MsgRegisterUser.sender":
 		x.Sender = value.Interface().(string)
+	case "sdk.zkgov.v1beta1.MsgRegisterUser.commitment":
+		x.Commitment = value.Interface().(string)
+	case "sdk.zkgov.v1beta1.MsgRegisterUser.proposal_id":
+		x.ProposalId = value.Interface().(string)
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.RegisterCommitmentRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgRegisterUser"))
 		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.RegisterCommitmentRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message sdk.zkgov.v1beta1.MsgRegisterUser does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -206,44 +223,48 @@ func (x *fastReflection_RegisterCommitmentRequest) Set(fd protoreflect.FieldDesc
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_RegisterCommitmentRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgRegisterUser) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "sdk.zkgov.v1beta1.RegisterCommitmentRequest.commitment":
-		panic(fmt.Errorf("field commitment of message sdk.zkgov.v1beta1.RegisterCommitmentRequest is not mutable"))
-	case "sdk.zkgov.v1beta1.RegisterCommitmentRequest.sender":
-		panic(fmt.Errorf("field sender of message sdk.zkgov.v1beta1.RegisterCommitmentRequest is not mutable"))
+	case "sdk.zkgov.v1beta1.MsgRegisterUser.sender":
+		panic(fmt.Errorf("field sender of message sdk.zkgov.v1beta1.MsgRegisterUser is not mutable"))
+	case "sdk.zkgov.v1beta1.MsgRegisterUser.commitment":
+		panic(fmt.Errorf("field commitment of message sdk.zkgov.v1beta1.MsgRegisterUser is not mutable"))
+	case "sdk.zkgov.v1beta1.MsgRegisterUser.proposal_id":
+		panic(fmt.Errorf("field proposal_id of message sdk.zkgov.v1beta1.MsgRegisterUser is not mutable"))
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.RegisterCommitmentRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgRegisterUser"))
 		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.RegisterCommitmentRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message sdk.zkgov.v1beta1.MsgRegisterUser does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_RegisterCommitmentRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgRegisterUser) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "sdk.zkgov.v1beta1.RegisterCommitmentRequest.commitment":
+	case "sdk.zkgov.v1beta1.MsgRegisterUser.sender":
 		return protoreflect.ValueOfString("")
-	case "sdk.zkgov.v1beta1.RegisterCommitmentRequest.sender":
+	case "sdk.zkgov.v1beta1.MsgRegisterUser.commitment":
+		return protoreflect.ValueOfString("")
+	case "sdk.zkgov.v1beta1.MsgRegisterUser.proposal_id":
 		return protoreflect.ValueOfString("")
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.RegisterCommitmentRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgRegisterUser"))
 		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.RegisterCommitmentRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message sdk.zkgov.v1beta1.MsgRegisterUser does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_RegisterCommitmentRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_MsgRegisterUser) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in sdk.zkgov.v1beta1.RegisterCommitmentRequest", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in sdk.zkgov.v1beta1.MsgRegisterUser", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -251,7 +272,7 @@ func (x *fastReflection_RegisterCommitmentRequest) WhichOneof(d protoreflect.One
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_RegisterCommitmentRequest) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_MsgRegisterUser) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -262,7 +283,7 @@ func (x *fastReflection_RegisterCommitmentRequest) GetUnknown() protoreflect.Raw
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_RegisterCommitmentRequest) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_MsgRegisterUser) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -274,7 +295,7 @@ func (x *fastReflection_RegisterCommitmentRequest) SetUnknown(fields protoreflec
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_RegisterCommitmentRequest) IsValid() bool {
+func (x *fastReflection_MsgRegisterUser) IsValid() bool {
 	return x != nil
 }
 
@@ -284,9 +305,9 @@ func (x *fastReflection_RegisterCommitmentRequest) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_RegisterCommitmentRequest) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_MsgRegisterUser) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*RegisterCommitmentRequest)
+		x := input.Message.Interface().(*MsgRegisterUser)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -298,11 +319,15 @@ func (x *fastReflection_RegisterCommitmentRequest) ProtoMethods() *protoiface.Me
 		var n int
 		var l int
 		_ = l
+		l = len(x.Sender)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
 		l = len(x.Commitment)
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		l = len(x.Sender)
+		l = len(x.ProposalId)
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
@@ -316,7 +341,7 @@ func (x *fastReflection_RegisterCommitmentRequest) ProtoMethods() *protoiface.Me
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*RegisterCommitmentRequest)
+		x := input.Message.Interface().(*MsgRegisterUser)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -335,17 +360,24 @@ func (x *fastReflection_RegisterCommitmentRequest) ProtoMethods() *protoiface.Me
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
-		if len(x.Sender) > 0 {
-			i -= len(x.Sender)
-			copy(dAtA[i:], x.Sender)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Sender)))
+		if len(x.ProposalId) > 0 {
+			i -= len(x.ProposalId)
+			copy(dAtA[i:], x.ProposalId)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.ProposalId)))
 			i--
-			dAtA[i] = 0x12
+			dAtA[i] = 0x1a
 		}
 		if len(x.Commitment) > 0 {
 			i -= len(x.Commitment)
 			copy(dAtA[i:], x.Commitment)
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Commitment)))
+			i--
+			dAtA[i] = 0x12
+		}
+		if len(x.Sender) > 0 {
+			i -= len(x.Sender)
+			copy(dAtA[i:], x.Sender)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Sender)))
 			i--
 			dAtA[i] = 0xa
 		}
@@ -360,7 +392,7 @@ func (x *fastReflection_RegisterCommitmentRequest) ProtoMethods() *protoiface.Me
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*RegisterCommitmentRequest)
+		x := input.Message.Interface().(*MsgRegisterUser)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -392,13 +424,45 @@ func (x *fastReflection_RegisterCommitmentRequest) ProtoMethods() *protoiface.Me
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: RegisterCommitmentRequest: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgRegisterUser: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: RegisterCommitmentRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgRegisterUser: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Sender", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Sender = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 2:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Commitment", wireType)
 				}
@@ -430,9 +494,9 @@ func (x *fastReflection_RegisterCommitmentRequest) ProtoMethods() *protoiface.Me
 				}
 				x.Commitment = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 2:
+			case 3:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Sender", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ProposalId", wireType)
 				}
 				var stringLen uint64
 				for shift := uint(0); ; shift += 7 {
@@ -460,7 +524,7 @@ func (x *fastReflection_RegisterCommitmentRequest) ProtoMethods() *protoiface.Me
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.Sender = string(dAtA[iNdEx:postIndex])
+				x.ProposalId = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
@@ -498,23 +562,23 @@ func (x *fastReflection_RegisterCommitmentRequest) ProtoMethods() *protoiface.Me
 }
 
 var (
-	md_RegisterCommitmentResponse protoreflect.MessageDescriptor
+	md_MsgRegisterUserResponse protoreflect.MessageDescriptor
 )
 
 func init() {
 	file_sdk_zkgov_v1beta1_tx_proto_init()
-	md_RegisterCommitmentResponse = File_sdk_zkgov_v1beta1_tx_proto.Messages().ByName("RegisterCommitmentResponse")
+	md_MsgRegisterUserResponse = File_sdk_zkgov_v1beta1_tx_proto.Messages().ByName("MsgRegisterUserResponse")
 }
 
-var _ protoreflect.Message = (*fastReflection_RegisterCommitmentResponse)(nil)
+var _ protoreflect.Message = (*fastReflection_MsgRegisterUserResponse)(nil)
 
-type fastReflection_RegisterCommitmentResponse RegisterCommitmentResponse
+type fastReflection_MsgRegisterUserResponse MsgRegisterUserResponse
 
-func (x *RegisterCommitmentResponse) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_RegisterCommitmentResponse)(x)
+func (x *MsgRegisterUserResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_MsgRegisterUserResponse)(x)
 }
 
-func (x *RegisterCommitmentResponse) slowProtoReflect() protoreflect.Message {
+func (x *MsgRegisterUserResponse) slowProtoReflect() protoreflect.Message {
 	mi := &file_sdk_zkgov_v1beta1_tx_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -526,43 +590,43 @@ func (x *RegisterCommitmentResponse) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_RegisterCommitmentResponse_messageType fastReflection_RegisterCommitmentResponse_messageType
-var _ protoreflect.MessageType = fastReflection_RegisterCommitmentResponse_messageType{}
+var _fastReflection_MsgRegisterUserResponse_messageType fastReflection_MsgRegisterUserResponse_messageType
+var _ protoreflect.MessageType = fastReflection_MsgRegisterUserResponse_messageType{}
 
-type fastReflection_RegisterCommitmentResponse_messageType struct{}
+type fastReflection_MsgRegisterUserResponse_messageType struct{}
 
-func (x fastReflection_RegisterCommitmentResponse_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_RegisterCommitmentResponse)(nil)
+func (x fastReflection_MsgRegisterUserResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_MsgRegisterUserResponse)(nil)
 }
-func (x fastReflection_RegisterCommitmentResponse_messageType) New() protoreflect.Message {
-	return new(fastReflection_RegisterCommitmentResponse)
+func (x fastReflection_MsgRegisterUserResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_MsgRegisterUserResponse)
 }
-func (x fastReflection_RegisterCommitmentResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_RegisterCommitmentResponse
+func (x fastReflection_MsgRegisterUserResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgRegisterUserResponse
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_RegisterCommitmentResponse) Descriptor() protoreflect.MessageDescriptor {
-	return md_RegisterCommitmentResponse
+func (x *fastReflection_MsgRegisterUserResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgRegisterUserResponse
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_RegisterCommitmentResponse) Type() protoreflect.MessageType {
-	return _fastReflection_RegisterCommitmentResponse_messageType
+func (x *fastReflection_MsgRegisterUserResponse) Type() protoreflect.MessageType {
+	return _fastReflection_MsgRegisterUserResponse_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_RegisterCommitmentResponse) New() protoreflect.Message {
-	return new(fastReflection_RegisterCommitmentResponse)
+func (x *fastReflection_MsgRegisterUserResponse) New() protoreflect.Message {
+	return new(fastReflection_MsgRegisterUserResponse)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_RegisterCommitmentResponse) Interface() protoreflect.ProtoMessage {
-	return (*RegisterCommitmentResponse)(x)
+func (x *fastReflection_MsgRegisterUserResponse) Interface() protoreflect.ProtoMessage {
+	return (*MsgRegisterUserResponse)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -570,7 +634,7 @@ func (x *fastReflection_RegisterCommitmentResponse) Interface() protoreflect.Pro
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_RegisterCommitmentResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_MsgRegisterUserResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 }
 
 // Has reports whether a field is populated.
@@ -584,13 +648,13 @@ func (x *fastReflection_RegisterCommitmentResponse) Range(f func(protoreflect.Fi
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_RegisterCommitmentResponse) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_MsgRegisterUserResponse) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.RegisterCommitmentResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgRegisterUserResponse"))
 		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.RegisterCommitmentResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message sdk.zkgov.v1beta1.MsgRegisterUserResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -600,13 +664,13 @@ func (x *fastReflection_RegisterCommitmentResponse) Has(fd protoreflect.FieldDes
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_RegisterCommitmentResponse) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_MsgRegisterUserResponse) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.RegisterCommitmentResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgRegisterUserResponse"))
 		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.RegisterCommitmentResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message sdk.zkgov.v1beta1.MsgRegisterUserResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -616,13 +680,13 @@ func (x *fastReflection_RegisterCommitmentResponse) Clear(fd protoreflect.FieldD
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_RegisterCommitmentResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgRegisterUserResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.RegisterCommitmentResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgRegisterUserResponse"))
 		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.RegisterCommitmentResponse does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message sdk.zkgov.v1beta1.MsgRegisterUserResponse does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -636,13 +700,13 @@ func (x *fastReflection_RegisterCommitmentResponse) Get(descriptor protoreflect.
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_RegisterCommitmentResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_MsgRegisterUserResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.RegisterCommitmentResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgRegisterUserResponse"))
 		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.RegisterCommitmentResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message sdk.zkgov.v1beta1.MsgRegisterUserResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -656,36 +720,36 @@ func (x *fastReflection_RegisterCommitmentResponse) Set(fd protoreflect.FieldDes
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_RegisterCommitmentResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgRegisterUserResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.RegisterCommitmentResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgRegisterUserResponse"))
 		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.RegisterCommitmentResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message sdk.zkgov.v1beta1.MsgRegisterUserResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_RegisterCommitmentResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgRegisterUserResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.RegisterCommitmentResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgRegisterUserResponse"))
 		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.RegisterCommitmentResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message sdk.zkgov.v1beta1.MsgRegisterUserResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_RegisterCommitmentResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_MsgRegisterUserResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in sdk.zkgov.v1beta1.RegisterCommitmentResponse", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in sdk.zkgov.v1beta1.MsgRegisterUserResponse", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -693,7 +757,7 @@ func (x *fastReflection_RegisterCommitmentResponse) WhichOneof(d protoreflect.On
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_RegisterCommitmentResponse) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_MsgRegisterUserResponse) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -704,7 +768,7 @@ func (x *fastReflection_RegisterCommitmentResponse) GetUnknown() protoreflect.Ra
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_RegisterCommitmentResponse) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_MsgRegisterUserResponse) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -716,7 +780,7 @@ func (x *fastReflection_RegisterCommitmentResponse) SetUnknown(fields protorefle
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_RegisterCommitmentResponse) IsValid() bool {
+func (x *fastReflection_MsgRegisterUserResponse) IsValid() bool {
 	return x != nil
 }
 
@@ -726,9 +790,9 @@ func (x *fastReflection_RegisterCommitmentResponse) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_RegisterCommitmentResponse) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_MsgRegisterUserResponse) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*RegisterCommitmentResponse)
+		x := input.Message.Interface().(*MsgRegisterUserResponse)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -750,7 +814,7 @@ func (x *fastReflection_RegisterCommitmentResponse) ProtoMethods() *protoiface.M
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*RegisterCommitmentResponse)
+		x := input.Message.Interface().(*MsgRegisterUserResponse)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -780,7 +844,7 @@ func (x *fastReflection_RegisterCommitmentResponse) ProtoMethods() *protoiface.M
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*RegisterCommitmentResponse)
+		x := input.Message.Interface().(*MsgRegisterUserResponse)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -812,10 +876,10 @@ func (x *fastReflection_RegisterCommitmentResponse) ProtoMethods() *protoiface.M
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: RegisterCommitmentResponse: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgRegisterUserResponse: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: RegisterCommitmentResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgRegisterUserResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			default:
@@ -853,28 +917,80 @@ func (x *fastReflection_RegisterCommitmentResponse) ProtoMethods() *protoiface.M
 	}
 }
 
+var _ protoreflect.List = (*_MsgVoteProposal_5_list)(nil)
+
+type _MsgVoteProposal_5_list struct {
+	list *[][]byte
+}
+
+func (x *_MsgVoteProposal_5_list) Len() int {
+	if x.list == nil {
+		return 0
+	}
+	return len(*x.list)
+}
+
+func (x *_MsgVoteProposal_5_list) Get(i int) protoreflect.Value {
+	return protoreflect.ValueOfBytes((*x.list)[i])
+}
+
+func (x *_MsgVoteProposal_5_list) Set(i int, value protoreflect.Value) {
+	valueUnwrapped := value.Bytes()
+	concreteValue := valueUnwrapped
+	(*x.list)[i] = concreteValue
+}
+
+func (x *_MsgVoteProposal_5_list) Append(value protoreflect.Value) {
+	valueUnwrapped := value.Bytes()
+	concreteValue := valueUnwrapped
+	*x.list = append(*x.list, concreteValue)
+}
+
+func (x *_MsgVoteProposal_5_list) AppendMutable() protoreflect.Value {
+	panic(fmt.Errorf("AppendMutable can not be called on message MsgVoteProposal at list field ZkProof as it is not of Message kind"))
+}
+
+func (x *_MsgVoteProposal_5_list) Truncate(n int) {
+	*x.list = (*x.list)[:n]
+}
+
+func (x *_MsgVoteProposal_5_list) NewElement() protoreflect.Value {
+	var v []byte
+	return protoreflect.ValueOfBytes(v)
+}
+
+func (x *_MsgVoteProposal_5_list) IsValid() bool {
+	return x.list != nil
+}
+
 var (
-	md_RegisterUserRequest           protoreflect.MessageDescriptor
-	fd_RegisterUserRequest_sender    protoreflect.FieldDescriptor
-	fd_RegisterUserRequest_user_name protoreflect.FieldDescriptor
+	md_MsgVoteProposal                     protoreflect.MessageDescriptor
+	fd_MsgVoteProposal_nullifier           protoreflect.FieldDescriptor
+	fd_MsgVoteProposal_proposal_id         protoreflect.FieldDescriptor
+	fd_MsgVoteProposal_vote_option         protoreflect.FieldDescriptor
+	fd_MsgVoteProposal_proposal_state_root protoreflect.FieldDescriptor
+	fd_MsgVoteProposal_zk_proof            protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_sdk_zkgov_v1beta1_tx_proto_init()
-	md_RegisterUserRequest = File_sdk_zkgov_v1beta1_tx_proto.Messages().ByName("RegisterUserRequest")
-	fd_RegisterUserRequest_sender = md_RegisterUserRequest.Fields().ByName("sender")
-	fd_RegisterUserRequest_user_name = md_RegisterUserRequest.Fields().ByName("user_name")
+	md_MsgVoteProposal = File_sdk_zkgov_v1beta1_tx_proto.Messages().ByName("MsgVoteProposal")
+	fd_MsgVoteProposal_nullifier = md_MsgVoteProposal.Fields().ByName("nullifier")
+	fd_MsgVoteProposal_proposal_id = md_MsgVoteProposal.Fields().ByName("proposal_id")
+	fd_MsgVoteProposal_vote_option = md_MsgVoteProposal.Fields().ByName("vote_option")
+	fd_MsgVoteProposal_proposal_state_root = md_MsgVoteProposal.Fields().ByName("proposal_state_root")
+	fd_MsgVoteProposal_zk_proof = md_MsgVoteProposal.Fields().ByName("zk_proof")
 }
 
-var _ protoreflect.Message = (*fastReflection_RegisterUserRequest)(nil)
+var _ protoreflect.Message = (*fastReflection_MsgVoteProposal)(nil)
 
-type fastReflection_RegisterUserRequest RegisterUserRequest
+type fastReflection_MsgVoteProposal MsgVoteProposal
 
-func (x *RegisterUserRequest) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_RegisterUserRequest)(x)
+func (x *MsgVoteProposal) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_MsgVoteProposal)(x)
 }
 
-func (x *RegisterUserRequest) slowProtoReflect() protoreflect.Message {
+func (x *MsgVoteProposal) slowProtoReflect() protoreflect.Message {
 	mi := &file_sdk_zkgov_v1beta1_tx_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -886,43 +1002,43 @@ func (x *RegisterUserRequest) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_RegisterUserRequest_messageType fastReflection_RegisterUserRequest_messageType
-var _ protoreflect.MessageType = fastReflection_RegisterUserRequest_messageType{}
+var _fastReflection_MsgVoteProposal_messageType fastReflection_MsgVoteProposal_messageType
+var _ protoreflect.MessageType = fastReflection_MsgVoteProposal_messageType{}
 
-type fastReflection_RegisterUserRequest_messageType struct{}
+type fastReflection_MsgVoteProposal_messageType struct{}
 
-func (x fastReflection_RegisterUserRequest_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_RegisterUserRequest)(nil)
+func (x fastReflection_MsgVoteProposal_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_MsgVoteProposal)(nil)
 }
-func (x fastReflection_RegisterUserRequest_messageType) New() protoreflect.Message {
-	return new(fastReflection_RegisterUserRequest)
+func (x fastReflection_MsgVoteProposal_messageType) New() protoreflect.Message {
+	return new(fastReflection_MsgVoteProposal)
 }
-func (x fastReflection_RegisterUserRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_RegisterUserRequest
+func (x fastReflection_MsgVoteProposal_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgVoteProposal
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_RegisterUserRequest) Descriptor() protoreflect.MessageDescriptor {
-	return md_RegisterUserRequest
+func (x *fastReflection_MsgVoteProposal) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgVoteProposal
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_RegisterUserRequest) Type() protoreflect.MessageType {
-	return _fastReflection_RegisterUserRequest_messageType
+func (x *fastReflection_MsgVoteProposal) Type() protoreflect.MessageType {
+	return _fastReflection_MsgVoteProposal_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_RegisterUserRequest) New() protoreflect.Message {
-	return new(fastReflection_RegisterUserRequest)
+func (x *fastReflection_MsgVoteProposal) New() protoreflect.Message {
+	return new(fastReflection_MsgVoteProposal)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_RegisterUserRequest) Interface() protoreflect.ProtoMessage {
-	return (*RegisterUserRequest)(x)
+func (x *fastReflection_MsgVoteProposal) Interface() protoreflect.ProtoMessage {
+	return (*MsgVoteProposal)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -930,16 +1046,34 @@ func (x *fastReflection_RegisterUserRequest) Interface() protoreflect.ProtoMessa
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_RegisterUserRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if x.Sender != "" {
-		value := protoreflect.ValueOfString(x.Sender)
-		if !f(fd_RegisterUserRequest_sender, value) {
+func (x *fastReflection_MsgVoteProposal) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.Nullifier != "" {
+		value := protoreflect.ValueOfString(x.Nullifier)
+		if !f(fd_MsgVoteProposal_nullifier, value) {
 			return
 		}
 	}
-	if x.UserName != "" {
-		value := protoreflect.ValueOfString(x.UserName)
-		if !f(fd_RegisterUserRequest_user_name, value) {
+	if x.ProposalId != "" {
+		value := protoreflect.ValueOfString(x.ProposalId)
+		if !f(fd_MsgVoteProposal_proposal_id, value) {
+			return
+		}
+	}
+	if x.VoteOption != 0 {
+		value := protoreflect.ValueOfEnum((protoreflect.EnumNumber)(x.VoteOption))
+		if !f(fd_MsgVoteProposal_vote_option, value) {
+			return
+		}
+	}
+	if x.ProposalStateRoot != "" {
+		value := protoreflect.ValueOfString(x.ProposalStateRoot)
+		if !f(fd_MsgVoteProposal_proposal_state_root, value) {
+			return
+		}
+	}
+	if len(x.ZkProof) != 0 {
+		value := protoreflect.ValueOfList(&_MsgVoteProposal_5_list{list: &x.ZkProof})
+		if !f(fd_MsgVoteProposal_zk_proof, value) {
 			return
 		}
 	}
@@ -956,17 +1090,23 @@ func (x *fastReflection_RegisterUserRequest) Range(f func(protoreflect.FieldDesc
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_RegisterUserRequest) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_MsgVoteProposal) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "sdk.zkgov.v1beta1.RegisterUserRequest.sender":
-		return x.Sender != ""
-	case "sdk.zkgov.v1beta1.RegisterUserRequest.user_name":
-		return x.UserName != ""
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.nullifier":
+		return x.Nullifier != ""
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.proposal_id":
+		return x.ProposalId != ""
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.vote_option":
+		return x.VoteOption != 0
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.proposal_state_root":
+		return x.ProposalStateRoot != ""
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.zk_proof":
+		return len(x.ZkProof) != 0
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.RegisterUserRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgVoteProposal"))
 		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.RegisterUserRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message sdk.zkgov.v1beta1.MsgVoteProposal does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -976,17 +1116,23 @@ func (x *fastReflection_RegisterUserRequest) Has(fd protoreflect.FieldDescriptor
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_RegisterUserRequest) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_MsgVoteProposal) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "sdk.zkgov.v1beta1.RegisterUserRequest.sender":
-		x.Sender = ""
-	case "sdk.zkgov.v1beta1.RegisterUserRequest.user_name":
-		x.UserName = ""
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.nullifier":
+		x.Nullifier = ""
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.proposal_id":
+		x.ProposalId = ""
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.vote_option":
+		x.VoteOption = 0
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.proposal_state_root":
+		x.ProposalStateRoot = ""
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.zk_proof":
+		x.ZkProof = nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.RegisterUserRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgVoteProposal"))
 		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.RegisterUserRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message sdk.zkgov.v1beta1.MsgVoteProposal does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -996,19 +1142,31 @@ func (x *fastReflection_RegisterUserRequest) Clear(fd protoreflect.FieldDescript
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_RegisterUserRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgVoteProposal) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "sdk.zkgov.v1beta1.RegisterUserRequest.sender":
-		value := x.Sender
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.nullifier":
+		value := x.Nullifier
 		return protoreflect.ValueOfString(value)
-	case "sdk.zkgov.v1beta1.RegisterUserRequest.user_name":
-		value := x.UserName
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.proposal_id":
+		value := x.ProposalId
 		return protoreflect.ValueOfString(value)
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.vote_option":
+		value := x.VoteOption
+		return protoreflect.ValueOfEnum((protoreflect.EnumNumber)(value))
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.proposal_state_root":
+		value := x.ProposalStateRoot
+		return protoreflect.ValueOfString(value)
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.zk_proof":
+		if len(x.ZkProof) == 0 {
+			return protoreflect.ValueOfList(&_MsgVoteProposal_5_list{})
+		}
+		listValue := &_MsgVoteProposal_5_list{list: &x.ZkProof}
+		return protoreflect.ValueOfList(listValue)
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.RegisterUserRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgVoteProposal"))
 		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.RegisterUserRequest does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message sdk.zkgov.v1beta1.MsgVoteProposal does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -1022,17 +1180,25 @@ func (x *fastReflection_RegisterUserRequest) Get(descriptor protoreflect.FieldDe
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_RegisterUserRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_MsgVoteProposal) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "sdk.zkgov.v1beta1.RegisterUserRequest.sender":
-		x.Sender = value.Interface().(string)
-	case "sdk.zkgov.v1beta1.RegisterUserRequest.user_name":
-		x.UserName = value.Interface().(string)
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.nullifier":
+		x.Nullifier = value.Interface().(string)
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.proposal_id":
+		x.ProposalId = value.Interface().(string)
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.vote_option":
+		x.VoteOption = (VoteOption)(value.Enum())
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.proposal_state_root":
+		x.ProposalStateRoot = value.Interface().(string)
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.zk_proof":
+		lv := value.List()
+		clv := lv.(*_MsgVoteProposal_5_list)
+		x.ZkProof = *clv.list
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.RegisterUserRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgVoteProposal"))
 		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.RegisterUserRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message sdk.zkgov.v1beta1.MsgVoteProposal does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -1046,44 +1212,61 @@ func (x *fastReflection_RegisterUserRequest) Set(fd protoreflect.FieldDescriptor
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_RegisterUserRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgVoteProposal) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "sdk.zkgov.v1beta1.RegisterUserRequest.sender":
-		panic(fmt.Errorf("field sender of message sdk.zkgov.v1beta1.RegisterUserRequest is not mutable"))
-	case "sdk.zkgov.v1beta1.RegisterUserRequest.user_name":
-		panic(fmt.Errorf("field user_name of message sdk.zkgov.v1beta1.RegisterUserRequest is not mutable"))
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.zk_proof":
+		if x.ZkProof == nil {
+			x.ZkProof = [][]byte{}
+		}
+		value := &_MsgVoteProposal_5_list{list: &x.ZkProof}
+		return protoreflect.ValueOfList(value)
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.nullifier":
+		panic(fmt.Errorf("field nullifier of message sdk.zkgov.v1beta1.MsgVoteProposal is not mutable"))
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.proposal_id":
+		panic(fmt.Errorf("field proposal_id of message sdk.zkgov.v1beta1.MsgVoteProposal is not mutable"))
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.vote_option":
+		panic(fmt.Errorf("field vote_option of message sdk.zkgov.v1beta1.MsgVoteProposal is not mutable"))
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.proposal_state_root":
+		panic(fmt.Errorf("field proposal_state_root of message sdk.zkgov.v1beta1.MsgVoteProposal is not mutable"))
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.RegisterUserRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgVoteProposal"))
 		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.RegisterUserRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message sdk.zkgov.v1beta1.MsgVoteProposal does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_RegisterUserRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgVoteProposal) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "sdk.zkgov.v1beta1.RegisterUserRequest.sender":
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.nullifier":
 		return protoreflect.ValueOfString("")
-	case "sdk.zkgov.v1beta1.RegisterUserRequest.user_name":
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.proposal_id":
 		return protoreflect.ValueOfString("")
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.vote_option":
+		return protoreflect.ValueOfEnum(0)
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.proposal_state_root":
+		return protoreflect.ValueOfString("")
+	case "sdk.zkgov.v1beta1.MsgVoteProposal.zk_proof":
+		list := [][]byte{}
+		return protoreflect.ValueOfList(&_MsgVoteProposal_5_list{list: &list})
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.RegisterUserRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgVoteProposal"))
 		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.RegisterUserRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message sdk.zkgov.v1beta1.MsgVoteProposal does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_RegisterUserRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_MsgVoteProposal) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in sdk.zkgov.v1beta1.RegisterUserRequest", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in sdk.zkgov.v1beta1.MsgVoteProposal", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -1091,7 +1274,7 @@ func (x *fastReflection_RegisterUserRequest) WhichOneof(d protoreflect.OneofDesc
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_RegisterUserRequest) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_MsgVoteProposal) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -1102,7 +1285,7 @@ func (x *fastReflection_RegisterUserRequest) GetUnknown() protoreflect.RawFields
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_RegisterUserRequest) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_MsgVoteProposal) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -1114,7 +1297,7 @@ func (x *fastReflection_RegisterUserRequest) SetUnknown(fields protoreflect.RawF
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_RegisterUserRequest) IsValid() bool {
+func (x *fastReflection_MsgVoteProposal) IsValid() bool {
 	return x != nil
 }
 
@@ -1124,9 +1307,9 @@ func (x *fastReflection_RegisterUserRequest) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_RegisterUserRequest) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_MsgVoteProposal) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*RegisterUserRequest)
+		x := input.Message.Interface().(*MsgVoteProposal)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1138,13 +1321,26 @@ func (x *fastReflection_RegisterUserRequest) ProtoMethods() *protoiface.Methods 
 		var n int
 		var l int
 		_ = l
-		l = len(x.Sender)
+		l = len(x.Nullifier)
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		l = len(x.UserName)
+		l = len(x.ProposalId)
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.VoteOption != 0 {
+			n += 1 + runtime.Sov(uint64(x.VoteOption))
+		}
+		l = len(x.ProposalStateRoot)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if len(x.ZkProof) > 0 {
+			for _, b := range x.ZkProof {
+				l = len(b)
+				n += 1 + l + runtime.Sov(uint64(l))
+			}
 		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
@@ -1156,7 +1352,7 @@ func (x *fastReflection_RegisterUserRequest) ProtoMethods() *protoiface.Methods 
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*RegisterUserRequest)
+		x := input.Message.Interface().(*MsgVoteProposal)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1175,17 +1371,38 @@ func (x *fastReflection_RegisterUserRequest) ProtoMethods() *protoiface.Methods 
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
-		if len(x.UserName) > 0 {
-			i -= len(x.UserName)
-			copy(dAtA[i:], x.UserName)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.UserName)))
+		if len(x.ZkProof) > 0 {
+			for iNdEx := len(x.ZkProof) - 1; iNdEx >= 0; iNdEx-- {
+				i -= len(x.ZkProof[iNdEx])
+				copy(dAtA[i:], x.ZkProof[iNdEx])
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(x.ZkProof[iNdEx])))
+				i--
+				dAtA[i] = 0x2a
+			}
+		}
+		if len(x.ProposalStateRoot) > 0 {
+			i -= len(x.ProposalStateRoot)
+			copy(dAtA[i:], x.ProposalStateRoot)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.ProposalStateRoot)))
+			i--
+			dAtA[i] = 0x22
+		}
+		if x.VoteOption != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.VoteOption))
+			i--
+			dAtA[i] = 0x18
+		}
+		if len(x.ProposalId) > 0 {
+			i -= len(x.ProposalId)
+			copy(dAtA[i:], x.ProposalId)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.ProposalId)))
 			i--
 			dAtA[i] = 0x12
 		}
-		if len(x.Sender) > 0 {
-			i -= len(x.Sender)
-			copy(dAtA[i:], x.Sender)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Sender)))
+		if len(x.Nullifier) > 0 {
+			i -= len(x.Nullifier)
+			copy(dAtA[i:], x.Nullifier)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Nullifier)))
 			i--
 			dAtA[i] = 0xa
 		}
@@ -1200,7 +1417,7 @@ func (x *fastReflection_RegisterUserRequest) ProtoMethods() *protoiface.Methods 
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*RegisterUserRequest)
+		x := input.Message.Interface().(*MsgVoteProposal)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1232,15 +1449,15 @@ func (x *fastReflection_RegisterUserRequest) ProtoMethods() *protoiface.Methods 
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: RegisterUserRequest: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgVoteProposal: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: RegisterUserRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgVoteProposal: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Sender", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Nullifier", wireType)
 				}
 				var stringLen uint64
 				for shift := uint(0); ; shift += 7 {
@@ -1268,11 +1485,11 @@ func (x *fastReflection_RegisterUserRequest) ProtoMethods() *protoiface.Methods 
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.Sender = string(dAtA[iNdEx:postIndex])
+				x.Nullifier = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			case 2:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field UserName", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ProposalId", wireType)
 				}
 				var stringLen uint64
 				for shift := uint(0); ; shift += 7 {
@@ -1300,7 +1517,90 @@ func (x *fastReflection_RegisterUserRequest) ProtoMethods() *protoiface.Methods 
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.UserName = string(dAtA[iNdEx:postIndex])
+				x.ProposalId = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 3:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field VoteOption", wireType)
+				}
+				x.VoteOption = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.VoteOption |= VoteOption(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 4:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ProposalStateRoot", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.ProposalStateRoot = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 5:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ZkProof", wireType)
+				}
+				var byteLen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					byteLen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if byteLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + byteLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.ZkProof = append(x.ZkProof, make([]byte, postIndex-iNdEx))
+				copy(x.ZkProof[len(x.ZkProof)-1], dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
@@ -1338,23 +1638,23 @@ func (x *fastReflection_RegisterUserRequest) ProtoMethods() *protoiface.Methods 
 }
 
 var (
-	md_RegisterUserResponse protoreflect.MessageDescriptor
+	md_MsgVoteProposalResponse protoreflect.MessageDescriptor
 )
 
 func init() {
 	file_sdk_zkgov_v1beta1_tx_proto_init()
-	md_RegisterUserResponse = File_sdk_zkgov_v1beta1_tx_proto.Messages().ByName("RegisterUserResponse")
+	md_MsgVoteProposalResponse = File_sdk_zkgov_v1beta1_tx_proto.Messages().ByName("MsgVoteProposalResponse")
 }
 
-var _ protoreflect.Message = (*fastReflection_RegisterUserResponse)(nil)
+var _ protoreflect.Message = (*fastReflection_MsgVoteProposalResponse)(nil)
 
-type fastReflection_RegisterUserResponse RegisterUserResponse
+type fastReflection_MsgVoteProposalResponse MsgVoteProposalResponse
 
-func (x *RegisterUserResponse) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_RegisterUserResponse)(x)
+func (x *MsgVoteProposalResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_MsgVoteProposalResponse)(x)
 }
 
-func (x *RegisterUserResponse) slowProtoReflect() protoreflect.Message {
+func (x *MsgVoteProposalResponse) slowProtoReflect() protoreflect.Message {
 	mi := &file_sdk_zkgov_v1beta1_tx_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1366,43 +1666,43 @@ func (x *RegisterUserResponse) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_RegisterUserResponse_messageType fastReflection_RegisterUserResponse_messageType
-var _ protoreflect.MessageType = fastReflection_RegisterUserResponse_messageType{}
+var _fastReflection_MsgVoteProposalResponse_messageType fastReflection_MsgVoteProposalResponse_messageType
+var _ protoreflect.MessageType = fastReflection_MsgVoteProposalResponse_messageType{}
 
-type fastReflection_RegisterUserResponse_messageType struct{}
+type fastReflection_MsgVoteProposalResponse_messageType struct{}
 
-func (x fastReflection_RegisterUserResponse_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_RegisterUserResponse)(nil)
+func (x fastReflection_MsgVoteProposalResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_MsgVoteProposalResponse)(nil)
 }
-func (x fastReflection_RegisterUserResponse_messageType) New() protoreflect.Message {
-	return new(fastReflection_RegisterUserResponse)
+func (x fastReflection_MsgVoteProposalResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_MsgVoteProposalResponse)
 }
-func (x fastReflection_RegisterUserResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_RegisterUserResponse
+func (x fastReflection_MsgVoteProposalResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgVoteProposalResponse
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_RegisterUserResponse) Descriptor() protoreflect.MessageDescriptor {
-	return md_RegisterUserResponse
+func (x *fastReflection_MsgVoteProposalResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgVoteProposalResponse
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_RegisterUserResponse) Type() protoreflect.MessageType {
-	return _fastReflection_RegisterUserResponse_messageType
+func (x *fastReflection_MsgVoteProposalResponse) Type() protoreflect.MessageType {
+	return _fastReflection_MsgVoteProposalResponse_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_RegisterUserResponse) New() protoreflect.Message {
-	return new(fastReflection_RegisterUserResponse)
+func (x *fastReflection_MsgVoteProposalResponse) New() protoreflect.Message {
+	return new(fastReflection_MsgVoteProposalResponse)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_RegisterUserResponse) Interface() protoreflect.ProtoMessage {
-	return (*RegisterUserResponse)(x)
+func (x *fastReflection_MsgVoteProposalResponse) Interface() protoreflect.ProtoMessage {
+	return (*MsgVoteProposalResponse)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -1410,7 +1710,7 @@ func (x *fastReflection_RegisterUserResponse) Interface() protoreflect.ProtoMess
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_RegisterUserResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_MsgVoteProposalResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 }
 
 // Has reports whether a field is populated.
@@ -1424,13 +1724,13 @@ func (x *fastReflection_RegisterUserResponse) Range(f func(protoreflect.FieldDes
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_RegisterUserResponse) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_MsgVoteProposalResponse) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.RegisterUserResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgVoteProposalResponse"))
 		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.RegisterUserResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message sdk.zkgov.v1beta1.MsgVoteProposalResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -1440,13 +1740,13 @@ func (x *fastReflection_RegisterUserResponse) Has(fd protoreflect.FieldDescripto
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_RegisterUserResponse) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_MsgVoteProposalResponse) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.RegisterUserResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgVoteProposalResponse"))
 		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.RegisterUserResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message sdk.zkgov.v1beta1.MsgVoteProposalResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -1456,13 +1756,13 @@ func (x *fastReflection_RegisterUserResponse) Clear(fd protoreflect.FieldDescrip
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_RegisterUserResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgVoteProposalResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.RegisterUserResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgVoteProposalResponse"))
 		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.RegisterUserResponse does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message sdk.zkgov.v1beta1.MsgVoteProposalResponse does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -1476,13 +1776,13 @@ func (x *fastReflection_RegisterUserResponse) Get(descriptor protoreflect.FieldD
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_RegisterUserResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_MsgVoteProposalResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.RegisterUserResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgVoteProposalResponse"))
 		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.RegisterUserResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message sdk.zkgov.v1beta1.MsgVoteProposalResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -1496,36 +1796,36 @@ func (x *fastReflection_RegisterUserResponse) Set(fd protoreflect.FieldDescripto
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_RegisterUserResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgVoteProposalResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.RegisterUserResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgVoteProposalResponse"))
 		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.RegisterUserResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message sdk.zkgov.v1beta1.MsgVoteProposalResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_RegisterUserResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_MsgVoteProposalResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.RegisterUserResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.MsgVoteProposalResponse"))
 		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.RegisterUserResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message sdk.zkgov.v1beta1.MsgVoteProposalResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_RegisterUserResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_MsgVoteProposalResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in sdk.zkgov.v1beta1.RegisterUserResponse", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in sdk.zkgov.v1beta1.MsgVoteProposalResponse", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -1533,7 +1833,7 @@ func (x *fastReflection_RegisterUserResponse) WhichOneof(d protoreflect.OneofDes
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_RegisterUserResponse) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_MsgVoteProposalResponse) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -1544,7 +1844,7 @@ func (x *fastReflection_RegisterUserResponse) GetUnknown() protoreflect.RawField
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_RegisterUserResponse) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_MsgVoteProposalResponse) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -1556,7 +1856,7 @@ func (x *fastReflection_RegisterUserResponse) SetUnknown(fields protoreflect.Raw
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_RegisterUserResponse) IsValid() bool {
+func (x *fastReflection_MsgVoteProposalResponse) IsValid() bool {
 	return x != nil
 }
 
@@ -1566,9 +1866,9 @@ func (x *fastReflection_RegisterUserResponse) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_RegisterUserResponse) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_MsgVoteProposalResponse) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*RegisterUserResponse)
+		x := input.Message.Interface().(*MsgVoteProposalResponse)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1590,7 +1890,7 @@ func (x *fastReflection_RegisterUserResponse) ProtoMethods() *protoiface.Methods
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*RegisterUserResponse)
+		x := input.Message.Interface().(*MsgVoteProposalResponse)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1620,7 +1920,7 @@ func (x *fastReflection_RegisterUserResponse) ProtoMethods() *protoiface.Methods
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*RegisterUserResponse)
+		x := input.Message.Interface().(*MsgVoteProposalResponse)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1652,834 +1952,10 @@ func (x *fastReflection_RegisterUserResponse) ProtoMethods() *protoiface.Methods
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: RegisterUserResponse: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgVoteProposalResponse: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: RegisterUserResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-			}
-			switch fieldNum {
-			default:
-				iNdEx = preIndex
-				skippy, err := runtime.Skip(dAtA[iNdEx:])
-				if err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				if (skippy < 0) || (iNdEx+skippy) < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if (iNdEx + skippy) > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				if !options.DiscardUnknown {
-					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
-				}
-				iNdEx += skippy
-			}
-		}
-
-		if iNdEx > l {
-			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-		}
-		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
-	}
-	return &protoiface.Methods{
-		NoUnkeyedLiterals: struct{}{},
-		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
-		Size:              size,
-		Marshal:           marshal,
-		Unmarshal:         unmarshal,
-		Merge:             nil,
-		CheckInitialized:  nil,
-	}
-}
-
-var (
-	md_GenerateProofRequest         protoreflect.MessageDescriptor
-	fd_GenerateProofRequest_sender  protoreflect.FieldDescriptor
-	fd_GenerateProofRequest_user_id protoreflect.FieldDescriptor
-)
-
-func init() {
-	file_sdk_zkgov_v1beta1_tx_proto_init()
-	md_GenerateProofRequest = File_sdk_zkgov_v1beta1_tx_proto.Messages().ByName("GenerateProofRequest")
-	fd_GenerateProofRequest_sender = md_GenerateProofRequest.Fields().ByName("sender")
-	fd_GenerateProofRequest_user_id = md_GenerateProofRequest.Fields().ByName("user_id")
-}
-
-var _ protoreflect.Message = (*fastReflection_GenerateProofRequest)(nil)
-
-type fastReflection_GenerateProofRequest GenerateProofRequest
-
-func (x *GenerateProofRequest) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_GenerateProofRequest)(x)
-}
-
-func (x *GenerateProofRequest) slowProtoReflect() protoreflect.Message {
-	mi := &file_sdk_zkgov_v1beta1_tx_proto_msgTypes[4]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-var _fastReflection_GenerateProofRequest_messageType fastReflection_GenerateProofRequest_messageType
-var _ protoreflect.MessageType = fastReflection_GenerateProofRequest_messageType{}
-
-type fastReflection_GenerateProofRequest_messageType struct{}
-
-func (x fastReflection_GenerateProofRequest_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_GenerateProofRequest)(nil)
-}
-func (x fastReflection_GenerateProofRequest_messageType) New() protoreflect.Message {
-	return new(fastReflection_GenerateProofRequest)
-}
-func (x fastReflection_GenerateProofRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_GenerateProofRequest
-}
-
-// Descriptor returns message descriptor, which contains only the protobuf
-// type information for the message.
-func (x *fastReflection_GenerateProofRequest) Descriptor() protoreflect.MessageDescriptor {
-	return md_GenerateProofRequest
-}
-
-// Type returns the message type, which encapsulates both Go and protobuf
-// type information. If the Go type information is not needed,
-// it is recommended that the message descriptor be used instead.
-func (x *fastReflection_GenerateProofRequest) Type() protoreflect.MessageType {
-	return _fastReflection_GenerateProofRequest_messageType
-}
-
-// New returns a newly allocated and mutable empty message.
-func (x *fastReflection_GenerateProofRequest) New() protoreflect.Message {
-	return new(fastReflection_GenerateProofRequest)
-}
-
-// Interface unwraps the message reflection interface and
-// returns the underlying ProtoMessage interface.
-func (x *fastReflection_GenerateProofRequest) Interface() protoreflect.ProtoMessage {
-	return (*GenerateProofRequest)(x)
-}
-
-// Range iterates over every populated field in an undefined order,
-// calling f for each field descriptor and value encountered.
-// Range returns immediately if f returns false.
-// While iterating, mutating operations may only be performed
-// on the current field descriptor.
-func (x *fastReflection_GenerateProofRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if x.Sender != "" {
-		value := protoreflect.ValueOfString(x.Sender)
-		if !f(fd_GenerateProofRequest_sender, value) {
-			return
-		}
-	}
-	if x.UserId != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.UserId)
-		if !f(fd_GenerateProofRequest_user_id, value) {
-			return
-		}
-	}
-}
-
-// Has reports whether a field is populated.
-//
-// Some fields have the property of nullability where it is possible to
-// distinguish between the default value of a field and whether the field
-// was explicitly populated with the default value. Singular message fields,
-// member fields of a oneof, and proto2 scalar fields are nullable. Such
-// fields are populated only if explicitly set.
-//
-// In other cases (aside from the nullable cases above),
-// a proto3 scalar field is populated if it contains a non-zero value, and
-// a repeated field is populated if it is non-empty.
-func (x *fastReflection_GenerateProofRequest) Has(fd protoreflect.FieldDescriptor) bool {
-	switch fd.FullName() {
-	case "sdk.zkgov.v1beta1.GenerateProofRequest.sender":
-		return x.Sender != ""
-	case "sdk.zkgov.v1beta1.GenerateProofRequest.user_id":
-		return x.UserId != uint64(0)
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.GenerateProofRequest"))
-		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.GenerateProofRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// Clear clears the field such that a subsequent Has call reports false.
-//
-// Clearing an extension field clears both the extension type and value
-// associated with the given field number.
-//
-// Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_GenerateProofRequest) Clear(fd protoreflect.FieldDescriptor) {
-	switch fd.FullName() {
-	case "sdk.zkgov.v1beta1.GenerateProofRequest.sender":
-		x.Sender = ""
-	case "sdk.zkgov.v1beta1.GenerateProofRequest.user_id":
-		x.UserId = uint64(0)
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.GenerateProofRequest"))
-		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.GenerateProofRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// Get retrieves the value for a field.
-//
-// For unpopulated scalars, it returns the default value, where
-// the default value of a bytes scalar is guaranteed to be a copy.
-// For unpopulated composite types, it returns an empty, read-only view
-// of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_GenerateProofRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
-	switch descriptor.FullName() {
-	case "sdk.zkgov.v1beta1.GenerateProofRequest.sender":
-		value := x.Sender
-		return protoreflect.ValueOfString(value)
-	case "sdk.zkgov.v1beta1.GenerateProofRequest.user_id":
-		value := x.UserId
-		return protoreflect.ValueOfUint64(value)
-	default:
-		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.GenerateProofRequest"))
-		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.GenerateProofRequest does not contain field %s", descriptor.FullName()))
-	}
-}
-
-// Set stores the value for a field.
-//
-// For a field belonging to a oneof, it implicitly clears any other field
-// that may be currently set within the same oneof.
-// For extension fields, it implicitly stores the provided ExtensionType.
-// When setting a composite type, it is unspecified whether the stored value
-// aliases the source's memory in any way. If the composite value is an
-// empty, read-only value, then it panics.
-//
-// Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_GenerateProofRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
-	switch fd.FullName() {
-	case "sdk.zkgov.v1beta1.GenerateProofRequest.sender":
-		x.Sender = value.Interface().(string)
-	case "sdk.zkgov.v1beta1.GenerateProofRequest.user_id":
-		x.UserId = value.Uint()
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.GenerateProofRequest"))
-		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.GenerateProofRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// Mutable returns a mutable reference to a composite type.
-//
-// If the field is unpopulated, it may allocate a composite value.
-// For a field belonging to a oneof, it implicitly clears any other field
-// that may be currently set within the same oneof.
-// For extension fields, it implicitly stores the provided ExtensionType
-// if not already stored.
-// It panics if the field does not contain a composite type.
-//
-// Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_GenerateProofRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
-	switch fd.FullName() {
-	case "sdk.zkgov.v1beta1.GenerateProofRequest.sender":
-		panic(fmt.Errorf("field sender of message sdk.zkgov.v1beta1.GenerateProofRequest is not mutable"))
-	case "sdk.zkgov.v1beta1.GenerateProofRequest.user_id":
-		panic(fmt.Errorf("field user_id of message sdk.zkgov.v1beta1.GenerateProofRequest is not mutable"))
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.GenerateProofRequest"))
-		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.GenerateProofRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// NewField returns a new value that is assignable to the field
-// for the given descriptor. For scalars, this returns the default value.
-// For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_GenerateProofRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
-	switch fd.FullName() {
-	case "sdk.zkgov.v1beta1.GenerateProofRequest.sender":
-		return protoreflect.ValueOfString("")
-	case "sdk.zkgov.v1beta1.GenerateProofRequest.user_id":
-		return protoreflect.ValueOfUint64(uint64(0))
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.GenerateProofRequest"))
-		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.GenerateProofRequest does not contain field %s", fd.FullName()))
-	}
-}
-
-// WhichOneof reports which field within the oneof is populated,
-// returning nil if none are populated.
-// It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_GenerateProofRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
-	switch d.FullName() {
-	default:
-		panic(fmt.Errorf("%s is not a oneof field in sdk.zkgov.v1beta1.GenerateProofRequest", d.FullName()))
-	}
-	panic("unreachable")
-}
-
-// GetUnknown retrieves the entire list of unknown fields.
-// The caller may only mutate the contents of the RawFields
-// if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_GenerateProofRequest) GetUnknown() protoreflect.RawFields {
-	return x.unknownFields
-}
-
-// SetUnknown stores an entire list of unknown fields.
-// The raw fields must be syntactically valid according to the wire format.
-// An implementation may panic if this is not the case.
-// Once stored, the caller must not mutate the content of the RawFields.
-// An empty RawFields may be passed to clear the fields.
-//
-// SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_GenerateProofRequest) SetUnknown(fields protoreflect.RawFields) {
-	x.unknownFields = fields
-}
-
-// IsValid reports whether the message is valid.
-//
-// An invalid message is an empty, read-only value.
-//
-// An invalid message often corresponds to a nil pointer of the concrete
-// message type, but the details are implementation dependent.
-// Validity is not part of the protobuf data model, and may not
-// be preserved in marshaling or other operations.
-func (x *fastReflection_GenerateProofRequest) IsValid() bool {
-	return x != nil
-}
-
-// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
-// This method may return nil.
-//
-// The returned methods type is identical to
-// "google.golang.org/protobuf/runtime/protoiface".Methods.
-// Consult the protoiface package documentation for details.
-func (x *fastReflection_GenerateProofRequest) ProtoMethods() *protoiface.Methods {
-	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*GenerateProofRequest)
-		if x == nil {
-			return protoiface.SizeOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Size:              0,
-			}
-		}
-		options := runtime.SizeInputToOptions(input)
-		_ = options
-		var n int
-		var l int
-		_ = l
-		l = len(x.Sender)
-		if l > 0 {
-			n += 1 + l + runtime.Sov(uint64(l))
-		}
-		if x.UserId != 0 {
-			n += 1 + runtime.Sov(uint64(x.UserId))
-		}
-		if x.unknownFields != nil {
-			n += len(x.unknownFields)
-		}
-		return protoiface.SizeOutput{
-			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-			Size:              n,
-		}
-	}
-
-	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*GenerateProofRequest)
-		if x == nil {
-			return protoiface.MarshalOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Buf:               input.Buf,
-			}, nil
-		}
-		options := runtime.MarshalInputToOptions(input)
-		_ = options
-		size := options.Size(x)
-		dAtA := make([]byte, size)
-		i := len(dAtA)
-		_ = i
-		var l int
-		_ = l
-		if x.unknownFields != nil {
-			i -= len(x.unknownFields)
-			copy(dAtA[i:], x.unknownFields)
-		}
-		if x.UserId != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.UserId))
-			i--
-			dAtA[i] = 0x10
-		}
-		if len(x.Sender) > 0 {
-			i -= len(x.Sender)
-			copy(dAtA[i:], x.Sender)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Sender)))
-			i--
-			dAtA[i] = 0xa
-		}
-		if input.Buf != nil {
-			input.Buf = append(input.Buf, dAtA...)
-		} else {
-			input.Buf = dAtA
-		}
-		return protoiface.MarshalOutput{
-			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-			Buf:               input.Buf,
-		}, nil
-	}
-	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*GenerateProofRequest)
-		if x == nil {
-			return protoiface.UnmarshalOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Flags:             input.Flags,
-			}, nil
-		}
-		options := runtime.UnmarshalInputToOptions(input)
-		_ = options
-		dAtA := input.Buf
-		l := len(dAtA)
-		iNdEx := 0
-		for iNdEx < l {
-			preIndex := iNdEx
-			var wire uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-				}
-				if iNdEx >= l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				wire |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			fieldNum := int32(wire >> 3)
-			wireType := int(wire & 0x7)
-			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: GenerateProofRequest: wiretype end group for non-group")
-			}
-			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: GenerateProofRequest: illegal tag %d (wire type %d)", fieldNum, wire)
-			}
-			switch fieldNum {
-			case 1:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Sender", wireType)
-				}
-				var stringLen uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + intStringLen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.Sender = string(dAtA[iNdEx:postIndex])
-				iNdEx = postIndex
-			case 2:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field UserId", wireType)
-				}
-				x.UserId = 0
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					x.UserId |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-			default:
-				iNdEx = preIndex
-				skippy, err := runtime.Skip(dAtA[iNdEx:])
-				if err != nil {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
-				}
-				if (skippy < 0) || (iNdEx+skippy) < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if (iNdEx + skippy) > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				if !options.DiscardUnknown {
-					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
-				}
-				iNdEx += skippy
-			}
-		}
-
-		if iNdEx > l {
-			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-		}
-		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
-	}
-	return &protoiface.Methods{
-		NoUnkeyedLiterals: struct{}{},
-		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
-		Size:              size,
-		Marshal:           marshal,
-		Unmarshal:         unmarshal,
-		Merge:             nil,
-		CheckInitialized:  nil,
-	}
-}
-
-var (
-	md_GenerateProofResponse protoreflect.MessageDescriptor
-)
-
-func init() {
-	file_sdk_zkgov_v1beta1_tx_proto_init()
-	md_GenerateProofResponse = File_sdk_zkgov_v1beta1_tx_proto.Messages().ByName("GenerateProofResponse")
-}
-
-var _ protoreflect.Message = (*fastReflection_GenerateProofResponse)(nil)
-
-type fastReflection_GenerateProofResponse GenerateProofResponse
-
-func (x *GenerateProofResponse) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_GenerateProofResponse)(x)
-}
-
-func (x *GenerateProofResponse) slowProtoReflect() protoreflect.Message {
-	mi := &file_sdk_zkgov_v1beta1_tx_proto_msgTypes[5]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-var _fastReflection_GenerateProofResponse_messageType fastReflection_GenerateProofResponse_messageType
-var _ protoreflect.MessageType = fastReflection_GenerateProofResponse_messageType{}
-
-type fastReflection_GenerateProofResponse_messageType struct{}
-
-func (x fastReflection_GenerateProofResponse_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_GenerateProofResponse)(nil)
-}
-func (x fastReflection_GenerateProofResponse_messageType) New() protoreflect.Message {
-	return new(fastReflection_GenerateProofResponse)
-}
-func (x fastReflection_GenerateProofResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_GenerateProofResponse
-}
-
-// Descriptor returns message descriptor, which contains only the protobuf
-// type information for the message.
-func (x *fastReflection_GenerateProofResponse) Descriptor() protoreflect.MessageDescriptor {
-	return md_GenerateProofResponse
-}
-
-// Type returns the message type, which encapsulates both Go and protobuf
-// type information. If the Go type information is not needed,
-// it is recommended that the message descriptor be used instead.
-func (x *fastReflection_GenerateProofResponse) Type() protoreflect.MessageType {
-	return _fastReflection_GenerateProofResponse_messageType
-}
-
-// New returns a newly allocated and mutable empty message.
-func (x *fastReflection_GenerateProofResponse) New() protoreflect.Message {
-	return new(fastReflection_GenerateProofResponse)
-}
-
-// Interface unwraps the message reflection interface and
-// returns the underlying ProtoMessage interface.
-func (x *fastReflection_GenerateProofResponse) Interface() protoreflect.ProtoMessage {
-	return (*GenerateProofResponse)(x)
-}
-
-// Range iterates over every populated field in an undefined order,
-// calling f for each field descriptor and value encountered.
-// Range returns immediately if f returns false.
-// While iterating, mutating operations may only be performed
-// on the current field descriptor.
-func (x *fastReflection_GenerateProofResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-}
-
-// Has reports whether a field is populated.
-//
-// Some fields have the property of nullability where it is possible to
-// distinguish between the default value of a field and whether the field
-// was explicitly populated with the default value. Singular message fields,
-// member fields of a oneof, and proto2 scalar fields are nullable. Such
-// fields are populated only if explicitly set.
-//
-// In other cases (aside from the nullable cases above),
-// a proto3 scalar field is populated if it contains a non-zero value, and
-// a repeated field is populated if it is non-empty.
-func (x *fastReflection_GenerateProofResponse) Has(fd protoreflect.FieldDescriptor) bool {
-	switch fd.FullName() {
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.GenerateProofResponse"))
-		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.GenerateProofResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// Clear clears the field such that a subsequent Has call reports false.
-//
-// Clearing an extension field clears both the extension type and value
-// associated with the given field number.
-//
-// Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_GenerateProofResponse) Clear(fd protoreflect.FieldDescriptor) {
-	switch fd.FullName() {
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.GenerateProofResponse"))
-		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.GenerateProofResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// Get retrieves the value for a field.
-//
-// For unpopulated scalars, it returns the default value, where
-// the default value of a bytes scalar is guaranteed to be a copy.
-// For unpopulated composite types, it returns an empty, read-only view
-// of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_GenerateProofResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
-	switch descriptor.FullName() {
-	default:
-		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.GenerateProofResponse"))
-		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.GenerateProofResponse does not contain field %s", descriptor.FullName()))
-	}
-}
-
-// Set stores the value for a field.
-//
-// For a field belonging to a oneof, it implicitly clears any other field
-// that may be currently set within the same oneof.
-// For extension fields, it implicitly stores the provided ExtensionType.
-// When setting a composite type, it is unspecified whether the stored value
-// aliases the source's memory in any way. If the composite value is an
-// empty, read-only value, then it panics.
-//
-// Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_GenerateProofResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
-	switch fd.FullName() {
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.GenerateProofResponse"))
-		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.GenerateProofResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// Mutable returns a mutable reference to a composite type.
-//
-// If the field is unpopulated, it may allocate a composite value.
-// For a field belonging to a oneof, it implicitly clears any other field
-// that may be currently set within the same oneof.
-// For extension fields, it implicitly stores the provided ExtensionType
-// if not already stored.
-// It panics if the field does not contain a composite type.
-//
-// Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_GenerateProofResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
-	switch fd.FullName() {
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.GenerateProofResponse"))
-		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.GenerateProofResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// NewField returns a new value that is assignable to the field
-// for the given descriptor. For scalars, this returns the default value.
-// For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_GenerateProofResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
-	switch fd.FullName() {
-	default:
-		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: sdk.zkgov.v1beta1.GenerateProofResponse"))
-		}
-		panic(fmt.Errorf("message sdk.zkgov.v1beta1.GenerateProofResponse does not contain field %s", fd.FullName()))
-	}
-}
-
-// WhichOneof reports which field within the oneof is populated,
-// returning nil if none are populated.
-// It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_GenerateProofResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
-	switch d.FullName() {
-	default:
-		panic(fmt.Errorf("%s is not a oneof field in sdk.zkgov.v1beta1.GenerateProofResponse", d.FullName()))
-	}
-	panic("unreachable")
-}
-
-// GetUnknown retrieves the entire list of unknown fields.
-// The caller may only mutate the contents of the RawFields
-// if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_GenerateProofResponse) GetUnknown() protoreflect.RawFields {
-	return x.unknownFields
-}
-
-// SetUnknown stores an entire list of unknown fields.
-// The raw fields must be syntactically valid according to the wire format.
-// An implementation may panic if this is not the case.
-// Once stored, the caller must not mutate the content of the RawFields.
-// An empty RawFields may be passed to clear the fields.
-//
-// SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_GenerateProofResponse) SetUnknown(fields protoreflect.RawFields) {
-	x.unknownFields = fields
-}
-
-// IsValid reports whether the message is valid.
-//
-// An invalid message is an empty, read-only value.
-//
-// An invalid message often corresponds to a nil pointer of the concrete
-// message type, but the details are implementation dependent.
-// Validity is not part of the protobuf data model, and may not
-// be preserved in marshaling or other operations.
-func (x *fastReflection_GenerateProofResponse) IsValid() bool {
-	return x != nil
-}
-
-// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
-// This method may return nil.
-//
-// The returned methods type is identical to
-// "google.golang.org/protobuf/runtime/protoiface".Methods.
-// Consult the protoiface package documentation for details.
-func (x *fastReflection_GenerateProofResponse) ProtoMethods() *protoiface.Methods {
-	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*GenerateProofResponse)
-		if x == nil {
-			return protoiface.SizeOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Size:              0,
-			}
-		}
-		options := runtime.SizeInputToOptions(input)
-		_ = options
-		var n int
-		var l int
-		_ = l
-		if x.unknownFields != nil {
-			n += len(x.unknownFields)
-		}
-		return protoiface.SizeOutput{
-			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-			Size:              n,
-		}
-	}
-
-	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*GenerateProofResponse)
-		if x == nil {
-			return protoiface.MarshalOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Buf:               input.Buf,
-			}, nil
-		}
-		options := runtime.MarshalInputToOptions(input)
-		_ = options
-		size := options.Size(x)
-		dAtA := make([]byte, size)
-		i := len(dAtA)
-		_ = i
-		var l int
-		_ = l
-		if x.unknownFields != nil {
-			i -= len(x.unknownFields)
-			copy(dAtA[i:], x.unknownFields)
-		}
-		if input.Buf != nil {
-			input.Buf = append(input.Buf, dAtA...)
-		} else {
-			input.Buf = dAtA
-		}
-		return protoiface.MarshalOutput{
-			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-			Buf:               input.Buf,
-		}, nil
-	}
-	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*GenerateProofResponse)
-		if x == nil {
-			return protoiface.UnmarshalOutput{
-				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-				Flags:             input.Flags,
-			}, nil
-		}
-		options := runtime.UnmarshalInputToOptions(input)
-		_ = options
-		dAtA := input.Buf
-		l := len(dAtA)
-		iNdEx := 0
-		for iNdEx < l {
-			preIndex := iNdEx
-			var wire uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-				}
-				if iNdEx >= l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				wire |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			fieldNum := int32(wire >> 3)
-			wireType := int(wire & 0x7)
-			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: GenerateProofResponse: wiretype end group for non-group")
-			}
-			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: GenerateProofResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgVoteProposalResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			default:
@@ -2530,18 +2006,19 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// RegisterCommitmentRequest defines the Msg/RegisterCommitment request type
-type RegisterCommitmentRequest struct {
+// RegisterUserRequest
+type MsgRegisterUser struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Commitment string `protobuf:"bytes,1,opt,name=commitment,proto3" json:"commitment,omitempty"`
-	Sender     string `protobuf:"bytes,2,opt,name=sender,proto3" json:"sender,omitempty"`
+	Sender     string `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
+	Commitment string `protobuf:"bytes,2,opt,name=commitment,proto3" json:"commitment,omitempty"`
+	ProposalId string `protobuf:"bytes,3,opt,name=proposal_id,json=proposalId,proto3" json:"proposal_id,omitempty"`
 }
 
-func (x *RegisterCommitmentRequest) Reset() {
-	*x = RegisterCommitmentRequest{}
+func (x *MsgRegisterUser) Reset() {
+	*x = MsgRegisterUser{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_sdk_zkgov_v1beta1_tx_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -2549,40 +2026,47 @@ func (x *RegisterCommitmentRequest) Reset() {
 	}
 }
 
-func (x *RegisterCommitmentRequest) String() string {
+func (x *MsgRegisterUser) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RegisterCommitmentRequest) ProtoMessage() {}
+func (*MsgRegisterUser) ProtoMessage() {}
 
-// Deprecated: Use RegisterCommitmentRequest.ProtoReflect.Descriptor instead.
-func (*RegisterCommitmentRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use MsgRegisterUser.ProtoReflect.Descriptor instead.
+func (*MsgRegisterUser) Descriptor() ([]byte, []int) {
 	return file_sdk_zkgov_v1beta1_tx_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *RegisterCommitmentRequest) GetCommitment() string {
-	if x != nil {
-		return x.Commitment
-	}
-	return ""
-}
-
-func (x *RegisterCommitmentRequest) GetSender() string {
+func (x *MsgRegisterUser) GetSender() string {
 	if x != nil {
 		return x.Sender
 	}
 	return ""
 }
 
-// RegisterCommitmentResponse
-type RegisterCommitmentResponse struct {
+func (x *MsgRegisterUser) GetCommitment() string {
+	if x != nil {
+		return x.Commitment
+	}
+	return ""
+}
+
+func (x *MsgRegisterUser) GetProposalId() string {
+	if x != nil {
+		return x.ProposalId
+	}
+	return ""
+}
+
+// RegisterUserResponser
+type MsgRegisterUserResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *RegisterCommitmentResponse) Reset() {
-	*x = RegisterCommitmentResponse{}
+func (x *MsgRegisterUserResponse) Reset() {
+	*x = MsgRegisterUserResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_sdk_zkgov_v1beta1_tx_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -2590,29 +2074,32 @@ func (x *RegisterCommitmentResponse) Reset() {
 	}
 }
 
-func (x *RegisterCommitmentResponse) String() string {
+func (x *MsgRegisterUserResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RegisterCommitmentResponse) ProtoMessage() {}
+func (*MsgRegisterUserResponse) ProtoMessage() {}
 
-// Deprecated: Use RegisterCommitmentResponse.ProtoReflect.Descriptor instead.
-func (*RegisterCommitmentResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use MsgRegisterUserResponse.ProtoReflect.Descriptor instead.
+func (*MsgRegisterUserResponse) Descriptor() ([]byte, []int) {
 	return file_sdk_zkgov_v1beta1_tx_proto_rawDescGZIP(), []int{1}
 }
 
-// RegisterUserRequest
-type RegisterUserRequest struct {
+// GenerateProofRequest
+type MsgVoteProposal struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Sender   string `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
-	UserName string `protobuf:"bytes,2,opt,name=user_name,json=userName,proto3" json:"user_name,omitempty"`
+	Nullifier         string     `protobuf:"bytes,1,opt,name=nullifier,proto3" json:"nullifier,omitempty"`
+	ProposalId        string     `protobuf:"bytes,2,opt,name=proposal_id,json=proposalId,proto3" json:"proposal_id,omitempty"`
+	VoteOption        VoteOption `protobuf:"varint,3,opt,name=vote_option,json=voteOption,proto3,enum=sdk.zkgov.v1beta1.VoteOption" json:"vote_option,omitempty"`
+	ProposalStateRoot string     `protobuf:"bytes,4,opt,name=proposal_state_root,json=proposalStateRoot,proto3" json:"proposal_state_root,omitempty"`
+	ZkProof           [][]byte   `protobuf:"bytes,5,rep,name=zk_proof,json=zkProof,proto3" json:"zk_proof,omitempty"`
 }
 
-func (x *RegisterUserRequest) Reset() {
-	*x = RegisterUserRequest{}
+func (x *MsgVoteProposal) Reset() {
+	*x = MsgVoteProposal{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_sdk_zkgov_v1beta1_tx_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -2620,40 +2107,61 @@ func (x *RegisterUserRequest) Reset() {
 	}
 }
 
-func (x *RegisterUserRequest) String() string {
+func (x *MsgVoteProposal) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RegisterUserRequest) ProtoMessage() {}
+func (*MsgVoteProposal) ProtoMessage() {}
 
-// Deprecated: Use RegisterUserRequest.ProtoReflect.Descriptor instead.
-func (*RegisterUserRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use MsgVoteProposal.ProtoReflect.Descriptor instead.
+func (*MsgVoteProposal) Descriptor() ([]byte, []int) {
 	return file_sdk_zkgov_v1beta1_tx_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *RegisterUserRequest) GetSender() string {
+func (x *MsgVoteProposal) GetNullifier() string {
 	if x != nil {
-		return x.Sender
+		return x.Nullifier
 	}
 	return ""
 }
 
-func (x *RegisterUserRequest) GetUserName() string {
+func (x *MsgVoteProposal) GetProposalId() string {
 	if x != nil {
-		return x.UserName
+		return x.ProposalId
 	}
 	return ""
 }
 
-// RegisterUserResponser
-type RegisterUserResponse struct {
+func (x *MsgVoteProposal) GetVoteOption() VoteOption {
+	if x != nil {
+		return x.VoteOption
+	}
+	return VoteOption_VOTE_OPTION_YES
+}
+
+func (x *MsgVoteProposal) GetProposalStateRoot() string {
+	if x != nil {
+		return x.ProposalStateRoot
+	}
+	return ""
+}
+
+func (x *MsgVoteProposal) GetZkProof() [][]byte {
+	if x != nil {
+		return x.ZkProof
+	}
+	return nil
+}
+
+// GenerateProofRequest
+type MsgVoteProposalResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *RegisterUserResponse) Reset() {
-	*x = RegisterUserResponse{}
+func (x *MsgVoteProposalResponse) Reset() {
+	*x = MsgVoteProposalResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_sdk_zkgov_v1beta1_tx_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -2661,86 +2169,15 @@ func (x *RegisterUserResponse) Reset() {
 	}
 }
 
-func (x *RegisterUserResponse) String() string {
+func (x *MsgVoteProposalResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RegisterUserResponse) ProtoMessage() {}
+func (*MsgVoteProposalResponse) ProtoMessage() {}
 
-// Deprecated: Use RegisterUserResponse.ProtoReflect.Descriptor instead.
-func (*RegisterUserResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use MsgVoteProposalResponse.ProtoReflect.Descriptor instead.
+func (*MsgVoteProposalResponse) Descriptor() ([]byte, []int) {
 	return file_sdk_zkgov_v1beta1_tx_proto_rawDescGZIP(), []int{3}
-}
-
-// GenerateProofRequest
-type GenerateProofRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Sender string `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
-	UserId uint64 `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-}
-
-func (x *GenerateProofRequest) Reset() {
-	*x = GenerateProofRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_sdk_zkgov_v1beta1_tx_proto_msgTypes[4]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *GenerateProofRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GenerateProofRequest) ProtoMessage() {}
-
-// Deprecated: Use GenerateProofRequest.ProtoReflect.Descriptor instead.
-func (*GenerateProofRequest) Descriptor() ([]byte, []int) {
-	return file_sdk_zkgov_v1beta1_tx_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *GenerateProofRequest) GetSender() string {
-	if x != nil {
-		return x.Sender
-	}
-	return ""
-}
-
-func (x *GenerateProofRequest) GetUserId() uint64 {
-	if x != nil {
-		return x.UserId
-	}
-	return 0
-}
-
-// GenerateProofRequest
-type GenerateProofResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-}
-
-func (x *GenerateProofResponse) Reset() {
-	*x = GenerateProofResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_sdk_zkgov_v1beta1_tx_proto_msgTypes[5]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *GenerateProofResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GenerateProofResponse) ProtoMessage() {}
-
-// Deprecated: Use GenerateProofResponse.ProtoReflect.Descriptor instead.
-func (*GenerateProofResponse) Descriptor() ([]byte, []int) {
-	return file_sdk_zkgov_v1beta1_tx_proto_rawDescGZIP(), []int{5}
 }
 
 var File_sdk_zkgov_v1beta1_tx_proto protoreflect.FileDescriptor
@@ -2750,62 +2187,60 @@ var file_sdk_zkgov_v1beta1_tx_proto_rawDesc = []byte{
 	0x74, 0x61, 0x31, 0x2f, 0x74, 0x78, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x11, 0x73, 0x64,
 	0x6b, 0x2e, 0x7a, 0x6b, 0x67, 0x6f, 0x76, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x1a,
 	0x17, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2f, 0x6d, 0x73, 0x67, 0x2f, 0x76, 0x31, 0x2f, 0x6d,
-	0x73, 0x67, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x60, 0x0a, 0x19, 0x52, 0x65, 0x67, 0x69,
-	0x73, 0x74, 0x65, 0x72, 0x43, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1e, 0x0a, 0x0a, 0x63, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x6d,
-	0x65, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x63, 0x6f, 0x6d, 0x6d, 0x69,
-	0x74, 0x6d, 0x65, 0x6e, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x65, 0x6e, 0x64, 0x65, 0x72, 0x18,
-	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x73, 0x65, 0x6e, 0x64, 0x65, 0x72, 0x3a, 0x0b, 0x82,
-	0xe7, 0xb0, 0x2a, 0x06, 0x73, 0x65, 0x6e, 0x64, 0x65, 0x72, 0x22, 0x1c, 0x0a, 0x1a, 0x52, 0x65,
-	0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x43, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x6d, 0x65, 0x6e, 0x74,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x57, 0x0a, 0x13, 0x52, 0x65, 0x67, 0x69,
-	0x73, 0x74, 0x65, 0x72, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
-	0x16, 0x0a, 0x06, 0x73, 0x65, 0x6e, 0x64, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x06, 0x73, 0x65, 0x6e, 0x64, 0x65, 0x72, 0x12, 0x1b, 0x0a, 0x09, 0x75, 0x73, 0x65, 0x72, 0x5f,
-	0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65, 0x72,
-	0x4e, 0x61, 0x6d, 0x65, 0x3a, 0x0b, 0x82, 0xe7, 0xb0, 0x2a, 0x06, 0x73, 0x65, 0x6e, 0x64, 0x65,
-	0x72, 0x22, 0x16, 0x0a, 0x14, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x55, 0x73, 0x65,
-	0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x54, 0x0a, 0x14, 0x47, 0x65, 0x6e,
-	0x65, 0x72, 0x61, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x6f, 0x66, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x65, 0x6e, 0x64, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x06, 0x73, 0x65, 0x6e, 0x64, 0x65, 0x72, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65,
-	0x72, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72,
-	0x49, 0x64, 0x3a, 0x0b, 0x82, 0xe7, 0xb0, 0x2a, 0x06, 0x73, 0x65, 0x6e, 0x64, 0x65, 0x72, 0x22,
-	0x17, 0x0a, 0x15, 0x47, 0x65, 0x6e, 0x65, 0x72, 0x61, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x6f, 0x66,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x32, 0xc4, 0x02, 0x0a, 0x03, 0x4d, 0x73, 0x67,
-	0x12, 0x71, 0x0a, 0x12, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x43, 0x6f, 0x6d, 0x6d,
-	0x69, 0x74, 0x6d, 0x65, 0x6e, 0x74, 0x12, 0x2c, 0x2e, 0x73, 0x64, 0x6b, 0x2e, 0x7a, 0x6b, 0x67,
-	0x6f, 0x76, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x52, 0x65, 0x67, 0x69, 0x73,
-	0x74, 0x65, 0x72, 0x43, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x1a, 0x2d, 0x2e, 0x73, 0x64, 0x6b, 0x2e, 0x7a, 0x6b, 0x67, 0x6f, 0x76,
-	0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65,
-	0x72, 0x43, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x12, 0x5f, 0x0a, 0x0c, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x55,
-	0x73, 0x65, 0x72, 0x12, 0x26, 0x2e, 0x73, 0x64, 0x6b, 0x2e, 0x7a, 0x6b, 0x67, 0x6f, 0x76, 0x2e,
-	0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72,
-	0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x27, 0x2e, 0x73, 0x64,
-	0x6b, 0x2e, 0x7a, 0x6b, 0x67, 0x6f, 0x76, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e,
-	0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x62, 0x0a, 0x0d, 0x47, 0x65, 0x6e, 0x65, 0x72, 0x61, 0x74, 0x65,
-	0x50, 0x72, 0x6f, 0x6f, 0x66, 0x12, 0x27, 0x2e, 0x73, 0x64, 0x6b, 0x2e, 0x7a, 0x6b, 0x67, 0x6f,
-	0x76, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x47, 0x65, 0x6e, 0x65, 0x72, 0x61,
-	0x74, 0x65, 0x50, 0x72, 0x6f, 0x6f, 0x66, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x28,
-	0x2e, 0x73, 0x64, 0x6b, 0x2e, 0x7a, 0x6b, 0x67, 0x6f, 0x76, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74,
-	0x61, 0x31, 0x2e, 0x47, 0x65, 0x6e, 0x65, 0x72, 0x61, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x6f, 0x66,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x1a, 0x05, 0x80, 0xe7, 0xb0, 0x2a, 0x01, 0x42,
-	0xb7, 0x01, 0x0a, 0x15, 0x63, 0x6f, 0x6d, 0x2e, 0x73, 0x64, 0x6b, 0x2e, 0x7a, 0x6b, 0x67, 0x6f,
-	0x76, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x42, 0x07, 0x54, 0x78, 0x50, 0x72, 0x6f,
-	0x74, 0x6f, 0x50, 0x01, 0x5a, 0x2f, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x73, 0x64, 0x6b, 0x2e,
-	0x69, 0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x73, 0x64, 0x6b, 0x2f, 0x7a, 0x6b, 0x67, 0x6f, 0x76,
-	0x2f, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x3b, 0x7a, 0x6b, 0x67, 0x6f, 0x76, 0x76, 0x31,
-	0x62, 0x65, 0x74, 0x61, 0x31, 0xa2, 0x02, 0x03, 0x53, 0x5a, 0x58, 0xaa, 0x02, 0x11, 0x53, 0x64,
-	0x6b, 0x2e, 0x5a, 0x6b, 0x67, 0x6f, 0x76, 0x2e, 0x56, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0xca,
-	0x02, 0x11, 0x53, 0x64, 0x6b, 0x5c, 0x5a, 0x6b, 0x67, 0x6f, 0x76, 0x5c, 0x56, 0x31, 0x62, 0x65,
-	0x74, 0x61, 0x31, 0xe2, 0x02, 0x1d, 0x53, 0x64, 0x6b, 0x5c, 0x5a, 0x6b, 0x67, 0x6f, 0x76, 0x5c,
-	0x56, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64,
-	0x61, 0x74, 0x61, 0xea, 0x02, 0x13, 0x53, 0x64, 0x6b, 0x3a, 0x3a, 0x5a, 0x6b, 0x67, 0x6f, 0x76,
-	0x3a, 0x3a, 0x56, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x33,
+	0x73, 0x67, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1d, 0x73, 0x64, 0x6b, 0x2f, 0x7a, 0x6b,
+	0x67, 0x6f, 0x76, 0x2f, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2f, 0x7a, 0x6b, 0x67, 0x6f,
+	0x76, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x77, 0x0a, 0x0f, 0x4d, 0x73, 0x67, 0x52, 0x65,
+	0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x55, 0x73, 0x65, 0x72, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x65,
+	0x6e, 0x64, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x73, 0x65, 0x6e, 0x64,
+	0x65, 0x72, 0x12, 0x1e, 0x0a, 0x0a, 0x63, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x6d, 0x65, 0x6e, 0x74,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x63, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x6d, 0x65,
+	0x6e, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x70, 0x72, 0x6f, 0x70, 0x6f, 0x73, 0x61, 0x6c, 0x5f, 0x69,
+	0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x70, 0x72, 0x6f, 0x70, 0x6f, 0x73, 0x61,
+	0x6c, 0x49, 0x64, 0x3a, 0x0b, 0x82, 0xe7, 0xb0, 0x2a, 0x06, 0x73, 0x65, 0x6e, 0x64, 0x65, 0x72,
+	0x22, 0x19, 0x0a, 0x17, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x55,
+	0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xe8, 0x01, 0x0a, 0x0f,
+	0x4d, 0x73, 0x67, 0x56, 0x6f, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x70, 0x6f, 0x73, 0x61, 0x6c, 0x12,
+	0x1c, 0x0a, 0x09, 0x6e, 0x75, 0x6c, 0x6c, 0x69, 0x66, 0x69, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x09, 0x6e, 0x75, 0x6c, 0x6c, 0x69, 0x66, 0x69, 0x65, 0x72, 0x12, 0x1f, 0x0a,
+	0x0b, 0x70, 0x72, 0x6f, 0x70, 0x6f, 0x73, 0x61, 0x6c, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x0a, 0x70, 0x72, 0x6f, 0x70, 0x6f, 0x73, 0x61, 0x6c, 0x49, 0x64, 0x12, 0x3e,
+	0x0a, 0x0b, 0x76, 0x6f, 0x74, 0x65, 0x5f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x03, 0x20,
+	0x01, 0x28, 0x0e, 0x32, 0x1d, 0x2e, 0x73, 0x64, 0x6b, 0x2e, 0x7a, 0x6b, 0x67, 0x6f, 0x76, 0x2e,
+	0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x56, 0x6f, 0x74, 0x65, 0x4f, 0x70, 0x74, 0x69,
+	0x6f, 0x6e, 0x52, 0x0a, 0x76, 0x6f, 0x74, 0x65, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x2e,
+	0x0a, 0x13, 0x70, 0x72, 0x6f, 0x70, 0x6f, 0x73, 0x61, 0x6c, 0x5f, 0x73, 0x74, 0x61, 0x74, 0x65,
+	0x5f, 0x72, 0x6f, 0x6f, 0x74, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x11, 0x70, 0x72, 0x6f,
+	0x70, 0x6f, 0x73, 0x61, 0x6c, 0x53, 0x74, 0x61, 0x74, 0x65, 0x52, 0x6f, 0x6f, 0x74, 0x12, 0x19,
+	0x0a, 0x08, 0x7a, 0x6b, 0x5f, 0x70, 0x72, 0x6f, 0x6f, 0x66, 0x18, 0x05, 0x20, 0x03, 0x28, 0x0c,
+	0x52, 0x07, 0x7a, 0x6b, 0x50, 0x72, 0x6f, 0x6f, 0x66, 0x3a, 0x0b, 0x82, 0xe7, 0xb0, 0x2a, 0x06,
+	0x73, 0x65, 0x6e, 0x64, 0x65, 0x72, 0x22, 0x19, 0x0a, 0x17, 0x4d, 0x73, 0x67, 0x56, 0x6f, 0x74,
+	0x65, 0x50, 0x72, 0x6f, 0x70, 0x6f, 0x73, 0x61, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x32, 0xcc, 0x01, 0x0a, 0x03, 0x4d, 0x73, 0x67, 0x12, 0x5e, 0x0a, 0x0c, 0x52, 0x65, 0x67,
+	0x69, 0x73, 0x74, 0x65, 0x72, 0x55, 0x73, 0x65, 0x72, 0x12, 0x22, 0x2e, 0x73, 0x64, 0x6b, 0x2e,
+	0x7a, 0x6b, 0x67, 0x6f, 0x76, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x4d, 0x73,
+	0x67, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x55, 0x73, 0x65, 0x72, 0x1a, 0x2a, 0x2e,
+	0x73, 0x64, 0x6b, 0x2e, 0x7a, 0x6b, 0x67, 0x6f, 0x76, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61,
+	0x31, 0x2e, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x55, 0x73, 0x65,
+	0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x5e, 0x0a, 0x0c, 0x56, 0x6f, 0x74,
+	0x65, 0x50, 0x72, 0x6f, 0x70, 0x6f, 0x73, 0x61, 0x6c, 0x12, 0x22, 0x2e, 0x73, 0x64, 0x6b, 0x2e,
+	0x7a, 0x6b, 0x67, 0x6f, 0x76, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x4d, 0x73,
+	0x67, 0x56, 0x6f, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x70, 0x6f, 0x73, 0x61, 0x6c, 0x1a, 0x2a, 0x2e,
+	0x73, 0x64, 0x6b, 0x2e, 0x7a, 0x6b, 0x67, 0x6f, 0x76, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61,
+	0x31, 0x2e, 0x4d, 0x73, 0x67, 0x56, 0x6f, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x70, 0x6f, 0x73, 0x61,
+	0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x1a, 0x05, 0x80, 0xe7, 0xb0, 0x2a, 0x01,
+	0x42, 0xb7, 0x01, 0x0a, 0x15, 0x63, 0x6f, 0x6d, 0x2e, 0x73, 0x64, 0x6b, 0x2e, 0x7a, 0x6b, 0x67,
+	0x6f, 0x76, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x42, 0x07, 0x54, 0x78, 0x50, 0x72,
+	0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x2f, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x73, 0x64, 0x6b,
+	0x2e, 0x69, 0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x73, 0x64, 0x6b, 0x2f, 0x7a, 0x6b, 0x67, 0x6f,
+	0x76, 0x2f, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x3b, 0x7a, 0x6b, 0x67, 0x6f, 0x76, 0x76,
+	0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0xa2, 0x02, 0x03, 0x53, 0x5a, 0x58, 0xaa, 0x02, 0x11, 0x53,
+	0x64, 0x6b, 0x2e, 0x5a, 0x6b, 0x67, 0x6f, 0x76, 0x2e, 0x56, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31,
+	0xca, 0x02, 0x11, 0x53, 0x64, 0x6b, 0x5c, 0x5a, 0x6b, 0x67, 0x6f, 0x76, 0x5c, 0x56, 0x31, 0x62,
+	0x65, 0x74, 0x61, 0x31, 0xe2, 0x02, 0x1d, 0x53, 0x64, 0x6b, 0x5c, 0x5a, 0x6b, 0x67, 0x6f, 0x76,
+	0x5c, 0x56, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61,
+	0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x13, 0x53, 0x64, 0x6b, 0x3a, 0x3a, 0x5a, 0x6b, 0x67, 0x6f,
+	0x76, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x33,
 }
 
 var (
@@ -2820,27 +2255,25 @@ func file_sdk_zkgov_v1beta1_tx_proto_rawDescGZIP() []byte {
 	return file_sdk_zkgov_v1beta1_tx_proto_rawDescData
 }
 
-var file_sdk_zkgov_v1beta1_tx_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_sdk_zkgov_v1beta1_tx_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_sdk_zkgov_v1beta1_tx_proto_goTypes = []interface{}{
-	(*RegisterCommitmentRequest)(nil),  // 0: sdk.zkgov.v1beta1.RegisterCommitmentRequest
-	(*RegisterCommitmentResponse)(nil), // 1: sdk.zkgov.v1beta1.RegisterCommitmentResponse
-	(*RegisterUserRequest)(nil),        // 2: sdk.zkgov.v1beta1.RegisterUserRequest
-	(*RegisterUserResponse)(nil),       // 3: sdk.zkgov.v1beta1.RegisterUserResponse
-	(*GenerateProofRequest)(nil),       // 4: sdk.zkgov.v1beta1.GenerateProofRequest
-	(*GenerateProofResponse)(nil),      // 5: sdk.zkgov.v1beta1.GenerateProofResponse
+	(*MsgRegisterUser)(nil),         // 0: sdk.zkgov.v1beta1.MsgRegisterUser
+	(*MsgRegisterUserResponse)(nil), // 1: sdk.zkgov.v1beta1.MsgRegisterUserResponse
+	(*MsgVoteProposal)(nil),         // 2: sdk.zkgov.v1beta1.MsgVoteProposal
+	(*MsgVoteProposalResponse)(nil), // 3: sdk.zkgov.v1beta1.MsgVoteProposalResponse
+	(VoteOption)(0),                 // 4: sdk.zkgov.v1beta1.VoteOption
 }
 var file_sdk_zkgov_v1beta1_tx_proto_depIdxs = []int32{
-	0, // 0: sdk.zkgov.v1beta1.Msg.RegisterCommitment:input_type -> sdk.zkgov.v1beta1.RegisterCommitmentRequest
-	2, // 1: sdk.zkgov.v1beta1.Msg.RegisterUser:input_type -> sdk.zkgov.v1beta1.RegisterUserRequest
-	4, // 2: sdk.zkgov.v1beta1.Msg.GenerateProof:input_type -> sdk.zkgov.v1beta1.GenerateProofRequest
-	1, // 3: sdk.zkgov.v1beta1.Msg.RegisterCommitment:output_type -> sdk.zkgov.v1beta1.RegisterCommitmentResponse
-	3, // 4: sdk.zkgov.v1beta1.Msg.RegisterUser:output_type -> sdk.zkgov.v1beta1.RegisterUserResponse
-	5, // 5: sdk.zkgov.v1beta1.Msg.GenerateProof:output_type -> sdk.zkgov.v1beta1.GenerateProofResponse
-	3, // [3:6] is the sub-list for method output_type
-	0, // [0:3] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	4, // 0: sdk.zkgov.v1beta1.MsgVoteProposal.vote_option:type_name -> sdk.zkgov.v1beta1.VoteOption
+	0, // 1: sdk.zkgov.v1beta1.Msg.RegisterUser:input_type -> sdk.zkgov.v1beta1.MsgRegisterUser
+	2, // 2: sdk.zkgov.v1beta1.Msg.VoteProposal:input_type -> sdk.zkgov.v1beta1.MsgVoteProposal
+	1, // 3: sdk.zkgov.v1beta1.Msg.RegisterUser:output_type -> sdk.zkgov.v1beta1.MsgRegisterUserResponse
+	3, // 4: sdk.zkgov.v1beta1.Msg.VoteProposal:output_type -> sdk.zkgov.v1beta1.MsgVoteProposalResponse
+	3, // [3:5] is the sub-list for method output_type
+	1, // [1:3] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_sdk_zkgov_v1beta1_tx_proto_init() }
@@ -2848,9 +2281,10 @@ func file_sdk_zkgov_v1beta1_tx_proto_init() {
 	if File_sdk_zkgov_v1beta1_tx_proto != nil {
 		return
 	}
+	file_sdk_zkgov_v1beta1_zkgov_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_sdk_zkgov_v1beta1_tx_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RegisterCommitmentRequest); i {
+			switch v := v.(*MsgRegisterUser); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2862,7 +2296,7 @@ func file_sdk_zkgov_v1beta1_tx_proto_init() {
 			}
 		}
 		file_sdk_zkgov_v1beta1_tx_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RegisterCommitmentResponse); i {
+			switch v := v.(*MsgRegisterUserResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2874,7 +2308,7 @@ func file_sdk_zkgov_v1beta1_tx_proto_init() {
 			}
 		}
 		file_sdk_zkgov_v1beta1_tx_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RegisterUserRequest); i {
+			switch v := v.(*MsgVoteProposal); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2886,31 +2320,7 @@ func file_sdk_zkgov_v1beta1_tx_proto_init() {
 			}
 		}
 		file_sdk_zkgov_v1beta1_tx_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RegisterUserResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_sdk_zkgov_v1beta1_tx_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GenerateProofRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_sdk_zkgov_v1beta1_tx_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GenerateProofResponse); i {
+			switch v := v.(*MsgVoteProposalResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2928,7 +2338,7 @@ func file_sdk_zkgov_v1beta1_tx_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_sdk_zkgov_v1beta1_tx_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

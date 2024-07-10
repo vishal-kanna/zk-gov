@@ -3,24 +3,24 @@ package sdk.zkgov.v1beta1;
 import "gogoproto/gogo.proto";
 import "cosmos_proto/cosmos.proto";
 import "google/api/annotations.proto";
-import "sdk/zkgov/v1beta1/zkgov.proto";
 option go_package = "github.com/vishal-kanna/zk/zk-gov/x/zkgov/types";
 
 // Query
 service Query {
   // Balance queries the balance of a single coin for a single account.
-  rpc GetUser(QueryUserRequset) returns (QueryGetUserResponse) {
-    option (google.api.http).get = "/zk-gov/{userid}";
+  rpc CommitmentMerkleProof(QueryCommitmentMerkleProofRequest)
+      returns (QueryCommitmentMerkleProofResponse) {
+    option (google.api.http).get = "/zk-gov/{commitment}";
   }
 }
 
-// QueryUserRequset
-message QueryUserRequset {
+// QueryCommitmentMerkleProofRequest
+message QueryCommitmentMerkleProofRequest {
   option (gogoproto.equal) = false;
   option (gogoproto.goproto_getters) = false;
 
-  uint64 userid = 1;
+  uint64 commitment = 1;
 }
 
-// QueryUserResponse
-message QueryGetUserResponse { User ust = 1; }
+// QueryCommitmentMerkleProofResponse
+message QueryCommitmentMerkleProofResponse { repeated bytes merkle_proof = 1; }
