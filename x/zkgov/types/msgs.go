@@ -17,13 +17,17 @@ func NewMsgRegisterUser(commitment string, sender string, proposalID uint64) *Ms
 }
 
 func (msg MsgRegisterUser) ValidateBasic() error {
-	if len([]byte(msg.Commitment)) == COMMITMENT_SIZE {
+	commitment, err := HexStringToBytes(msg.Commitment)
+	if err != nil {
+		return err
+	}
+	if len(commitment) != COMMITMENT_SIZE {
 		return errors.New(fmt.Sprintf("commitment should of size %d bytes", COMMITMENT_SIZE))
 	}
 
-	if len([]byte(msg.Sender)) == COMMITMENT_SIZE {
-		return errors.New(fmt.Sprintf("Send should be a valid chain address of size %d bytes", USER_SIZE))
-	}
+	// if len([]byte(msg.Sender)) == COMMITMENT_SIZE {
+	// 	return errors.New(fmt.Sprintf("Send should be a valid chain address of size %d bytes", USER_SIZE))
+	// }
 	// TODO: sender should be valid secp256k1 address
 
 	return nil

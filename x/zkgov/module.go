@@ -4,6 +4,8 @@ import (
 	"context"
 
 	gwruntime "github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"github.com/spf13/cobra"
+	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/client/cli"
 	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/keeper"
 
 	"cosmossdk.io/core/appmodule"
@@ -49,9 +51,9 @@ func (AppModuleBasic) RegisterGRPCGatewayRoutes(clientCtx client.Context, mux *g
 	}
 }
 
-// func (ab AppModuleBasic) GetTxCmd() *cobra.Command {
-// 	return cli.NewTxCmd()
-// }
+func (ab AppModuleBasic) GetTxCmd() *cobra.Command {
+	return cli.NewTxCmd()
+}
 
 func (am AppModuleBasic) RegisterInterfaces(registry codectypes.InterfaceRegistry) {
 	zktypes.RegisterInterfaces(registry)
