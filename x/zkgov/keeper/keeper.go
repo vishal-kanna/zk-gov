@@ -106,7 +106,7 @@ func (k *Keeper) CreatePropsal(ctx context.Context, proposal types.MsgCreateProp
 
 /* ------------------------- Queries ------------------------------*/
 
-func (k *Keeper) MerkleProof(ctx context.Context, proposalID uint64) ([][]byte, error) {
+func (k *Keeper) MerkleProof(ctx context.Context, proposalID uint64) ([]byte, [][]byte, error) {
 	store := k.storeKey.OpenKVStore(ctx)
 	return storeImpl.GetMerkleProof(ctx, store, proposalID)
 }

@@ -31,6 +31,7 @@ func NewTxCmd() *cobra.Command {
 		// NewRegisterCmd(),
 		NewRegisterVoteCmd(),
 		NewCreateProposalCmd(),
+		NewVote(),
 	)
 
 	return txCmd
@@ -60,7 +61,7 @@ func NewRegisterVoteCmd() *cobra.Command {
 			commitment := circuit.CreateCommitment(randomSecret1, randomSecret2, int64(vote))
 			nullifier := circuit.CreateNullifier(randomSecret2, int64(vote))
 
-			err = circuit.SaveInfo(uint64(Pid), commitment, nullifier)
+			err = circuit.SaveInfo(uint64(Pid), commitment, nullifier, uint64(vote))
 			if err != nil {
 				fmt.Println("Error while saving to file:", err.Error())
 				return err
@@ -121,7 +122,62 @@ func NewCreateProposalCmd() *cobra.Command {
 	return cmd
 }
 
-// func New
+// get the proposal_state_root zk_proof and proposal_state_root
+// get nullifier and commitment from the store
+func NewVote() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "vote [proposal-id]",
+		Short: "Create a vote transaction for previously generated values (register-vote)",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+			queryClient := types.NewQueryClient(clientCtx)
+			proposalID := args[0]
+			Pid, _ := strconv.Atoi(proposalID)
+			VoterInfo, err := circuit.FetchInfo(proposalID)
+			if err != nil {
+				fmt.Println("Error while fetching file:", err.Error())
+				return err
+			}
+			nullifier := VoterInfo.Nullifier
+			voteOption := VoterInfo.VoteOption
+			commitment := VoterInfo.Commitment
+
+			var opt types.VoteOption
+			if voteOption == 0 {
+				opt = types.VoteOption_VOTE_OPTION_YES
+			} else {
+				opt = types.VoteOption_VOTE_OPTION_NO
+			}
+
+			// zk-proof
+			var req types.QueryCommitmentMerkleProofRequest
+			
+			req.Commitment = commitment
+			req.ProposalId = uint64(Pid)
+			res, err := queryClient.CommitmentMerkleProof(cmd.Context(), &req)
+			if err != nil {
+				fmt.Println("Error while questing MerkleProof", err.Error())
+			}
+			fmt.Println("The res >>>>>>>>", res)
+			a := res.GetRoot()
+			fmt.Println("A value is>>>>>>>>>>>>>", a)
+			// witness := circuit.
+			// fmt.Println("Witness>>>>>>>>>>>", witness)
+			sender := clientCtx.GetFromAddress().String()
+
+			msg := types.MsgVoteProposal{ProposalId: uint64(Pid), Nullifier: nullifier, VoteOption: opt, Sender: sender}
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), &msg)
+		},
+	}
+
+	cmd.Flags().Bool(FlagSplit, false, "Send the equally split token amount to each address")
+	flags.AddTxFlagsToCmd(cmd)
+
+	return cmd
+}
 
 // func GenerateProofCmd() *cobra.Command {
 

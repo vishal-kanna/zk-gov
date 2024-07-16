@@ -39,11 +39,11 @@ func UpdateMerkleRoot(ctx context.Context, store cosmosstore.KVStore, proposalID
 	return nil
 }
 
-func GetMerkleProof(ctx context.Context, store cosmosstore.KVStore, proposalID uint64) ([][]byte, error) {
+func GetMerkleProof(ctx context.Context, store cosmosstore.KVStore, proposalID uint64) ([]byte, [][]byte, error) {
 	commitmentsKey := types.CommitmentsStoreKey(proposalID)
 	commitmentsBytes, err := store.Get(commitmentsKey)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	var buf bytes.Buffer
@@ -51,12 +51,12 @@ func GetMerkleProof(ctx context.Context, store cosmosstore.KVStore, proposalID u
 
 	hFunc := mimc.NewMiMC()
 
-	_, merkleproof, _, err := merkletree.BuildReaderProof(&buf, hFunc, types.COMMITMENT_SIZE, uint64(0))
+	root, merkleproof, _, err := merkletree.BuildReaderProof(&buf, hFunc, types.COMMITMENT_SIZE, uint64(0))
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return merkleproof, nil
+	return root, merkleproof, nil
 }
 
 func GetMerkleRoot(ctx context.Context, store cosmosstore.KVStore, proposalID uint64) (string, error) {

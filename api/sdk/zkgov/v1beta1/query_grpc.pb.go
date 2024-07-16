@@ -26,7 +26,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type QueryClient interface {
-	// Balance queries the balance of a single coin for a single account.
+	// CommitmentMerkleProof
 	CommitmentMerkleProof(ctx context.Context, in *QueryCommitmentMerkleProofRequest, opts ...grpc.CallOption) (*QueryCommitmentMerkleProofResponse, error)
 }
 
@@ -51,7 +51,7 @@ func (c *queryClient) CommitmentMerkleProof(ctx context.Context, in *QueryCommit
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
 type QueryServer interface {
-	// Balance queries the balance of a single coin for a single account.
+	// CommitmentMerkleProof
 	CommitmentMerkleProof(context.Context, *QueryCommitmentMerkleProofRequest) (*QueryCommitmentMerkleProofResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }

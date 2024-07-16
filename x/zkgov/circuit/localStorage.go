@@ -19,13 +19,14 @@ type VoterInfo struct {
 }
 
 // SaveInfo saves the voter info as JSON
-func SaveInfo(proposalID uint64, commitment []byte, nullifier []byte) error {
+func SaveInfo(proposalID uint64, commitment []byte, nullifier []byte, voteOption uint64) error {
 	commitmentString := types.BytesToHexString(commitment)
 	nullifierString := types.BytesToHexString(nullifier)
 	info := VoterInfo{
 		ProposalID: proposalID,
 		Commitment: commitmentString,
 		Nullifier:  nullifierString,
+		VoteOption: voteOption,
 	}
 	data, err := json.Marshal(info)
 	if err != nil {

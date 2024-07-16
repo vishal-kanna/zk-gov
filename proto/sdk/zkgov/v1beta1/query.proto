@@ -7,7 +7,7 @@ option go_package = "github.com/vishal-kanna/zk/zk-gov/x/zkgov/types";
 
 // Query
 service Query {
-  // Balance queries the balance of a single coin for a single account.
+  // CommitmentMerkleProof
   rpc CommitmentMerkleProof(QueryCommitmentMerkleProofRequest)
       returns (QueryCommitmentMerkleProofResponse) {
     option (google.api.http).get = "/zk-gov/{proposal_id}/{commitment}";
@@ -23,4 +23,7 @@ message QueryCommitmentMerkleProofRequest {
 }
 
 // QueryCommitmentMerkleProofResponse
-message QueryCommitmentMerkleProofResponse { repeated bytes merkle_proof = 1; }
+message QueryCommitmentMerkleProofResponse {
+  repeated bytes merkle_proof = 1;
+  bytes root = 2;
+}

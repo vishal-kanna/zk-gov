@@ -45,6 +45,7 @@ message MsgVoteProposal {
   VoteOption vote_option = 3;
   string proposal_state_root = 4;
   bytes zk_proof = 5;
+  string sender = 6;
 }
 
 // GenerateProofRequest
