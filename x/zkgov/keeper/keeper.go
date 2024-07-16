@@ -7,6 +7,7 @@ import (
 	"github.com/consensys/gnark/backend/groth16"
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/circuit"
+	storeImpl "github.com/vishal-kanna/zk/zk-gov/x/zkgov/store"
 	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/types"
 )
 
@@ -37,12 +38,12 @@ func (k *Keeper) Vote(ctx context.Context, votePropal types.MsgVoteProposal) err
 
 	store := k.storeKey.OpenKVStore(ctx)
 
-	merkleRoot, err := types.GetMerkleRoot(ctx, store, proposalID)
+	merkleRoot, err := storeImpl.GetMerkleRoot(ctx, store, proposalID)
 	if err != nil {
 		return err
 	}
 
-	err = types.StoreNullifier(ctx, store, proposalID, nullifier)
+	err = storeImpl.StoreNullifier(ctx, store, proposalID, nullifier)
 	if err != nil {
 		return err
 	}
@@ -62,17 +63,25 @@ func (k *Keeper) Vote(ctx context.Context, votePropal types.MsgVoteProposal) err
 
 	return nil
 }
+
 func (k *Keeper) RegisterUser(ctx context.Context, commitment string, user string, proposalID uint64) error {
 	store := k.storeKey.OpenKVStore(ctx)
-	if err := types.StoreUser(ctx, store, proposalID, user); err != nil {
+	if err := storeImpl.StoreUser(ctx, store, proposalID, user); err != nil {
 		return err
 	}
 
-	if err := types.StoreCommitment(ctx, store, proposalID, commitment); err != nil {
+	if err := storeImpl.StoreCommitment(ctx, store, proposalID, commitment); err != nil {
 		return err
 	}
 
 	return nil
+}
+
+/* ------------------------- Queries ------------------------------*/
+
+func (k *Keeper) MerkleProof(ctx context.Context, proposalID uint64) ([][]byte, error) {
+	store := k.storeKey.OpenKVStore(ctx)
+	return storeImpl.GetMerkleProof(ctx, store, proposalID)
 }
 
 // func (k *Keeper) nextSequence(ctx context.Context, key []byte) (uint64, error) {

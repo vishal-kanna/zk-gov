@@ -10,29 +10,65 @@ import (
 	"github.com/consensys/gnark/backend/witness"
 	"github.com/consensys/gnark/frontend"
 	"github.com/consensys/gnark/std/accumulator/merkle"
-	"github.com/consensys/gnark/std/math/emulated"
-	"github.com/consensys/gnark/std/signature/ecdsa"
+	"github.com/consensys/gnark/std/hash/mimc"
 )
 
 // Define the circuit
-type PrivateVotingCircuit[T, S emulated.FieldParams] struct {
+type PrivateVotingCircuit struct {
 	SecretUniqueId1 frontend.Variable // randomly generated
 	SecretUniqueId2 frontend.Variable // randomly generated
 
-	Commitment frontend.Variable //  hash(secret1 + secret2 + pubkey)
-	Nullifier  frontend.Variable `gnark:",public"` // hash(secret2 + pubkey)
-	// VoteOption       frontend.Variable `gnark:",public"`
-	Signature        ecdsa.Signature[S]
-	Message          emulated.Element[S] `gnark:",public"` // hash(nullifier and vote option)
-	Publickey        ecdsa.PublicKey[T, S]
-	MerkleProofIndex frontend.Variable // commitment index in the list of commitments stored on chain
-	MerkleProof      merkle.MerkleProof
-	MerkleRoot       frontend.Variable `gnark:",public"`
+	Commitment frontend.Variable //  hash(secret1 + secret2 + voteOption)
+	Nullifier  frontend.Variable `gnark:",public"` // hash(secret2 + voteOption)
+	VoteOption frontend.Variable `gnark:",public"`
+
+	MerkleProof     merkle.MerkleProof
+	CommitmentIndex frontend.Variable `gnark:",public"`
+	MerkleRoot      frontend.Variable `gnark:",public"`
 }
 
-func (circuit *PrivateVotingCircuit[T, S]) Define(api frontend.API) error {
+func (circuit *PrivateVotingCircuit) Define(api frontend.API) error {
 
-	// TODO: circuit logic
+	mimc, _ := mimc.NewMiMC(api)
+
+	circuit.checkCommitment(api, mimc)
+	circuit.checkNullifier(api, mimc)
+	circuit.checkMerkleProof(api, mimc)
+
+	return nil
+}
+
+func (circuit *PrivateVotingCircuit) checkCommitment(api frontend.API, hFunc mimc.MiMC) error {
+
+	hFunc.Reset()
+	hFunc.Write(circuit.SecretUniqueId1)
+	hFunc.Write(circuit.SecretUniqueId2)
+	hFunc.Write(circuit.VoteOption)
+
+	computedCommitment := hFunc.Sum()
+	api.AssertIsEqual(circuit.Commitment, computedCommitment)
+
+	return nil
+}
+
+func (circuit *PrivateVotingCircuit) checkMerkleProof(api frontend.API, hFunc mimc.MiMC) error {
+	hFunc.Reset()
+	// api.AssertIsEqual(circuit.Commitment, circuit.MerkleProof.Path[0])
+	api.AssertIsEqual(circuit.MerkleRoot, circuit.MerkleProof.RootHash)
+	circuit.MerkleProof.VerifyProof(api, &hFunc, circuit.CommitmentIndex)
+
+	return nil
+}
+
+func (circuit *PrivateVotingCircuit) checkNullifier(api frontend.API, hFunc mimc.MiMC) error {
+
+	hFunc.Reset()
+	hFunc.Write(circuit.SecretUniqueId2)
+	hFunc.Write(circuit.VoteOption)
+
+	computedNullifier := hFunc.Sum()
+	api.AssertIsEqual(circuit.Nullifier, computedNullifier)
+
 	return nil
 }
 

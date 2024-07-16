@@ -1,4 +1,4 @@
-package types
+package store
 
 import (
 	"bytes"
@@ -6,10 +6,11 @@ import (
 	"errors"
 
 	cosmosstore "cosmossdk.io/core/store"
+	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/types"
 )
 
 func StoreUser(ctx context.Context, store cosmosstore.KVStore, proposalID uint64, user string) error {
-	usersKey := UsersStoreKey(proposalID)
+	usersKey := types.UsersStoreKey(proposalID)
 	usersBytes, err := store.Get(usersKey)
 	if err != nil {
 		return err
@@ -18,8 +19,8 @@ func StoreUser(ctx context.Context, store cosmosstore.KVStore, proposalID uint64
 	userBytes := []byte(user)
 
 	// if user already stored, throw error
-	for i := 0; i < len(usersBytes); i += USER_SIZE {
-		storedUser := usersBytes[i*USER_SIZE : (i+1)*USER_SIZE]
+	for i := 0; i < len(usersBytes); i += types.USER_SIZE {
+		storedUser := usersBytes[i*types.USER_SIZE : (i+1)*types.USER_SIZE]
 		if bytes.Equal(storedUser, userBytes) {
 			return errors.New("user is already registered")
 		}

@@ -1,4 +1,4 @@
-package types
+package store
 
 import (
 	"bytes"
@@ -6,10 +6,11 @@ import (
 	"errors"
 
 	cosmosstore "cosmossdk.io/core/store"
+	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/types"
 )
 
 func StoreNullifier(ctx context.Context, store cosmosstore.KVStore, proposalID uint64, nullifier string) error {
-	nullifiersKey := NullifiersStoreKey(proposalID)
+	nullifiersKey := types.NullifiersStoreKey(proposalID)
 	nullifiersBytes, err := store.Get(nullifiersKey)
 	if err != nil {
 		return err
@@ -18,8 +19,8 @@ func StoreNullifier(ctx context.Context, store cosmosstore.KVStore, proposalID u
 	nullifierBytes := []byte(nullifier)
 
 	// if nullifier already stored, the vote is already processed
-	for i := 0; i < len(nullifiersBytes); i += NULLIFIER_SIZE {
-		storedNullifier := nullifiersBytes[i*NULLIFIER_SIZE : (i+1)*NULLIFIER_SIZE]
+	for i := 0; i < len(nullifiersBytes); i += types.NULLIFIER_SIZE {
+		storedNullifier := nullifiersBytes[i*types.NULLIFIER_SIZE : (i+1)*types.NULLIFIER_SIZE]
 		if bytes.Equal(storedNullifier, nullifierBytes) {
 			return errors.New("the user is already voted")
 		}
