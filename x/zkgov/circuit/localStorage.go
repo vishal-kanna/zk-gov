@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/types"
 )
@@ -30,13 +31,13 @@ func SaveInfo(proposalID uint64, commitment []byte, nullifier []byte) error {
 	if err != nil {
 		return err
 	}
-	return os.WriteFile(("commitments" + fmt.Sprint(proposalID) + ".json"), data, 0666)
+	return os.WriteFile(filepath.Join("commitments", fmt.Sprint(proposalID)+".json"), data, 0666)
 }
 
 // FetchInfo fetches the voter info from JSON
 func FetchInfo(proposalID string) (VoterInfo, error) {
 	var info VoterInfo
-	data, err := os.ReadFile(("commitments" + fmt.Sprint(proposalID) + ".json"))
+	data, err := os.ReadFile(filepath.Join("commitments", proposalID+".json"))
 	if err != nil {
 		return info, err
 	}

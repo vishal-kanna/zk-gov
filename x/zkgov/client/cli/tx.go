@@ -37,9 +37,10 @@ func NewTxCmd() *cobra.Command {
 // takes the proposal id and his option vote
 func NewRegisterVoteCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "register-vote proposal-id voteOption ",
-		Short: "Register a new Voter",
-		Args:  cobra.ExactArgs(2),
+		Use:     "register-vote proposal-id voteOption ",
+		Short:   "Register a new Voter",
+		Example: "simd tx zk-gov register-vote 1 1 --from alice --keyring-backend test --chain-id testnet",
+		Args:    cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -74,6 +75,7 @@ func NewRegisterVoteCmd() *cobra.Command {
 
 	return cmd
 }
+func New
 
 // func GenerateProofCmd() *cobra.Command {
 
