@@ -16,11 +16,32 @@ const (
 )
 
 var (
-	CommitmentsKey = []byte{0x01}
-	UsersKey       = []byte{0x02}
-	MerkleRootKey  = []byte{0x03}
-	NullifiersKey  = []byte{0x04}
+	CommitmentsKey     = []byte{0x01}
+	UsersKey           = []byte{0x02}
+	MerkleRootKey      = []byte{0x03}
+	NullifiersKey      = []byte{0x04}
+	ProposalCounterKey = []byte{0x05}
+	ProposalInfoKey    = []byte{0x06}
+	ProposalResultKey  = []byte{0x07}
 )
+
+func ProposalInfoStoreKey(proposalID uint64) []byte {
+	proposalIDBytes := make([]byte, 8)
+	binary.BigEndian.PutUint64(proposalIDBytes, proposalID)
+
+	key := append(ProposalInfoKey, proposalIDBytes...)
+
+	return key
+}
+
+func ProposalResultStoreKey(proposalID uint64) []byte {
+	proposalIDBytes := make([]byte, 8)
+	binary.BigEndian.PutUint64(proposalIDBytes, proposalID)
+
+	key := append(ProposalResultKey, proposalIDBytes...)
+
+	return key
+}
 
 func CommitmentsStoreKey(proposalID uint64) []byte {
 	proposalIDBytes := make([]byte, 8)

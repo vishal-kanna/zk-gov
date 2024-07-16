@@ -9,6 +9,15 @@ import (
 	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/types"
 )
 
+func InitNullifiers(ctx context.Context, store cosmosstore.KVStore, proposalID uint64) error {
+	nullifiersKey := types.NullifiersStoreKey(proposalID)
+
+	nullifiersBytes := []byte{}
+
+	return store.Set(nullifiersKey, nullifiersBytes)
+
+}
+
 func StoreNullifier(ctx context.Context, store cosmosstore.KVStore, proposalID uint64, nullifier string) error {
 	nullifiersKey := types.NullifiersStoreKey(proposalID)
 	nullifiersBytes, err := store.Get(nullifiersKey)

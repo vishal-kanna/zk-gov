@@ -19,8 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Msg_RegisterUser_FullMethodName = "/sdk.zkgov.v1beta1.Msg/RegisterUser"
-	Msg_VoteProposal_FullMethodName = "/sdk.zkgov.v1beta1.Msg/VoteProposal"
+	Msg_RegisterUser_FullMethodName    = "/sdk.zkgov.v1beta1.Msg/RegisterUser"
+	Msg_VoteProposal_FullMethodName    = "/sdk.zkgov.v1beta1.Msg/VoteProposal"
+	Msg_CreateProposal_FullMethodName  = "/sdk.zkgov.v1beta1.Msg/CreateProposal"
+	Msg_ProcessProposal_FullMethodName = "/sdk.zkgov.v1beta1.Msg/ProcessProposal"
 )
 
 // MsgClient is the client API for Msg service.
@@ -31,6 +33,10 @@ type MsgClient interface {
 	RegisterUser(ctx context.Context, in *MsgRegisterUser, opts ...grpc.CallOption) (*MsgRegisterUserResponse, error)
 	// VoteProposal
 	VoteProposal(ctx context.Context, in *MsgVoteProposal, opts ...grpc.CallOption) (*MsgVoteProposalResponse, error)
+	// CreateProposal
+	CreateProposal(ctx context.Context, in *MsgCreateProposal, opts ...grpc.CallOption) (*MsgCreateProposalResponse, error)
+	// ProcessProposal
+	ProcessProposal(ctx context.Context, in *MsgProcessProposal, opts ...grpc.CallOption) (*MsgProcessProposalResponse, error)
 }
 
 type msgClient struct {
@@ -59,6 +65,24 @@ func (c *msgClient) VoteProposal(ctx context.Context, in *MsgVoteProposal, opts 
 	return out, nil
 }
 
+func (c *msgClient) CreateProposal(ctx context.Context, in *MsgCreateProposal, opts ...grpc.CallOption) (*MsgCreateProposalResponse, error) {
+	out := new(MsgCreateProposalResponse)
+	err := c.cc.Invoke(ctx, Msg_CreateProposal_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) ProcessProposal(ctx context.Context, in *MsgProcessProposal, opts ...grpc.CallOption) (*MsgProcessProposalResponse, error) {
+	out := new(MsgProcessProposalResponse)
+	err := c.cc.Invoke(ctx, Msg_ProcessProposal_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -67,6 +91,10 @@ type MsgServer interface {
 	RegisterUser(context.Context, *MsgRegisterUser) (*MsgRegisterUserResponse, error)
 	// VoteProposal
 	VoteProposal(context.Context, *MsgVoteProposal) (*MsgVoteProposalResponse, error)
+	// CreateProposal
+	CreateProposal(context.Context, *MsgCreateProposal) (*MsgCreateProposalResponse, error)
+	// ProcessProposal
+	ProcessProposal(context.Context, *MsgProcessProposal) (*MsgProcessProposalResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -79,6 +107,12 @@ func (UnimplementedMsgServer) RegisterUser(context.Context, *MsgRegisterUser) (*
 }
 func (UnimplementedMsgServer) VoteProposal(context.Context, *MsgVoteProposal) (*MsgVoteProposalResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VoteProposal not implemented")
+}
+func (UnimplementedMsgServer) CreateProposal(context.Context, *MsgCreateProposal) (*MsgCreateProposalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateProposal not implemented")
+}
+func (UnimplementedMsgServer) ProcessProposal(context.Context, *MsgProcessProposal) (*MsgProcessProposalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ProcessProposal not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -129,6 +163,42 @@ func _Msg_VoteProposal_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_CreateProposal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgCreateProposal)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).CreateProposal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_CreateProposal_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).CreateProposal(ctx, req.(*MsgCreateProposal))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_ProcessProposal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgProcessProposal)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).ProcessProposal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_ProcessProposal_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).ProcessProposal(ctx, req.(*MsgProcessProposal))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -143,6 +213,14 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "VoteProposal",
 			Handler:    _Msg_VoteProposal_Handler,
+		},
+		{
+			MethodName: "CreateProposal",
+			Handler:    _Msg_CreateProposal_Handler,
+		},
+		{
+			MethodName: "ProcessProposal",
+			Handler:    _Msg_ProcessProposal_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

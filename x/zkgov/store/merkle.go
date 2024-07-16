@@ -12,6 +12,15 @@ import (
 	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/types"
 )
 
+func InitMerkleRoot(ctx context.Context, store cosmosstore.KVStore, proposalID uint64) error {
+	merklerootKey := types.MerkleRootStoreKey(proposalID)
+
+	merklerootBytes := []byte{}
+
+	return store.Set(merklerootKey, merklerootBytes)
+
+}
+
 func UpdateMerkleRoot(ctx context.Context, store cosmosstore.KVStore, proposalID uint64, commitments []byte) error {
 	merklerootKey := types.MerkleRootStoreKey(proposalID)
 

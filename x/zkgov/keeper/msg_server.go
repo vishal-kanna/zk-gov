@@ -25,6 +25,7 @@ func (k msgServer) RegisterUser(ctx context.Context, req *types.MsgRegisterUser)
 	if err != nil {
 		return nil, err
 	}
+
 	err = k.Keeper.RegisterUser(ctx, req.Commitment, req.Sender, req.ProposalId)
 	if err != nil {
 		return nil, err
@@ -45,4 +46,30 @@ func (k msgServer) VoteProposal(ctx context.Context, req *types.MsgVoteProposal)
 	}
 
 	return &types.MsgVoteProposalResponse{}, nil
+}
+
+func (k msgServer) CreateProposal(ctx context.Context, req *types.MsgCreateProposal) (*types.MsgCreateProposalResponse, error) {
+
+	proposalID, err := k.Keeper.CreatePropsal(ctx, *req)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.MsgCreateProposalResponse{
+		ProposalId: proposalID,
+	}, nil
+
+}
+
+func (k msgServer) ProcessProposal(ctx context.Context, req *types.MsgProcessProposal) (*types.MsgProcessProposalResponse, error) {
+
+	// if err := req.ValidateBasic(); err != nil {
+	// 	return nil, err
+	// }
+
+	// if err := k.Keeper.Vote(ctx, *req); err != nil {
+	// 	return nil, err
+	// }
+
+	return &types.MsgProcessProposalResponse{}, nil
 }

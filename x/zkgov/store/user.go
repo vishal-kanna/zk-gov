@@ -9,6 +9,15 @@ import (
 	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/types"
 )
 
+func InitUsers(ctx context.Context, store cosmosstore.KVStore, proposalID uint64) error {
+	usersKey := types.UsersStoreKey(proposalID)
+
+	usersBytes := []byte{}
+
+	return store.Set(usersKey, usersBytes)
+
+}
+
 func StoreUser(ctx context.Context, store cosmosstore.KVStore, proposalID uint64, user string) error {
 	usersKey := types.UsersStoreKey(proposalID)
 	usersBytes, err := store.Get(usersKey)

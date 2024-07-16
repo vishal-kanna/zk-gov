@@ -9,6 +9,7 @@ import (
 	_ "github.com/cosmos/cosmos-sdk/types/msgservice"
 	grpc1 "github.com/cosmos/gogoproto/grpc"
 	proto "github.com/cosmos/gogoproto/proto"
+	types "github.com/cosmos/gogoproto/types"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -240,45 +241,282 @@ func (m *MsgVoteProposalResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgVoteProposalResponse proto.InternalMessageInfo
 
+// CreateProposalRequest
+type MsgCreateProposal struct {
+	Title                string           `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"`
+	Description          string           `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	RegistrationDeadline *types.Timestamp `protobuf:"bytes,4,opt,name=registration_deadline,json=registrationDeadline,proto3" json:"registration_deadline,omitempty"`
+	VotingDeadline       *types.Timestamp `protobuf:"bytes,5,opt,name=voting_deadline,json=votingDeadline,proto3" json:"voting_deadline,omitempty"`
+	Sender               string           `protobuf:"bytes,6,opt,name=sender,proto3" json:"sender,omitempty"`
+}
+
+func (m *MsgCreateProposal) Reset()         { *m = MsgCreateProposal{} }
+func (m *MsgCreateProposal) String() string { return proto.CompactTextString(m) }
+func (*MsgCreateProposal) ProtoMessage()    {}
+func (*MsgCreateProposal) Descriptor() ([]byte, []int) {
+	return fileDescriptor_dd3390607a2ede57, []int{4}
+}
+func (m *MsgCreateProposal) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgCreateProposal) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgCreateProposal.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgCreateProposal) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgCreateProposal.Merge(m, src)
+}
+func (m *MsgCreateProposal) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgCreateProposal) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgCreateProposal.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgCreateProposal proto.InternalMessageInfo
+
+func (m *MsgCreateProposal) GetTitle() string {
+	if m != nil {
+		return m.Title
+	}
+	return ""
+}
+
+func (m *MsgCreateProposal) GetDescription() string {
+	if m != nil {
+		return m.Description
+	}
+	return ""
+}
+
+func (m *MsgCreateProposal) GetRegistrationDeadline() *types.Timestamp {
+	if m != nil {
+		return m.RegistrationDeadline
+	}
+	return nil
+}
+
+func (m *MsgCreateProposal) GetVotingDeadline() *types.Timestamp {
+	if m != nil {
+		return m.VotingDeadline
+	}
+	return nil
+}
+
+func (m *MsgCreateProposal) GetSender() string {
+	if m != nil {
+		return m.Sender
+	}
+	return ""
+}
+
+// CreateProposalResponse
+type MsgCreateProposalResponse struct {
+	ProposalId uint64 `protobuf:"varint,1,opt,name=proposal_id,json=proposalId,proto3" json:"proposal_id,omitempty"`
+}
+
+func (m *MsgCreateProposalResponse) Reset()         { *m = MsgCreateProposalResponse{} }
+func (m *MsgCreateProposalResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgCreateProposalResponse) ProtoMessage()    {}
+func (*MsgCreateProposalResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_dd3390607a2ede57, []int{5}
+}
+func (m *MsgCreateProposalResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgCreateProposalResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgCreateProposalResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgCreateProposalResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgCreateProposalResponse.Merge(m, src)
+}
+func (m *MsgCreateProposalResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgCreateProposalResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgCreateProposalResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgCreateProposalResponse proto.InternalMessageInfo
+
+func (m *MsgCreateProposalResponse) GetProposalId() uint64 {
+	if m != nil {
+		return m.ProposalId
+	}
+	return 0
+}
+
+// ProcessProposal
+type MsgProcessProposal struct {
+	ProposalId uint64 `protobuf:"varint,1,opt,name=proposal_id,json=proposalId,proto3" json:"proposal_id,omitempty"`
+	Sender     string `protobuf:"bytes,2,opt,name=sender,proto3" json:"sender,omitempty"`
+}
+
+func (m *MsgProcessProposal) Reset()         { *m = MsgProcessProposal{} }
+func (m *MsgProcessProposal) String() string { return proto.CompactTextString(m) }
+func (*MsgProcessProposal) ProtoMessage()    {}
+func (*MsgProcessProposal) Descriptor() ([]byte, []int) {
+	return fileDescriptor_dd3390607a2ede57, []int{6}
+}
+func (m *MsgProcessProposal) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgProcessProposal) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgProcessProposal.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgProcessProposal) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgProcessProposal.Merge(m, src)
+}
+func (m *MsgProcessProposal) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgProcessProposal) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgProcessProposal.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgProcessProposal proto.InternalMessageInfo
+
+func (m *MsgProcessProposal) GetProposalId() uint64 {
+	if m != nil {
+		return m.ProposalId
+	}
+	return 0
+}
+
+func (m *MsgProcessProposal) GetSender() string {
+	if m != nil {
+		return m.Sender
+	}
+	return ""
+}
+
+// ProcessProposalResponse
+type MsgProcessProposalResponse struct {
+	Result VoteOption `protobuf:"varint,1,opt,name=result,proto3,enum=sdk.zkgov.v1beta1.VoteOption" json:"result,omitempty"`
+}
+
+func (m *MsgProcessProposalResponse) Reset()         { *m = MsgProcessProposalResponse{} }
+func (m *MsgProcessProposalResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgProcessProposalResponse) ProtoMessage()    {}
+func (*MsgProcessProposalResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_dd3390607a2ede57, []int{7}
+}
+func (m *MsgProcessProposalResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgProcessProposalResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgProcessProposalResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgProcessProposalResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgProcessProposalResponse.Merge(m, src)
+}
+func (m *MsgProcessProposalResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgProcessProposalResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgProcessProposalResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgProcessProposalResponse proto.InternalMessageInfo
+
+func (m *MsgProcessProposalResponse) GetResult() VoteOption {
+	if m != nil {
+		return m.Result
+	}
+	return VoteOption_VOTE_OPTION_YES
+}
+
 func init() {
 	proto.RegisterType((*MsgRegisterUser)(nil), "sdk.zkgov.v1beta1.MsgRegisterUser")
 	proto.RegisterType((*MsgRegisterUserResponse)(nil), "sdk.zkgov.v1beta1.MsgRegisterUserResponse")
 	proto.RegisterType((*MsgVoteProposal)(nil), "sdk.zkgov.v1beta1.MsgVoteProposal")
 	proto.RegisterType((*MsgVoteProposalResponse)(nil), "sdk.zkgov.v1beta1.MsgVoteProposalResponse")
+	proto.RegisterType((*MsgCreateProposal)(nil), "sdk.zkgov.v1beta1.MsgCreateProposal")
+	proto.RegisterType((*MsgCreateProposalResponse)(nil), "sdk.zkgov.v1beta1.MsgCreateProposalResponse")
+	proto.RegisterType((*MsgProcessProposal)(nil), "sdk.zkgov.v1beta1.MsgProcessProposal")
+	proto.RegisterType((*MsgProcessProposalResponse)(nil), "sdk.zkgov.v1beta1.MsgProcessProposalResponse")
 }
 
 func init() { proto.RegisterFile("sdk/zkgov/v1beta1/tx.proto", fileDescriptor_dd3390607a2ede57) }
 
 var fileDescriptor_dd3390607a2ede57 = []byte{
-	// 439 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x52, 0x4d, 0x6f, 0xd3, 0x40,
-	0x10, 0xcd, 0xf6, 0x0b, 0xba, 0xa9, 0x40, 0x5d, 0x24, 0xea, 0x5a, 0xd4, 0x44, 0x3e, 0x45, 0x91,
-	0xea, 0x55, 0xca, 0x8d, 0x03, 0x07, 0x6e, 0x3d, 0x54, 0x54, 0x46, 0x70, 0xe0, 0x80, 0xe5, 0xc4,
-	0x5b, 0x77, 0xe5, 0x8f, 0xb1, 0x3c, 0x5b, 0x53, 0x7c, 0x42, 0xfc, 0x02, 0x7e, 0x4a, 0x7f, 0x06,
-	0x07, 0x0e, 0x3d, 0x72, 0x44, 0xc9, 0xa1, 0xfc, 0x0c, 0xe4, 0xad, 0x1d, 0x12, 0x27, 0x51, 0x4f,
-	0xf6, 0xce, 0x9b, 0x7d, 0xef, 0xcd, 0xdb, 0xa1, 0x26, 0x06, 0x11, 0x2f, 0xa3, 0x10, 0x0a, 0x5e,
-	0x0c, 0x47, 0x42, 0xf9, 0x43, 0xae, 0xae, 0x9d, 0x2c, 0x07, 0x05, 0x6c, 0x1f, 0x83, 0xc8, 0xd1,
-	0x98, 0x53, 0x63, 0xe6, 0xc1, 0x18, 0x30, 0x01, 0xe4, 0x09, 0x86, 0xbc, 0x18, 0x56, 0x9f, 0xfb,
-	0x5e, 0xf3, 0x68, 0x99, 0xe7, 0xfe, 0xa6, 0x86, 0xed, 0x2f, 0xf4, 0xe9, 0x19, 0x86, 0xae, 0x08,
-	0x25, 0x2a, 0x91, 0x7f, 0x40, 0x91, 0xb3, 0xe7, 0x74, 0x07, 0x45, 0x1a, 0x88, 0xdc, 0x20, 0x3d,
-	0xd2, 0xdf, 0x75, 0xeb, 0x13, 0xb3, 0x28, 0x1d, 0x43, 0x92, 0x48, 0x95, 0x88, 0x54, 0x19, 0x1b,
-	0x1a, 0x9b, 0xab, 0xb0, 0x97, 0xb4, 0x9b, 0xe5, 0x90, 0x01, 0xfa, 0xb1, 0x27, 0x03, 0x63, 0xb3,
-	0x47, 0xfa, 0x5b, 0x2e, 0x6d, 0x4a, 0xa7, 0xc1, 0xeb, 0xee, 0xf7, 0xbb, 0x9b, 0x41, 0xcd, 0x66,
-	0x1f, 0xd2, 0x83, 0x96, 0xb0, 0x2b, 0x30, 0x83, 0x14, 0x85, 0xfd, 0x97, 0x68, 0x53, 0x1f, 0x41,
-	0x89, 0xf3, 0xfa, 0x36, 0x7b, 0x41, 0x77, 0xd3, 0xab, 0x38, 0x96, 0x17, 0x72, 0xe6, 0xeb, 0x7f,
-	0xa1, 0x2d, 0xbd, 0xd1, 0x96, 0x66, 0x6f, 0x68, 0xb7, 0x00, 0x25, 0x3c, 0xc8, 0x94, 0x84, 0x54,
-	0x7b, 0x7b, 0x72, 0x72, 0xe4, 0x2c, 0xe5, 0xe8, 0x54, 0xa2, 0xef, 0x74, 0x93, 0x4b, 0x8b, 0xd9,
-	0x3f, 0x73, 0xe8, 0xb3, 0x99, 0x00, 0x2a, 0x5f, 0x09, 0x2f, 0x07, 0x50, 0xc6, 0x96, 0x36, 0xb2,
-	0xdf, 0x40, 0xef, 0x2b, 0xc4, 0x05, 0x50, 0xec, 0x90, 0x3e, 0x2e, 0x23, 0x2f, 0xcb, 0x01, 0x2e,
-	0x8c, 0xed, 0x1e, 0xe9, 0xef, 0xb9, 0x8f, 0xca, 0xe8, 0xbc, 0x3a, 0xae, 0x4a, 0x61, 0x7e, 0xd2,
-	0x26, 0x85, 0x93, 0x5f, 0x84, 0x6e, 0x9e, 0x61, 0xc8, 0x3e, 0xd3, 0xbd, 0x85, 0xe7, 0xb1, 0x57,
-	0xb8, 0x6e, 0x25, 0x69, 0x0e, 0x1e, 0xee, 0x69, 0x74, 0x2a, 0xfe, 0x85, 0xa4, 0xd7, 0xf0, 0xcf,
-	0xf7, 0xac, 0xe3, 0x5f, 0x35, 0x87, 0xb9, 0xfd, 0xed, 0xee, 0x66, 0x40, 0xde, 0x9e, 0xfe, 0x9c,
-	0x58, 0xe4, 0x76, 0x62, 0x91, 0x3f, 0x13, 0x8b, 0xfc, 0x98, 0x5a, 0x9d, 0xdb, 0xa9, 0xd5, 0xf9,
-	0x3d, 0xb5, 0x3a, 0x9f, 0x78, 0x28, 0xd5, 0xe5, 0xd5, 0xc8, 0x19, 0x43, 0xc2, 0x0b, 0x89, 0x97,
-	0x7e, 0x7c, 0x1c, 0xf9, 0x69, 0xea, 0xf3, 0xb2, 0x5a, 0xdc, 0xe3, 0x6a, 0x73, 0xaf, 0xeb, 0x0d,
-	0x56, 0x5f, 0x33, 0x81, 0xa3, 0x1d, 0xbd, 0xba, 0xaf, 0xfe, 0x05, 0x00, 0x00, 0xff, 0xff, 0x51,
-	0x61, 0x45, 0xc6, 0x23, 0x03, 0x00, 0x00,
+	// 647 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x54, 0x4f, 0x4f, 0xdb, 0x4e,
+	0x10, 0xc5, 0x81, 0xe4, 0xf7, 0x63, 0x82, 0x40, 0x6c, 0x69, 0x09, 0x56, 0x31, 0x51, 0xd4, 0x4a,
+	0x08, 0x15, 0x5b, 0x50, 0xf5, 0x52, 0x55, 0x3d, 0x94, 0x5e, 0x38, 0x44, 0x20, 0xd3, 0xf6, 0xc0,
+	0x81, 0xc8, 0x89, 0x17, 0xb3, 0x8a, 0xed, 0xb1, 0x76, 0x37, 0x2e, 0xcd, 0xa9, 0xea, 0xa1, 0xe7,
+	0xde, 0xfb, 0x25, 0xf8, 0x18, 0x3d, 0x72, 0xec, 0xb1, 0x82, 0x03, 0xfd, 0x18, 0x95, 0xff, 0xe2,
+	0x38, 0x89, 0xc2, 0xc9, 0x9e, 0x9d, 0x37, 0x6f, 0x66, 0xdf, 0xbe, 0x5d, 0x50, 0x85, 0xdd, 0x37,
+	0x86, 0x7d, 0x07, 0x43, 0x23, 0xdc, 0xeb, 0x52, 0x69, 0xed, 0x19, 0xf2, 0x52, 0x0f, 0x38, 0x4a,
+	0x24, 0xab, 0xc2, 0xee, 0xeb, 0x71, 0x4e, 0x4f, 0x73, 0xea, 0x7a, 0x0f, 0x85, 0x87, 0xc2, 0xf0,
+	0x84, 0x63, 0x84, 0x7b, 0xd1, 0x27, 0xc1, 0xaa, 0x9b, 0xe3, 0x3c, 0x49, 0x65, 0x92, 0xde, 0x72,
+	0x10, 0x1d, 0x97, 0x1a, 0x71, 0xd4, 0x1d, 0x9c, 0x1b, 0x92, 0x79, 0x54, 0x48, 0xcb, 0x0b, 0x12,
+	0x40, 0xeb, 0x33, 0xac, 0xb4, 0x85, 0x63, 0x52, 0x87, 0x09, 0x49, 0xf9, 0x47, 0x41, 0x39, 0x79,
+	0x02, 0x35, 0x41, 0x7d, 0x9b, 0xf2, 0x86, 0xd2, 0x54, 0xb6, 0x17, 0xcd, 0x34, 0x22, 0x1a, 0x40,
+	0x0f, 0x3d, 0x8f, 0x49, 0x8f, 0xfa, 0xb2, 0x51, 0x89, 0x73, 0x85, 0x15, 0xb2, 0x05, 0xf5, 0x80,
+	0x63, 0x80, 0xc2, 0x72, 0x3b, 0xcc, 0x6e, 0xcc, 0x37, 0x95, 0xed, 0x05, 0x13, 0xb2, 0xa5, 0x43,
+	0xfb, 0x75, 0xfd, 0xdb, 0xdd, 0xd5, 0x4e, 0xca, 0xd6, 0xda, 0x80, 0xf5, 0x52, 0x63, 0x93, 0x8a,
+	0x00, 0x7d, 0x41, 0x5b, 0x7f, 0x95, 0x78, 0xa8, 0x4f, 0x28, 0xe9, 0x71, 0x5a, 0x4d, 0x9e, 0xc2,
+	0xa2, 0x3f, 0x70, 0x5d, 0x76, 0xce, 0xf2, 0xb9, 0xee, 0x17, 0xca, 0xad, 0x2b, 0xe5, 0xd6, 0xe4,
+	0x2d, 0xd4, 0x43, 0x94, 0xb4, 0x83, 0x81, 0x64, 0xe8, 0xc7, 0xb3, 0x2d, 0xef, 0x6f, 0xea, 0x63,
+	0x42, 0xeb, 0x51, 0xd3, 0xa3, 0x18, 0x64, 0x42, 0x98, 0xff, 0x13, 0x1d, 0x1e, 0xe5, 0x0d, 0x84,
+	0xb4, 0x24, 0xed, 0x70, 0x44, 0xd9, 0x58, 0x88, 0x07, 0x59, 0xcd, 0x52, 0x27, 0x51, 0xc6, 0x44,
+	0x94, 0x64, 0x03, 0xfe, 0x1f, 0xf6, 0x3b, 0x01, 0x47, 0x3c, 0x6f, 0x54, 0x9b, 0xca, 0xf6, 0x92,
+	0xf9, 0xdf, 0xb0, 0x7f, 0x1c, 0x85, 0x93, 0x54, 0x28, 0xee, 0x34, 0x57, 0xe1, 0x7b, 0x05, 0x56,
+	0xdb, 0xc2, 0x39, 0xe0, 0xd4, 0x2a, 0xe8, 0xb0, 0x06, 0x55, 0xc9, 0xa4, 0x4b, 0x53, 0x0d, 0x92,
+	0x80, 0x34, 0xa1, 0x6e, 0x53, 0xd1, 0xe3, 0x2c, 0xd9, 0x5e, 0x72, 0x36, 0xc5, 0x25, 0x72, 0x04,
+	0x8f, 0x79, 0xac, 0x35, 0xb7, 0xa2, 0xb8, 0x63, 0x53, 0xcb, 0x76, 0x99, 0x4f, 0xe3, 0x2d, 0xd4,
+	0xf7, 0x55, 0x3d, 0x31, 0x8a, 0x9e, 0x19, 0x45, 0xff, 0x90, 0x19, 0xc5, 0x5c, 0x2b, 0x16, 0xbe,
+	0x4f, 0xeb, 0xc8, 0x01, 0xac, 0x84, 0x28, 0x99, 0xef, 0xdc, 0x53, 0x55, 0x67, 0x52, 0x2d, 0x27,
+	0x25, 0x39, 0xc9, 0xbd, 0xd5, 0x6a, 0x45, 0xab, 0x8d, 0x6a, 0xf4, 0x06, 0x36, 0xc6, 0x74, 0xc8,
+	0x54, 0x2a, 0x9f, 0xbc, 0x52, 0x3e, 0xf9, 0xd6, 0x29, 0x90, 0xb6, 0x70, 0x8e, 0x39, 0xf6, 0xa8,
+	0x10, 0xb9, 0x8c, 0xb3, 0xca, 0x0a, 0x93, 0x55, 0xa6, 0x4f, 0x76, 0x02, 0xea, 0x38, 0x77, 0x3e,
+	0xda, 0x2b, 0xa8, 0x71, 0x2a, 0x06, 0xae, 0x8c, 0xe9, 0x67, 0xda, 0x2d, 0x05, 0xef, 0xff, 0x9c,
+	0x87, 0xf9, 0xb6, 0x70, 0xc8, 0x19, 0x2c, 0x8d, 0x5c, 0xcb, 0xd6, 0x84, 0xf2, 0xd2, 0x0d, 0x52,
+	0x77, 0x66, 0x63, 0xf2, 0xf1, 0xce, 0x60, 0x69, 0xe4, 0x86, 0x4d, 0xe1, 0x2f, 0x62, 0xa6, 0xf1,
+	0x4f, 0xf2, 0x2f, 0xb1, 0x61, 0xb9, 0xe4, 0xdd, 0x67, 0x93, 0xab, 0x47, 0x51, 0xea, 0x8b, 0x87,
+	0xa0, 0xf2, 0x2e, 0x0e, 0xac, 0x94, 0xcf, 0xf6, 0xf9, 0x64, 0x82, 0x12, 0x4c, 0xdd, 0x7d, 0x10,
+	0x2c, 0x6b, 0xa4, 0x56, 0xbf, 0xde, 0x5d, 0xed, 0x28, 0xef, 0x0e, 0x7f, 0xdd, 0x68, 0xca, 0xf5,
+	0x8d, 0xa6, 0xfc, 0xb9, 0xd1, 0x94, 0x1f, 0xb7, 0xda, 0xdc, 0xf5, 0xad, 0x36, 0xf7, 0xfb, 0x56,
+	0x9b, 0x3b, 0x35, 0x1c, 0x26, 0x2f, 0x06, 0x5d, 0xbd, 0x87, 0x9e, 0x11, 0x32, 0x71, 0x61, 0xb9,
+	0xbb, 0x7d, 0xcb, 0xf7, 0x2d, 0x63, 0x18, 0x3d, 0xd0, 0xbb, 0xd1, 0x0b, 0x7d, 0x99, 0xbe, 0xd4,
+	0xf2, 0x4b, 0x40, 0x45, 0xb7, 0x16, 0x5f, 0x90, 0x97, 0xff, 0x02, 0x00, 0x00, 0xff, 0xff, 0xd3,
+	0x49, 0x66, 0xc5, 0x0b, 0x06, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -297,6 +535,10 @@ type MsgClient interface {
 	RegisterUser(ctx context.Context, in *MsgRegisterUser, opts ...grpc.CallOption) (*MsgRegisterUserResponse, error)
 	// VoteProposal
 	VoteProposal(ctx context.Context, in *MsgVoteProposal, opts ...grpc.CallOption) (*MsgVoteProposalResponse, error)
+	// CreateProposal
+	CreateProposal(ctx context.Context, in *MsgCreateProposal, opts ...grpc.CallOption) (*MsgCreateProposalResponse, error)
+	// ProcessProposal
+	ProcessProposal(ctx context.Context, in *MsgProcessProposal, opts ...grpc.CallOption) (*MsgProcessProposalResponse, error)
 }
 
 type msgClient struct {
@@ -325,12 +567,34 @@ func (c *msgClient) VoteProposal(ctx context.Context, in *MsgVoteProposal, opts 
 	return out, nil
 }
 
+func (c *msgClient) CreateProposal(ctx context.Context, in *MsgCreateProposal, opts ...grpc.CallOption) (*MsgCreateProposalResponse, error) {
+	out := new(MsgCreateProposalResponse)
+	err := c.cc.Invoke(ctx, "/sdk.zkgov.v1beta1.Msg/CreateProposal", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) ProcessProposal(ctx context.Context, in *MsgProcessProposal, opts ...grpc.CallOption) (*MsgProcessProposalResponse, error) {
+	out := new(MsgProcessProposalResponse)
+	err := c.cc.Invoke(ctx, "/sdk.zkgov.v1beta1.Msg/ProcessProposal", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
 	// RegisterUser
 	RegisterUser(context.Context, *MsgRegisterUser) (*MsgRegisterUserResponse, error)
 	// VoteProposal
 	VoteProposal(context.Context, *MsgVoteProposal) (*MsgVoteProposalResponse, error)
+	// CreateProposal
+	CreateProposal(context.Context, *MsgCreateProposal) (*MsgCreateProposalResponse, error)
+	// ProcessProposal
+	ProcessProposal(context.Context, *MsgProcessProposal) (*MsgProcessProposalResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
@@ -342,6 +606,12 @@ func (*UnimplementedMsgServer) RegisterUser(ctx context.Context, req *MsgRegiste
 }
 func (*UnimplementedMsgServer) VoteProposal(ctx context.Context, req *MsgVoteProposal) (*MsgVoteProposalResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VoteProposal not implemented")
+}
+func (*UnimplementedMsgServer) CreateProposal(ctx context.Context, req *MsgCreateProposal) (*MsgCreateProposalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateProposal not implemented")
+}
+func (*UnimplementedMsgServer) ProcessProposal(ctx context.Context, req *MsgProcessProposal) (*MsgProcessProposalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ProcessProposal not implemented")
 }
 
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
@@ -384,6 +654,42 @@ func _Msg_VoteProposal_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_CreateProposal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgCreateProposal)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).CreateProposal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/sdk.zkgov.v1beta1.Msg/CreateProposal",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).CreateProposal(ctx, req.(*MsgCreateProposal))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_ProcessProposal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgProcessProposal)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).ProcessProposal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/sdk.zkgov.v1beta1.Msg/ProcessProposal",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).ProcessProposal(ctx, req.(*MsgProcessProposal))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Msg_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "sdk.zkgov.v1beta1.Msg",
 	HandlerType: (*MsgServer)(nil),
@@ -395,6 +701,14 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "VoteProposal",
 			Handler:    _Msg_VoteProposal_Handler,
+		},
+		{
+			MethodName: "CreateProposal",
+			Handler:    _Msg_CreateProposal_Handler,
+		},
+		{
+			MethodName: "ProcessProposal",
+			Handler:    _Msg_ProcessProposal_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -543,6 +857,165 @@ func (m *MsgVoteProposalResponse) MarshalToSizedBuffer(dAtA []byte) (int, error)
 	return len(dAtA) - i, nil
 }
 
+func (m *MsgCreateProposal) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgCreateProposal) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgCreateProposal) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Sender) > 0 {
+		i -= len(m.Sender)
+		copy(dAtA[i:], m.Sender)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Sender)))
+		i--
+		dAtA[i] = 0x32
+	}
+	if m.VotingDeadline != nil {
+		{
+			size, err := m.VotingDeadline.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintTx(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x2a
+	}
+	if m.RegistrationDeadline != nil {
+		{
+			size, err := m.RegistrationDeadline.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintTx(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x22
+	}
+	if len(m.Description) > 0 {
+		i -= len(m.Description)
+		copy(dAtA[i:], m.Description)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Description)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Title) > 0 {
+		i -= len(m.Title)
+		copy(dAtA[i:], m.Title)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Title)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgCreateProposalResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgCreateProposalResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgCreateProposalResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.ProposalId != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.ProposalId))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgProcessProposal) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgProcessProposal) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgProcessProposal) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Sender) > 0 {
+		i -= len(m.Sender)
+		copy(dAtA[i:], m.Sender)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Sender)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.ProposalId != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.ProposalId))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgProcessProposalResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgProcessProposalResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgProcessProposalResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Result != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.Result))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintTx(dAtA []byte, offset int, v uint64) int {
 	offset -= sovTx(v)
 	base := offset
@@ -616,6 +1089,75 @@ func (m *MsgVoteProposalResponse) Size() (n int) {
 	}
 	var l int
 	_ = l
+	return n
+}
+
+func (m *MsgCreateProposal) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Title)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.Description)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if m.RegistrationDeadline != nil {
+		l = m.RegistrationDeadline.Size()
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if m.VotingDeadline != nil {
+		l = m.VotingDeadline.Size()
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.Sender)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgCreateProposalResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.ProposalId != 0 {
+		n += 1 + sovTx(uint64(m.ProposalId))
+	}
+	return n
+}
+
+func (m *MsgProcessProposal) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.ProposalId != 0 {
+		n += 1 + sovTx(uint64(m.ProposalId))
+	}
+	l = len(m.Sender)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgProcessProposalResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Result != 0 {
+		n += 1 + sovTx(uint64(m.Result))
+	}
 	return n
 }
 
@@ -1023,6 +1565,463 @@ func (m *MsgVoteProposalResponse) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: MsgVoteProposalResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgCreateProposal) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgCreateProposal: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgCreateProposal: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Title", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Title = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Description", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Description = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field RegistrationDeadline", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.RegistrationDeadline == nil {
+				m.RegistrationDeadline = &types.Timestamp{}
+			}
+			if err := m.RegistrationDeadline.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field VotingDeadline", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.VotingDeadline == nil {
+				m.VotingDeadline = &types.Timestamp{}
+			}
+			if err := m.VotingDeadline.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Sender", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Sender = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgCreateProposalResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgCreateProposalResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgCreateProposalResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ProposalId", wireType)
+			}
+			m.ProposalId = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.ProposalId |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgProcessProposal) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgProcessProposal: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgProcessProposal: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ProposalId", wireType)
+			}
+			m.ProposalId = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.ProposalId |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Sender", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Sender = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgProcessProposalResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgProcessProposalResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgProcessProposalResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Result", wireType)
+			}
+			m.Result = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Result |= VoteOption(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipTx(dAtA[iNdEx:])

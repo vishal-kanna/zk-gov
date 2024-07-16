@@ -3,6 +3,7 @@ package sdk.zkgov.v1beta1;
 
 import "cosmos/msg/v1/msg.proto";
 import "sdk/zkgov/v1beta1/zkgov.proto";
+import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/vishal-kanna/zk/zk-gov/x/zkgov/types";
 
@@ -15,7 +16,15 @@ service Msg {
 
   // VoteProposal
   rpc VoteProposal(MsgVoteProposal) returns (MsgVoteProposalResponse);
+
+  // CreateProposal
+  rpc CreateProposal(MsgCreateProposal) returns (MsgCreateProposalResponse);
+
+  // ProcessProposal
+  rpc ProcessProposal(MsgProcessProposal) returns (MsgProcessProposalResponse);
 }
+
+//
 
 // RegisterUserRequest
 message MsgRegisterUser {
@@ -40,3 +49,26 @@ message MsgVoteProposal {
 
 // GenerateProofRequest
 message MsgVoteProposalResponse {}
+
+// CreateProposalRequest
+message MsgCreateProposal {
+  option (cosmos.msg.v1.signer) = "sender";
+  string title = 1;
+  string description = 2;
+  google.protobuf.Timestamp registration_deadline = 4;
+  google.protobuf.Timestamp voting_deadline = 5;
+  string sender = 6;
+}
+
+// CreateProposalResponse
+message MsgCreateProposalResponse { uint64 proposal_id = 1; }
+
+// ProcessProposal
+message MsgProcessProposal {
+  option (cosmos.msg.v1.signer) = "sender";
+  uint64 proposal_id = 1;
+  string sender = 2;
+}
+
+// ProcessProposalResponse
+message MsgProcessProposalResponse { VoteOption result = 1; }

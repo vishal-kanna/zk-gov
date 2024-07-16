@@ -9,6 +9,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
+	cosmos_types "github.com/cosmos/gogoproto/types"
 	"github.com/spf13/cobra"
 	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/circuit"
 	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/types"
@@ -29,6 +30,7 @@ func NewTxCmd() *cobra.Command {
 	txCmd.AddCommand(
 		// NewRegisterCmd(),
 		NewRegisterVoteCmd(),
+		NewCreateProposalCmd(),
 	)
 
 	return txCmd
@@ -75,7 +77,51 @@ func NewRegisterVoteCmd() *cobra.Command {
 
 	return cmd
 }
-func New
+
+// create new proposal
+func NewCreateProposalCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:     "create-proposal [title] [description] ",
+		Short:   "Create a new Proposal",
+		Example: "simd tx zk-gov create-proposal dummy-proposal dummy-description --from alice --keyring-backend test --chain-id demo",
+		Args:    cobra.ExactArgs(2),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+			sender := clientCtx.GetFromAddress().String()
+			title := args[0]
+			description := args[1]
+			registration_deadline := time.Now().Add(time.Hour)
+			voting_deadline := registration_deadline.Add(time.Hour)
+
+			registration_deadline_timestamp, err := cosmos_types.TimestampProto(registration_deadline)
+			if err != nil {
+				return err
+			}
+			voting_deadline_timestamp, err := cosmos_types.TimestampProto(voting_deadline)
+			if err != nil {
+				return err
+			}
+			msg := types.MsgCreateProposal{
+				Title:                title,
+				Sender:               sender,
+				Description:          description,
+				RegistrationDeadline: registration_deadline_timestamp,
+				VotingDeadline:       voting_deadline_timestamp,
+			}
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), &msg)
+		},
+	}
+
+	cmd.Flags().Bool(FlagSplit, false, "Send the equally split token amount to each address")
+	flags.AddTxFlagsToCmd(cmd)
+
+	return cmd
+}
+
+// func New
 
 // func GenerateProofCmd() *cobra.Command {
 

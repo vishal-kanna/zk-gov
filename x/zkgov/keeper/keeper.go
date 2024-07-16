@@ -25,9 +25,7 @@ func NewKeeper(
 		storeKey: storeKey,
 	}
 }
-func init() {
 
-}
 func (k *Keeper) Vote(ctx context.Context, votePropal types.MsgVoteProposal) error {
 
 	nullifier := votePropal.Nullifier
@@ -75,6 +73,35 @@ func (k *Keeper) RegisterUser(ctx context.Context, commitment string, user strin
 	}
 
 	return nil
+}
+
+func (k *Keeper) CreatePropsal(ctx context.Context, proposal types.MsgCreateProposal) (uint64, error) {
+	store := k.storeKey.OpenKVStore(ctx)
+
+	proposalID, err := storeImpl.StoreProposal(ctx, store, proposal)
+	if err != nil {
+		return proposalID, err
+	}
+
+	err = storeImpl.InitCommitments(ctx, store, proposalID)
+	if err != nil {
+		return proposalID, err
+	}
+
+	err = storeImpl.InitMerkleRoot(ctx, store, proposalID)
+	if err != nil {
+		return proposalID, err
+	}
+
+	err = storeImpl.InitNullifiers(ctx, store, proposalID)
+	if err != nil {
+		return proposalID, err
+	}
+
+	err = storeImpl.InitUsers(ctx, store, proposalID)
+
+	return proposalID, err
+
 }
 
 /* ------------------------- Queries ------------------------------*/
