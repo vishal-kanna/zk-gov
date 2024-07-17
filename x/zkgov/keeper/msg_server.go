@@ -63,13 +63,7 @@ func (k msgServer) CreateProposal(ctx context.Context, req *types.MsgCreatePropo
 
 func (k msgServer) ProcessProposal(ctx context.Context, req *types.MsgProcessProposal) (*types.MsgProcessProposalResponse, error) {
 
-	// if err := req.ValidateBasic(); err != nil {
-	// 	return nil, err
-	// }
-
-	// if err := k.Keeper.Vote(ctx, *req); err != nil {
-	// 	return nil, err
-	// }
+	// TODO: calculate the result
 
 	return &types.MsgProcessProposalResponse{}, nil
 }

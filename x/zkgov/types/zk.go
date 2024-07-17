@@ -24,5 +24,5 @@ func ReaderVerifier(size int) (groth16.VerifyingKey, error) {
 }
 
 func VerifierKeyName(size int) string {
-	return fmt.Sprintf("../client/zk/keys/verfier-%d", size)
+	return fmt.Sprintf("../client/zk/keys/verifier-%d", size)
 }

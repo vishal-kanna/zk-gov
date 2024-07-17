@@ -54,8 +54,15 @@ func (k *Keeper) Vote(ctx context.Context, votePropal types.MsgVoteProposal) err
 	}
 
 	// verifier key should be initialized at genesis
-	var vkey groth16.VerifyingKey
-	groth16.Verify(zkProof, vkey, publicWitness)
+	vkey, err := circuit.FetchVerifier(int(votePropal.MerkleproofSize))
+	if err != nil {
+		return err
+	}
+
+	err = groth16.Verify(zkProof, vkey, publicWitness)
+	if err != nil {
+		return err
+	}
 
 	// TODO: process the vote...
 
@@ -106,38 +113,7 @@ func (k *Keeper) CreatePropsal(ctx context.Context, proposal types.MsgCreateProp
 
 /* ------------------------- Queries ------------------------------*/
 
-func (k *Keeper) MerkleProof(ctx context.Context, proposalID uint64) ([]byte, [][]byte, error) {
+func (k *Keeper) MerkleProof(ctx context.Context, req *types.QueryCommitmentMerkleProofRequest) (*types.QueryCommitmentMerkleProofResponse, error) {
 	store := k.storeKey.OpenKVStore(ctx)
-	return storeImpl.GetMerkleProof(ctx, store, proposalID)
+	return storeImpl.GetMerkleProof(ctx, store, req)
 }
-
-// func (k *Keeper) nextSequence(ctx context.Context, key []byte) (uint64, error) {
-// 	store := k.storeKey.OpenKVStore(ctx)
-// 	found, err := store.Has(key)
-// 	fmt.Println("The found value is>>>>>>>>>>.", found)
-// 	if err != nil {
-// 		return 0, err
-// 	}
-// 	var seq uint64 = 1
-// 	if found {
-// 		pvBytes, err := store.Get(key)
-// 		if err != nil {
-// 			return 0, err
-// 		}
-// 		seq = binary.BigEndian.Uint64(pvBytes) + 1
-// 	}
-// 	seqBytes := uint64ToBytes(seq)
-// 	store.Set(key, seqBytes)
-// 	return seq, nil
-// }
-
-// func (k *Keeper) SetSequence(ctx context.Context, seq uint64) {
-// 	store := k.storeKey.OpenKVStore(ctx)
-// 	seqBytes := uint64ToBytes(seq)
-// 	store.Set(UserSeqPrefix, seqBytes)
-// }
-// func uint64ToBytes(value uint64) []byte {
-// 	seqBytes := make([]byte, 8)
-// 	binary.BigEndian.PutUint64(seqBytes, value)
-// 	return seqBytes
-// }

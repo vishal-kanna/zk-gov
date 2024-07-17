@@ -2,6 +2,7 @@ package cli
 
 import (
 	"fmt"
+	"math/big"
 	"math/rand"
 	"strconv"
 	"time"
@@ -11,7 +12,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	cosmos_types "github.com/cosmos/gogoproto/types"
 	"github.com/spf13/cobra"
+
 	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/circuit"
+	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/store"
 	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/types"
 )
 
@@ -61,7 +64,7 @@ func NewRegisterVoteCmd() *cobra.Command {
 			commitment := circuit.CreateCommitment(randomSecret1, randomSecret2, int64(vote))
 			nullifier := circuit.CreateNullifier(randomSecret2, int64(vote))
 
-			err = circuit.SaveInfo(uint64(Pid), commitment, nullifier, uint64(vote))
+			err = circuit.SaveInfo(uint64(Pid), commitment, nullifier, uint64(vote), uint64(randomSecret1), uint64(randomSecret2))
 			if err != nil {
 				fmt.Println("Error while saving to file:", err.Error())
 				return err
@@ -91,20 +94,22 @@ func NewCreateProposalCmd() *cobra.Command {
 			if err != nil {
 				return err
 			}
+
 			sender := clientCtx.GetFromAddress().String()
 			title := args[0]
 			description := args[1]
 			registration_deadline := time.Now().Add(time.Hour)
-			voting_deadline := registration_deadline.Add(time.Hour)
-
 			registration_deadline_timestamp, err := cosmos_types.TimestampProto(registration_deadline)
 			if err != nil {
 				return err
 			}
+
+			voting_deadline := registration_deadline.Add(time.Hour)
 			voting_deadline_timestamp, err := cosmos_types.TimestampProto(voting_deadline)
 			if err != nil {
 				return err
 			}
+
 			msg := types.MsgCreateProposal{
 				Title:                title,
 				Sender:               sender,
@@ -112,6 +117,7 @@ func NewCreateProposalCmd() *cobra.Command {
 				RegistrationDeadline: registration_deadline_timestamp,
 				VotingDeadline:       voting_deadline_timestamp,
 			}
+
 			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), &msg)
 		},
 	}
@@ -134,6 +140,7 @@ func NewVote() *cobra.Command {
 				return err
 			}
 			queryClient := types.NewQueryClient(clientCtx)
+
 			proposalID := args[0]
 			Pid, _ := strconv.Atoi(proposalID)
 			VoterInfo, err := circuit.FetchInfo(proposalID)
@@ -141,34 +148,78 @@ func NewVote() *cobra.Command {
 				fmt.Println("Error while fetching file:", err.Error())
 				return err
 			}
+
 			nullifier := VoterInfo.Nullifier
-			voteOption := VoterInfo.VoteOption
+			nullifierBytes, _ := types.HexStringToBytes(nullifier)
+			voteOption := *big.NewInt(int64(VoterInfo.VoteOption))
 			commitment := VoterInfo.Commitment
+			commitmentBytes, _ := types.HexStringToBytes(commitment)
+			randomSecret1 := *big.NewInt(int64(VoterInfo.RandomSecret1))
+			randomSecret2 := *big.NewInt(int64(VoterInfo.RandomSecret2))
+			sender := clientCtx.GetFromAddress().String()
 
 			var opt types.VoteOption
-			if voteOption == 0 {
+			if VoterInfo.VoteOption == 0 {
 				opt = types.VoteOption_VOTE_OPTION_YES
 			} else {
 				opt = types.VoteOption_VOTE_OPTION_NO
 			}
 
-			// zk-proof
+			// merkle proof request
 			var req types.QueryCommitmentMerkleProofRequest
-			
+
 			req.Commitment = commitment
 			req.ProposalId = uint64(Pid)
 			res, err := queryClient.CommitmentMerkleProof(cmd.Context(), &req)
 			if err != nil {
 				fmt.Println("Error while questing MerkleProof", err.Error())
 			}
-			fmt.Println("The res >>>>>>>>", res)
-			a := res.GetRoot()
-			fmt.Println("A value is>>>>>>>>>>>>>", a)
-			// witness := circuit.
-			// fmt.Println("Witness>>>>>>>>>>>", witness)
-			sender := clientCtx.GetFromAddress().String()
 
-			msg := types.MsgVoteProposal{ProposalId: uint64(Pid), Nullifier: nullifier, VoteOption: opt, Sender: sender}
+			merkleroot := res.GetRoot()
+			merklerootString := types.BytesToHexString(merkleroot)
+			merkleproofBytes := res.GetMerkleProof()
+			merkleproof := store.GetMerkleProofFromBytes(merkleroot, merkleproofBytes)
+			commitmentIndex := res.GetCommitmentIndex()
+			merkleproofSize := len(merkleproof.Path)
+
+			assignment := circuit.PrivateVotingCircuit{
+				SecretUniqueId1: randomSecret1,
+				SecretUniqueId2: randomSecret2,
+				Commitment:      commitmentBytes,
+				Nullifier:       nullifierBytes,
+				VoteOption:      voteOption,
+				CommitmentIndex: commitmentIndex,
+				MerkleRoot:      merkleroot,
+				MerkleProof:     merkleproof,
+			}
+
+			fmt.Println("secret1:", VoterInfo.RandomSecret1,
+
+				"secret2:", randomSecret2,
+				"comm", commitmentBytes,
+				"null", nullifierBytes,
+				"vote option", voteOption,
+				"index", commitmentIndex,
+				"merkleroot", merkleroot,
+				"merkleproof", merkleproof,
+			)
+
+			circuit.TestZKProof(&assignment)
+
+			zkProofBytes, err := circuit.GenerateProof(&assignment)
+
+			msg := types.MsgVoteProposal{
+				ProposalId:        uint64(Pid),
+				Nullifier:         nullifier,
+				VoteOption:        opt,
+				Sender:            sender,
+				ZkProof:           zkProofBytes,
+				ProposalStateRoot: merklerootString,
+				MerkleproofSize:   uint64(merkleproofSize),
+			}
+
+			fmt.Println("cli done.........")
+
 			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), &msg)
 		},
 	}

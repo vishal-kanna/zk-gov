@@ -9,6 +9,7 @@ import (
 )
 
 func StoreCommitment(ctx context.Context, store cosmosstore.KVStore, proposalID uint64, commitment string) error {
+
 	commitmentsKey := types.CommitmentsStoreKey(proposalID)
 	commitmentsBytes, err := store.Get(commitmentsKey)
 	if err != nil {
@@ -56,7 +57,7 @@ func ExtendTillPowerof2(commitmentsBytes []byte) []byte {
 	TotalSize := len(commitmentsBytes)
 	commitmentsCount := TotalSize / types.COMMITMENT_SIZE
 
-	for commitmentsCount != 1 && (commitmentsCount&commitmentsCount-1) > 0 {
+	for commitmentsCount != 1 && (commitmentsCount&(commitmentsCount-1)) > 0 {
 		commitmentsBytes = append(commitmentsBytes, DefaultCommitment()...)
 		TotalSize = len(commitmentsBytes)
 		commitmentsCount = TotalSize / types.COMMITMENT_SIZE

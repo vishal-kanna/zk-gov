@@ -3,6 +3,7 @@ package store
 import (
 	"bytes"
 	"context"
+	"errors"
 
 	cosmosstore "cosmossdk.io/core/store"
 	"github.com/consensys/gnark-crypto/accumulator/merkletree"
@@ -39,11 +40,28 @@ func UpdateMerkleRoot(ctx context.Context, store cosmosstore.KVStore, proposalID
 	return nil
 }
 
-func GetMerkleProof(ctx context.Context, store cosmosstore.KVStore, proposalID uint64) ([]byte, [][]byte, error) {
-	commitmentsKey := types.CommitmentsStoreKey(proposalID)
+func GetMerkleProof(ctx context.Context, store cosmosstore.KVStore, req *types.QueryCommitmentMerkleProofRequest) (*types.QueryCommitmentMerkleProofResponse, error) {
+	commitmentsKey := types.CommitmentsStoreKey(req.ProposalId)
 	commitmentsBytes, err := store.Get(commitmentsKey)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
+	}
+
+	commitmentBytes, err := types.HexStringToBytes(req.Commitment)
+	if err != nil {
+		return nil, err
+	}
+	commitmentIndex := -1
+	for i := 0; i < len(commitmentsBytes); i += types.COMMITMENT_SIZE {
+		curCommitmentBytes := commitmentsBytes[i : i+types.COMMITMENT_SIZE]
+		if bytes.Equal(curCommitmentBytes, commitmentBytes) {
+			commitmentIndex = i / types.COMMITMENT_SIZE
+			break
+		}
+	}
+
+	if commitmentIndex == -1 {
+		return nil, errors.New("Commitment is not registered")
 	}
 
 	var buf bytes.Buffer
@@ -53,10 +71,14 @@ func GetMerkleProof(ctx context.Context, store cosmosstore.KVStore, proposalID u
 
 	root, merkleproof, _, err := merkletree.BuildReaderProof(&buf, hFunc, types.COMMITMENT_SIZE, uint64(0))
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
-	return root, merkleproof, nil
+	return &types.QueryCommitmentMerkleProofResponse{
+		MerkleProof:     merkleproof,
+		Root:            root,
+		CommitmentIndex: uint64(commitmentIndex),
+	}, nil
 }
 
 func GetMerkleRoot(ctx context.Context, store cosmosstore.KVStore, proposalID uint64) (string, error) {

@@ -1,9 +1,8 @@
-package main
+package circuit
 
 import (
 	"bytes"
 	"fmt"
-
 	"log/slog"
 	"os"
 
@@ -11,9 +10,9 @@ import (
 	"github.com/consensys/gnark/backend/groth16"
 	"github.com/consensys/gnark/frontend"
 	"github.com/consensys/gnark/frontend/cs/r1cs"
-	zkcircuit "github.com/vishal-kanna/zk/zk-gov/x/zkgov/circuit"
 )
 
+// for testing.. the cli/zk method is used mainly
 func GenerateZKKeys(merkleProofSize int) {
 
 	slog.Info(
@@ -21,7 +20,7 @@ func GenerateZKKeys(merkleProofSize int) {
 			"Generating prover key, verifier key and constraint system for circuit with merkle proof size: %d", merkleProofSize,
 		),
 	)
-	var circuit zkcircuit.PrivateVotingCircuit
+	var circuit PrivateVotingCircuit
 	circuit.MerkleProof.Path = make([]frontend.Variable, merkleProofSize)
 	ccs, _ := frontend.Compile(ecc.BN254.ScalarField(), r1cs.NewBuilder, &circuit)
 	pk, vk, _ := groth16.Setup(ccs)
@@ -31,13 +30,13 @@ func GenerateZKKeys(merkleProofSize int) {
 	vk.WriteTo(vkBuf)
 	ccs.WriteTo(ccsBuf)
 
-	proverKeyfileName := fmt.Sprintf("../../../../keys/prover-%d", merkleProofSize)
+	proverKeyfileName := fmt.Sprintf("../../../keys/prover-%d", merkleProofSize)
 	WriteToFile(proverKeyfileName, pkBuf)
 
-	verifierfileName := fmt.Sprintf("../../../../keys/verifier-%d", merkleProofSize)
+	verifierfileName := fmt.Sprintf("../../../keys/verifier-%d", merkleProofSize)
 	WriteToFile(verifierfileName, vkBuf)
 
-	ccsfilename := fmt.Sprintf("../../../../keys/ccs-%d", merkleProofSize)
+	ccsfilename := fmt.Sprintf("../../../keys/ccs-%d", merkleProofSize)
 	WriteToFile(ccsfilename, ccsBuf)
 
 	slog.Info("Keys are successfully generated and stored in {keys} folder")

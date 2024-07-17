@@ -46,6 +46,7 @@ message MsgVoteProposal {
   string proposal_state_root = 4;
   bytes zk_proof = 5;
   string sender = 6;
+  uint64 merkleproof_size = 7;
 }
 
 // GenerateProofRequest

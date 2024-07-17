@@ -19,14 +19,16 @@ type VoterInfo struct {
 }
 
 // SaveInfo saves the voter info as JSON
-func SaveInfo(proposalID uint64, commitment []byte, nullifier []byte, voteOption uint64) error {
+func SaveInfo(proposalID uint64, commitment []byte, nullifier []byte, voteOption uint64, randomSecret1 uint64, randomSecret2 uint64) error {
 	commitmentString := types.BytesToHexString(commitment)
 	nullifierString := types.BytesToHexString(nullifier)
 	info := VoterInfo{
-		ProposalID: proposalID,
-		Commitment: commitmentString,
-		Nullifier:  nullifierString,
-		VoteOption: voteOption,
+		ProposalID:    proposalID,
+		Commitment:    commitmentString,
+		Nullifier:     nullifierString,
+		VoteOption:    voteOption,
+		RandomSecret1: randomSecret1,
+		RandomSecret2: randomSecret2,
 	}
 	data, err := json.Marshal(info)
 	if err != nil {
@@ -45,17 +47,3 @@ func FetchInfo(proposalID string) (VoterInfo, error) {
 	err = json.Unmarshal(data, &info)
 	return info, err
 }
-
-// func main() {
-// 	// Example usage
-// 	err := SaveInfo(12345, []byte("commitment123"), []byte("nullifier123"))
-// 	if err != nil {
-// 		fmt.Println("Error saving info:", err)
-// 	}
-// 	info, err := FetchInfo("12345")
-// 	if err != nil {
-// 		fmt.Println("Error fetching info:", err)
-// 	} else {
-// 		fmt.Printf("Fetched info: %+v\n", info)
-// 	}
-// }

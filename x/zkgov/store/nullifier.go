@@ -25,7 +25,10 @@ func StoreNullifier(ctx context.Context, store cosmosstore.KVStore, proposalID u
 		return err
 	}
 
-	nullifierBytes := []byte(nullifier)
+	nullifierBytes, err := types.HexStringToBytes(nullifier)
+	if err != nil {
+		return err
+	}
 
 	// if nullifier already stored, the vote is already processed
 	for i := 0; i < len(nullifiersBytes); i += types.NULLIFIER_SIZE {
@@ -39,5 +42,6 @@ func StoreNullifier(ctx context.Context, store cosmosstore.KVStore, proposalID u
 	if err := store.Set(nullifiersKey, nullifiersBytes); err != nil {
 		return err
 	}
+
 	return nil
 }

@@ -11,6 +11,7 @@ import (
 	"github.com/consensys/gnark/frontend"
 	"github.com/consensys/gnark/std/accumulator/merkle"
 	"github.com/consensys/gnark/std/hash/mimc"
+	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/types"
 )
 
 // Define the circuit
@@ -23,7 +24,7 @@ type PrivateVotingCircuit struct {
 	VoteOption frontend.Variable `gnark:",public"`
 
 	MerkleProof     merkle.MerkleProof
-	CommitmentIndex frontend.Variable `gnark:",public"`
+	CommitmentIndex frontend.Variable
 	MerkleRoot      frontend.Variable `gnark:",public"`
 }
 
@@ -53,7 +54,7 @@ func (circuit *PrivateVotingCircuit) checkCommitment(api frontend.API, hFunc mim
 
 func (circuit *PrivateVotingCircuit) checkMerkleProof(api frontend.API, hFunc mimc.MiMC) error {
 	hFunc.Reset()
-	// api.AssertIsEqual(circuit.Commitment, circuit.MerkleProof.Path[0])
+	api.AssertIsEqual(circuit.Commitment, circuit.MerkleProof.Path[0])
 	api.AssertIsEqual(circuit.MerkleRoot, circuit.MerkleProof.RootHash)
 	circuit.MerkleProof.VerifyProof(api, &hFunc, circuit.CommitmentIndex)
 
@@ -73,8 +74,8 @@ func (circuit *PrivateVotingCircuit) checkNullifier(api frontend.API, hFunc mimc
 }
 
 func PreparePublicWitness(nullifier string, voteOption uint64, merkleRoot string) witness.Witness {
-	nullifierBytes := []byte(nullifier)
-	merkleRootBytes := []byte(merkleRoot)
+	nullifierBytes, _ := types.HexStringToBytes(nullifier)
+	merkleRootBytes, _ := types.HexStringToBytes(merkleRoot)
 
 	voteOptionBytes := make([]byte, 8)
 	binary.BigEndian.PutUint64(voteOptionBytes, voteOption)

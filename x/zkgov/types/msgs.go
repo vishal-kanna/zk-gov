@@ -37,11 +37,19 @@ func NewMsgVoteProposal() *MsgVoteProposal {
 	return &MsgVoteProposal{}
 }
 func (msg MsgVoteProposal) ValidateBasic() error {
-	if len([]byte(msg.Nullifier)) == NULLIFIER_SIZE {
+	nullifierBytes, err := HexStringToBytes(msg.Nullifier)
+	if err != nil {
+		return err
+	}
+	if len(nullifierBytes) != NULLIFIER_SIZE {
 		return errors.New(fmt.Sprintf("nullifier should of size %d bytes", NULLIFIER_SIZE))
 	}
 
-	if len([]byte(msg.ProposalStateRoot)) == MERKLE_ROOT_SIZE {
+	merklerootBytes, err := HexStringToBytes(msg.ProposalStateRoot)
+	if err != nil {
+		return err
+	}
+	if len(merklerootBytes) != MERKLE_ROOT_SIZE {
 		return errors.New(fmt.Sprintf("merkle root should be of size %d bytes", USER_SIZE))
 	}
 	return nil
