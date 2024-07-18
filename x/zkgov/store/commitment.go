@@ -73,7 +73,7 @@ func ExtendTillPowerof2(commitmentsBytes []byte) []byte {
 	TotalSize := len(commitmentsBytes)
 	commitmentsCount := TotalSize / types.COMMITMENT_SIZE
 
-	for commitmentsCount != 1 && (commitmentsCount&(commitmentsCount-1)) > 0 {
+	for commitmentsCount < 2 || (commitmentsCount&(commitmentsCount-1)) > 0 {
 		commitmentsBytes = append(commitmentsBytes, DefaultCommitment()...)
 		TotalSize = len(commitmentsBytes)
 		commitmentsCount = TotalSize / types.COMMITMENT_SIZE

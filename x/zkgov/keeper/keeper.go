@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"fmt"
 
 	cosmosstore "cosmossdk.io/core/store"
 	"github.com/consensys/gnark/backend/groth16"
@@ -28,6 +29,7 @@ func NewKeeper(
 
 func (k *Keeper) Vote(ctx context.Context, votePropal types.MsgVoteProposal) error {
 
+	fmt.Println(1)
 	nullifier := votePropal.Nullifier
 	proposalID := votePropal.ProposalId
 	voteOption := votePropal.VoteOption
@@ -41,15 +43,21 @@ func (k *Keeper) Vote(ctx context.Context, votePropal types.MsgVoteProposal) err
 		return err
 	}
 
+	fmt.Println(2)
+
 	err = storeImpl.StoreNullifier(ctx, store, proposalID, nullifier)
 	if err != nil {
 		return err
 	}
 
+	fmt.Println(3)
+
 	err = storeImpl.StoreVote(ctx, store, proposalID, voteOption)
 	if err != nil {
 		return err
 	}
+
+	fmt.Println(4)
 
 	publicWitness := circuit.PreparePublicWitness(nullifier, uint64(voteOption), merkleRoot)
 	zkProof, err := circuit.UnMarshalZkProof(zkProofBytes[:])
@@ -57,16 +65,22 @@ func (k *Keeper) Vote(ctx context.Context, votePropal types.MsgVoteProposal) err
 		return err
 	}
 
+	fmt.Println(5)
+
 	// verifier key should be initialized at genesis
 	vkey, err := circuit.FetchVerifier(int(votePropal.MerkleproofSize))
 	if err != nil {
 		return err
 	}
 
+	fmt.Println(6)
+
 	err = groth16.Verify(zkProof, vkey, publicWitness)
 	if err != nil {
 		return err
 	}
+
+	fmt.Println(7)
 
 	// TODO: process the vote...
 
@@ -160,6 +174,11 @@ func (k *Keeper) GetProposalAllInfo(ctx context.Context, req *types.QueryProposa
 		return nil, err
 	}
 
+	// fmt.Println("commitments:", commitments)
+	// fmt.Println("nullifiers:", nullifiers)
+	// fmt.Println("votes:", votes)
+	// fmt.Println("users:", users)
+
 	usersInfo := GetUsersInfo(commitments, users)
 	votesInfo := GetVotesInfo(nullifiers, votes)
 
@@ -187,11 +206,11 @@ func GetVotesInfo(nullifiers []string, votes []types.VoteOption) []*types.VoteIn
 }
 
 func GetUsersInfo(commitments []string, users []string) []*types.UserInfo {
-	usersInfo := make([]*types.UserInfo, len(commitments))
-	for i, commitment := range commitments {
+	usersInfo := make([]*types.UserInfo, len(users))
+	for i, user := range users {
 		userInfo := &types.UserInfo{
-			Commitment:  commitment,
-			UserAddress: users[i],
+			Commitment:  commitments[i],
+			UserAddress: user,
 		}
 		usersInfo[i] = userInfo
 

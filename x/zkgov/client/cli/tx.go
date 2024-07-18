@@ -12,6 +12,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	cosmos_types "github.com/cosmos/gogoproto/types"
 	"github.com/spf13/cobra"
+	"golang.org/x/exp/slog"
 
 	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/circuit"
 	relayerCLient "github.com/vishal-kanna/zk/zk-gov/x/zkgov/client/relayer/client"
@@ -223,6 +224,8 @@ func NewVote() *cobra.Command {
 			if err != nil {
 				return err
 			}
+
+			slog.Info("Transaction relayed successfully!")
 			return nil
 		},
 	}

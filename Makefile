@@ -498,7 +498,7 @@ generate-zk-keys:
 ######################################################################
 
 run-alice-relayer:
-	simd tx zk-gov run-relayer --from alice --keyring-backend test --chain-id demo
+	simd tx zk-gov run-relayer --from alice --keyring-backend test --chain-id demo -y
 run-bob-relayer:
 	simd tx zk-gov run-relayer --from bob --keyring-backend test --chain-id demo
 run-sai-relayer:
