@@ -13,9 +13,5 @@ func (k Keeper) CommitmentMerkleProof(ctx context.Context, req *types.QueryCommi
 }
 
 func (k Keeper) ProposalAllInfo(ctx context.Context, req *types.QueryProposalAllInfoRequest) (*types.QueryProposalAllInfoResponse, error) {
-	return &types.QueryProposalAllInfoResponse{}, nil
-}
-
-func (k Keeper) ProposalAllInfo(ctx context.Context, req *types.QueryProposalAllInfoRequest) (*types.QueryProposalAllInfoResponse, error) {
-	return k.GetAllDetails(ctx, req)
+	return k.GetProposalAllInfo(ctx, req)
 }

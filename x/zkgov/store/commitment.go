@@ -31,6 +31,22 @@ func StoreCommitment(ctx context.Context, store cosmosstore.KVStore, proposalID 
 	return nil
 }
 
+func GetCommitments(ctx context.Context, store cosmosstore.KVStore, proposalID uint64) ([]string, error) {
+	commitmentStoreKey := types.CommitmentsStoreKey(proposalID)
+	commitments := make([]string, 0)
+	StoredCommitments, err := store.Get(commitmentStoreKey)
+	if err != nil {
+		return commitments, err
+	}
+
+	for i := 0; i < len(StoredCommitments); i += types.COMMITMENT_SIZE {
+		commitmentBytes := StoredCommitments[i : i+types.COMMITMENT_SIZE]
+		commitmentString := types.BytesToHexString(commitmentBytes)
+		commitments = append(commitments, commitmentString)
+	}
+	return commitments, nil
+}
+
 func InitCommitments(ctx context.Context, store cosmosstore.KVStore, proposalID uint64) error {
 	commitmentsKey := types.CommitmentsStoreKey(proposalID)
 

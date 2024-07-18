@@ -2,7 +2,6 @@ package keeper
 
 import (
 	"context"
-	"fmt"
 
 	cosmosstore "cosmossdk.io/core/store"
 	"github.com/consensys/gnark/backend/groth16"
@@ -128,101 +127,75 @@ func (k *Keeper) MerkleProof(ctx context.Context, req *types.QueryCommitmentMerk
 	return storeImpl.GetMerkleProof(ctx, store, req)
 }
 
-func (k *Keeper) GetAllDetails(ctx context.Context, req *types.QueryProposalAllInfoRequest) (*types.QueryProposalAllInfoResponse, error) {
+func (k *Keeper) GetProposalAllInfo(ctx context.Context, req *types.QueryProposalAllInfoRequest) (*types.QueryProposalAllInfoResponse, error) {
 	store := k.storeKey.OpenKVStore(ctx)
 
 	// querying the stored proposal
-	proposalStoreKey := types.ProposalInfoStoreKey(req.ProposalId)
-	var proposal types.MsgCreateProposal
-	proposalInfo, err := store.Get(proposalStoreKey)
-	if err != nil {
-		return nil, err
-	}
-	err = k.cdc.Unmarshal(proposalInfo, &proposal)
+	proposal, err := storeImpl.GetProposal(ctx, store, req.ProposalId)
 	if err != nil {
 		return nil, err
 	}
 
 	// query the registered users
-	userStoreKey := types.UsersStoreKey(req.ProposalId)
-	storedUsers, err := store.Get(userStoreKey)
+	users, err := storeImpl.GetUsers(ctx, store, req.ProposalId)
 	if err != nil {
 		return nil, err
 	}
-	users := make([]string, 0)
-	for i := 0; i < len(storedUsers); i += types.USER_SIZE {
-		user := storedUsers[i : i+types.USER_SIZE]
-		users = append(users, string(user))
-	}
-	fmt.Println("users are>>>>>>>>>>>>.", users)
 
 	// query the store votes
-	votesStorekey := types.VotesStoreKey(req.ProposalId)
-	storedVotes, err := store.Get(votesStorekey)
+	votes, err := storeImpl.GetVotes(ctx, store, req.ProposalId)
 	if err != nil {
 		return nil, err
-	}
-	votes := make([]types.VoteOption, 0)
-	for i := 0; i < len(storedVotes); i += types.VOTE_SIZE {
-		vote := storedUsers[i : i+types.VOTE_SIZE]
-		v := types.UnMarshalVoteOption(vote)
-		votes = append(votes, v)
 	}
 
 	// query the commitments
-	commitmentStoreKey := types.CommitmentsStoreKey(req.ProposalId)
-	StoredCommitments, err := store.Get(commitmentStoreKey)
+	commitments, err := storeImpl.GetCommitments(ctx, store, req.ProposalId)
 	if err != nil {
 		return nil, err
-	}
-	commitmentsArray := make([]string, 0)
-	for i := 0; i < len(StoredCommitments); i += types.COMMITMENT_SIZE {
-		commitmentBytes := StoredCommitments[i : i+types.COMMITMENT_SIZE]
-		commitmentString := types.BytesToHexString(commitmentBytes)
-		commitmentsArray = append(commitmentsArray, commitmentString)
 	}
 
 	// query the nullifier
-	nullifierStorekey := types.NullifiersStoreKey(req.ProposalId)
-	StoredNullifiers, err := store.Get(nullifierStorekey)
+	nullifiers, err := storeImpl.GetNullifiers(ctx, store, req.ProposalId)
 	if err != nil {
 		return nil, err
 	}
-	nullifierArray := make([]string, 0)
-	for i := 0; i < len(StoredNullifiers); i += types.NULLIFIER_SIZE {
-		nullifierBytes := StoredNullifiers[i : i+types.NULLIFIER_SIZE]
-		nullifierString := types.BytesToHexString(nullifierBytes)
-		nullifierArray = append(nullifierArray, nullifierString)
-	}
 
-	fmt.Println("nullifier array is>>>>>>>>", nullifierArray)
-	fmt.Println("commitments array is>>>>>>", commitmentsArray)
-	fmt.Println("Store votes are>>>>>>>", votes)
-	fmt.Println("Stored users >>>>>>>.", storedUsers)
-	fmt.Println("The proposalInfo is>>>>>>>>>>>>", proposal)
+	usersInfo := GetUsersInfo(commitments, users)
+	votesInfo := GetVotesInfo(nullifiers, votes)
 
-	UserInfo := make([]*types.UserInfo, 0)
-	for i, user := range users {
-		UserInfo[i].UserAddress = user
-	}
-	for i, commitment := range commitmentsArray {
-		UserInfo[i].Commitment = commitment
-	}
-
-	VoteInfo := make([]*types.VoteInfo, 0)
-	for i, vote := range votes {
-		VoteInfo[i].VoteOption = vote
-	}
-
-	for i, nullifer := range nullifierArray {
-		VoteInfo[i].Nullifer = nullifer
-	}
 	return &types.QueryProposalAllInfoResponse{
 		Title:                proposal.Title,
 		Description:          proposal.Description,
 		RegistrationDeadline: proposal.RegistrationDeadline,
 		VotingDeadline:       proposal.VotingDeadline,
-		RegisteredUsers:      UserInfo,
-		Votes:                VoteInfo,
+		RegisteredUsers:      usersInfo,
+		Votes:                votesInfo,
 	}, nil
+}
+
+func GetVotesInfo(nullifiers []string, votes []types.VoteOption) []*types.VoteInfo {
+	VotesInfo := make([]*types.VoteInfo, len(nullifiers))
+	for i, vote := range votes {
+		voteInfo := &types.VoteInfo{
+			Nullifer:   nullifiers[i],
+			VoteOption: vote,
+		}
+		VotesInfo[i] = voteInfo
+	}
+
+	return VotesInfo
+}
+
+func GetUsersInfo(commitments []string, users []string) []*types.UserInfo {
+	usersInfo := make([]*types.UserInfo, len(commitments))
+	for i, commitment := range commitments {
+		userInfo := &types.UserInfo{
+			Commitment:  commitment,
+			UserAddress: users[i],
+		}
+		usersInfo[i] = userInfo
+
+	}
+
+	return usersInfo
 }

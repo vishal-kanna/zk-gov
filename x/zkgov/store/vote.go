@@ -32,3 +32,20 @@ func StoreVote(ctx context.Context, store cosmosstore.KVStore, proposalID uint64
 
 	return nil
 }
+
+func GetVotes(ctx context.Context, store cosmosstore.KVStore, proposalID uint64) ([]types.VoteOption, error) {
+	votesStorekey := types.VotesStoreKey(proposalID)
+	votes := make([]types.VoteOption, 0)
+
+	storedVotes, err := store.Get(votesStorekey)
+	if err != nil {
+		return votes, err
+	}
+
+	for i := 0; i < len(storedVotes); i += types.VOTE_SIZE {
+		vote := storedVotes[i : i+types.VOTE_SIZE]
+		v := types.UnMarshalVoteOption(vote)
+		votes = append(votes, v)
+	}
+	return votes, nil
+}

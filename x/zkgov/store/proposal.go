@@ -54,3 +54,19 @@ func StoreProposalCounter(ctx context.Context, store cosmosstore.KVStore, propos
 
 	return store.Set(proposalCounterKey, proposalCounterBytes)
 }
+
+func GetProposal(ctx context.Context, store cosmosstore.KVStore, proposalID uint64) (*types.MsgCreateProposal, error) {
+	// querying the stored proposal
+	proposalStoreKey := types.ProposalInfoStoreKey(proposalID)
+	var proposal types.MsgCreateProposal
+	proposalInfo, err := store.Get(proposalStoreKey)
+	if err != nil {
+		return &types.MsgCreateProposal{}, err
+	}
+	err = proposal.Unmarshal(proposalInfo)
+	if err != nil {
+		return &types.MsgCreateProposal{}, err
+	}
+
+	return &proposal, nil
+}

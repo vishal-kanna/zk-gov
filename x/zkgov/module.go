@@ -55,6 +55,10 @@ func (ab AppModuleBasic) GetTxCmd() *cobra.Command {
 	return cli.NewTxCmd()
 }
 
+func (AppModuleBasic) GetQueryCmd() *cobra.Command {
+	return cli.GetQueryCmd()
+}
+
 func (am AppModuleBasic) RegisterInterfaces(registry codectypes.InterfaceRegistry) {
 	zktypes.RegisterInterfaces(registry)
 }

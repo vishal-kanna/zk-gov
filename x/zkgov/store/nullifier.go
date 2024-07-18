@@ -45,3 +45,21 @@ func StoreNullifier(ctx context.Context, store cosmosstore.KVStore, proposalID u
 
 	return nil
 }
+
+func GetNullifiers(ctx context.Context, store cosmosstore.KVStore, proposalID uint64) ([]string, error) {
+	nullifierStorekey := types.NullifiersStoreKey(proposalID)
+	nullifiers := make([]string, 0)
+
+	StoredNullifiers, err := store.Get(nullifierStorekey)
+	if err != nil {
+		return nullifiers, err
+	}
+
+	for i := 0; i < len(StoredNullifiers); i += types.NULLIFIER_SIZE {
+		nullifierBytes := StoredNullifiers[i : i+types.NULLIFIER_SIZE]
+		nullifier := types.BytesToHexString(nullifierBytes)
+		nullifiers = append(nullifiers, nullifier)
+	}
+
+	return nullifiers, nil
+}
