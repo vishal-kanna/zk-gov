@@ -2,7 +2,6 @@ package circuit
 
 import (
 	"crypto/sha256"
-	"encoding/binary"
 	"fmt"
 	"math/big"
 
@@ -73,18 +72,14 @@ func (circuit *PrivateVotingCircuit) checkNullifier(api frontend.API, hFunc mimc
 	return nil
 }
 
-func PreparePublicWitness(nullifier string, voteOption uint64, merkleRoot string) witness.Witness {
+func PreparePublicWitness(nullifier string, voteOptionInt int64, merkleRoot string) witness.Witness {
 	nullifierBytes, _ := types.HexStringToBytes(nullifier)
 	merkleRootBytes, _ := types.HexStringToBytes(merkleRoot)
 
-	voteOptionBytes := make([]byte, 8)
-	binary.BigEndian.PutUint64(voteOptionBytes, voteOption)
-	message := append(nullifierBytes, merkleRootBytes...)
-	message = append(message, voteOptionBytes...)
-	messageHash := Sha256Hash(message)
+	voteOption := *big.NewInt(voteOptionInt)
 
 	field := ecc.BN254.ScalarField()
-	publicWitness, err := ConstructWitness(field, merkleRootBytes, nullifierBytes, messageHash)
+	publicWitness, err := ConstructWitness(field, nullifierBytes, voteOption.Bytes(), merkleRootBytes)
 	if err != nil {
 		panic(err)
 	}
@@ -94,23 +89,23 @@ func PreparePublicWitness(nullifier string, voteOption uint64, merkleRoot string
 }
 
 // constructs new public witness using assignment's public inputs
-func ConstructWitness(field *big.Int, merkleRootBytes []byte, nullifierBytes []byte, message []byte) (witness.Witness, error) {
+func ConstructWitness(field *big.Int, nullifierBytes []byte, voteOption []byte, merkleRootBytes []byte) (witness.Witness, error) {
 	newWitness, err := witness.New(field)
 	if err != nil {
 		return nil, err
 	}
 
 	witnessChan := make(chan any)
-	go passPubInputs(&witnessChan, merkleRootBytes, nullifierBytes, message)
+	go passPubInputs(&witnessChan, nullifierBytes, voteOption, merkleRootBytes)
 	newWitness.Fill(3, 0, witnessChan)
 
 	return newWitness, nil
 }
 
 // close the channel after passing the values to end the for loop over channel values
-func passPubInputs(witnessChan *chan any, merkleRootBytes []byte, nullifierBytes []byte, message []byte) {
+func passPubInputs(witnessChan *chan any, nullifierBytes []byte, voteOption []byte, merkleRootBytes []byte) {
 	*witnessChan <- nullifierBytes
-	*witnessChan <- message
+	*witnessChan <- voteOption
 	*witnessChan <- merkleRootBytes
 
 	fmt.Println("pulbic values sent via channel for witness construction...")

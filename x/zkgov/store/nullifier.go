@@ -32,7 +32,7 @@ func StoreNullifier(ctx context.Context, store cosmosstore.KVStore, proposalID u
 
 	// if nullifier already stored, the vote is already processed
 	for i := 0; i < len(nullifiersBytes); i += types.NULLIFIER_SIZE {
-		storedNullifier := nullifiersBytes[i*types.NULLIFIER_SIZE : (i+1)*types.NULLIFIER_SIZE]
+		storedNullifier := nullifiersBytes[i : i+types.NULLIFIER_SIZE]
 		if bytes.Equal(storedNullifier, nullifierBytes) {
 			return errors.New("the user is already voted")
 		}

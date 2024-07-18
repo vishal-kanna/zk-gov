@@ -48,9 +48,9 @@ func NewTxCmd() *cobra.Command {
 // takes the proposal id and his option vote
 func NewRegisterVoteCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:     "register-vote [proposal-id] [vote-option] [file name]",
+		Use:     "register-vote [proposal-id] [vote-option {YES|NO}] [file name]",
 		Short:   "Register a new Voter",
-		Example: "simd tx zk-gov register-vote 1 1 --from alice --keyring-backend test --chain-id testnet",
+		Example: "simd tx zk-gov register-vote 1 YES --from alice --keyring-backend test --chain-id testnet",
 		Args:    cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
@@ -61,13 +61,13 @@ func NewRegisterVoteCmd() *cobra.Command {
 			proposalID := args[0]
 			voteOption := args[1]
 			Pid, _ := strconv.Atoi(proposalID)
-			vote, _ := strconv.Atoi(voteOption)
+			vote, err := types.StringToVoteOption(voteOption)
 
 			randomSecret1 := getRandomNumber()
 			randomSecret2 := getRandomNumber()
 
-			commitment := circuit.CreateCommitment(randomSecret1, randomSecret2, int64(vote))
-			nullifier := circuit.CreateNullifier(randomSecret2, int64(vote))
+			commitment := circuit.CreateCommitment(randomSecret1, randomSecret2, vote)
+			nullifier := circuit.CreateNullifier(randomSecret2, vote)
 
 			err = circuit.SaveInfo(uint64(Pid), commitment, nullifier, uint64(vote), uint64(randomSecret1), uint64(randomSecret2), sender)
 			if err != nil {
@@ -164,12 +164,7 @@ func NewVote() *cobra.Command {
 			randomSecret2 := *big.NewInt(int64(VoterInfo.RandomSecret2))
 			sender := clientCtx.GetFromAddress().String()
 
-			var opt types.VoteOption
-			if VoterInfo.VoteOption == 0 {
-				opt = types.VoteOption_VOTE_OPTION_YES
-			} else {
-				opt = types.VoteOption_VOTE_OPTION_NO
-			}
+			opt := types.IntToVoteOption(int64(VoterInfo.VoteOption))
 
 			// merkle proof request
 			var req types.QueryCommitmentMerkleProofRequest

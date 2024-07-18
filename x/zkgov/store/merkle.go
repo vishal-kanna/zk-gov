@@ -69,7 +69,7 @@ func GetMerkleProof(ctx context.Context, store cosmosstore.KVStore, req *types.Q
 
 	hFunc := mimc.NewMiMC()
 
-	root, merkleproof, _, err := merkletree.BuildReaderProof(&buf, hFunc, types.COMMITMENT_SIZE, uint64(0))
+	root, merkleproof, _, err := merkletree.BuildReaderProof(&buf, hFunc, types.COMMITMENT_SIZE, uint64(commitmentIndex))
 	if err != nil {
 		return nil, err
 	}
@@ -87,7 +87,7 @@ func GetMerkleRoot(ctx context.Context, store cosmosstore.KVStore, proposalID ui
 	if err != nil {
 		return "", err
 	}
-	return string(merkleRootBytes), nil
+	return types.BytesToHexString(merkleRootBytes), nil
 }
 
 func GetMerkleProofFromBytes(rootBytes []byte, proofBytes [][]byte) merkle.MerkleProof {

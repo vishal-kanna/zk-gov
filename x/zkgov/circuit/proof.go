@@ -16,6 +16,7 @@ import (
 	"github.com/consensys/gnark/frontend/cs/r1cs"
 )
 
+// bytes to zk proof
 func UnMarshalZkProof(zkProofBytes []byte) (groth16.Proof, error) {
 
 	// unmarshal sig into proof
@@ -28,6 +29,7 @@ func UnMarshalZkProof(zkProofBytes []byte) (groth16.Proof, error) {
 	return zkProof, nil
 }
 
+// zkproof to bytes
 func MarshalZkProof(zkproof groth16.Proof) ([]byte, error) {
 	proofbn254 := zkproof.(*bn254.Proof)
 	proofBytes, err := json.Marshal(proofbn254)
@@ -38,14 +40,17 @@ func MarshalZkProof(zkproof groth16.Proof) ([]byte, error) {
 	return proofBytes, nil
 }
 
+// public witness from assignment
 func GetPublicWitness(assignment *PrivateVotingCircuit) (witness.Witness, error) {
 	witness, _ := frontend.NewWitness(assignment, ecc.BN254.ScalarField())
 	return witness.Public()
 }
 
+// generate for for the assignment. Pk, Cs are fetching from predefined files
 func GenerateProof(assignment *PrivateVotingCircuit) ([]byte, error) {
 
 	merkleproofSize := len(assignment.MerkleProof.Path)
+
 	pk, err := FetchProver(merkleproofSize)
 	if err != nil {
 		return nil, err
@@ -82,12 +87,24 @@ func FetchProver(size int) (*bn254.ProvingKey, error) {
 	return provingKey, nil
 }
 
+// to fetch contraint system
 func CompileCircuit(size int) constraint.ConstraintSystem {
 	var circuit PrivateVotingCircuit
 	circuit.MerkleProof.Path = make([]frontend.Variable, size)
 
 	ccs, _ := frontend.Compile(ecc.BN254.ScalarField(), r1cs.NewBuilder, &circuit)
 	return ccs
+}
+
+// instant setup for testing
+func FetchKeys(size int) (groth16.ProvingKey, groth16.VerifyingKey, constraint.ConstraintSystem) {
+	cs := CompileCircuit(size)
+	pk, vk, err := groth16.Setup(cs)
+	if err != nil {
+		panic("error while setup: " + err.Error())
+	}
+	return pk, vk, cs
+
 }
 
 // FetchCs fetches constraint system from stored files
@@ -106,6 +123,7 @@ func FetchCs(size int) (constraint.ConstraintSystem, error) {
 	return cs, nil
 }
 
+// fetch verifier key from store file
 func FetchVerifier(size int) (*bn254.VerifyingKey, error) {
 	verifierKeyBytes, err := os.ReadFile(filepath.Join("keys", fmt.Sprintf("verifier-%d", size)))
 	if err != nil {
@@ -121,6 +139,7 @@ func FetchVerifier(size int) (*bn254.VerifyingKey, error) {
 	return verifierKey, nil
 }
 
+// complete test for an assignment before broadcasting the tx
 func TestZKProof(assignment *PrivateVotingCircuit) {
 	size := len(assignment.MerkleProof.Path)
 

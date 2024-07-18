@@ -2,7 +2,6 @@ package keeper
 
 import (
 	"context"
-	"fmt"
 
 	cosmosstore "cosmossdk.io/core/store"
 	"github.com/consensys/gnark/backend/groth16"
@@ -29,7 +28,6 @@ func NewKeeper(
 
 func (k *Keeper) Vote(ctx context.Context, votePropal types.MsgVoteProposal) error {
 
-	fmt.Println(1)
 	nullifier := votePropal.Nullifier
 	proposalID := votePropal.ProposalId
 	voteOption := votePropal.VoteOption
@@ -43,29 +41,21 @@ func (k *Keeper) Vote(ctx context.Context, votePropal types.MsgVoteProposal) err
 		return err
 	}
 
-	fmt.Println(2)
-
 	err = storeImpl.StoreNullifier(ctx, store, proposalID, nullifier)
 	if err != nil {
 		return err
 	}
-
-	fmt.Println(3)
 
 	err = storeImpl.StoreVote(ctx, store, proposalID, voteOption)
 	if err != nil {
 		return err
 	}
 
-	fmt.Println(4)
-
-	publicWitness := circuit.PreparePublicWitness(nullifier, uint64(voteOption), merkleRoot)
+	publicWitness := circuit.PreparePublicWitness(nullifier, types.VoteOptionToInt(voteOption), merkleRoot)
 	zkProof, err := circuit.UnMarshalZkProof(zkProofBytes[:])
 	if err != nil {
 		return err
 	}
-
-	fmt.Println(5)
 
 	// verifier key should be initialized at genesis
 	vkey, err := circuit.FetchVerifier(int(votePropal.MerkleproofSize))
@@ -73,16 +63,10 @@ func (k *Keeper) Vote(ctx context.Context, votePropal types.MsgVoteProposal) err
 		return err
 	}
 
-	fmt.Println(6)
-
 	err = groth16.Verify(zkProof, vkey, publicWitness)
 	if err != nil {
 		return err
 	}
-
-	fmt.Println(7)
-
-	// TODO: process the vote...
 
 	return nil
 }
@@ -173,11 +157,6 @@ func (k *Keeper) GetProposalAllInfo(ctx context.Context, req *types.QueryProposa
 	if err != nil {
 		return nil, err
 	}
-
-	// fmt.Println("commitments:", commitments)
-	// fmt.Println("nullifiers:", nullifiers)
-	// fmt.Println("votes:", votes)
-	// fmt.Println("users:", users)
 
 	usersInfo := GetUsersInfo(commitments, users)
 	votesInfo := GetVotesInfo(nullifiers, votes)

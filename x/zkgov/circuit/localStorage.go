@@ -53,5 +53,6 @@ func FetchInfo(proposalID string, sender string) (VoterInfo, error) {
 		return info, err
 	}
 	err = json.Unmarshal(data, &info)
+
 	return info, err
 }

@@ -518,13 +518,13 @@ create-proposal-b:
 	simd tx zk-gov create-proposal "proposal-B" "proposal-B description" --from alice --keyring-backend test --chain-id demo
 
 register-alice-vote: 
-	simd tx zk-gov register-vote 1 1 --from alice --keyring-backend test --chain-id demo
+	simd tx zk-gov register-vote 1 "NO" --from alice --keyring-backend test --chain-id demo
 register-bob-vote: 
-	simd tx zk-gov register-vote 1 0 --from bob --keyring-backend test --chain-id demo
+	simd tx zk-gov register-vote 1 "YES" --from bob --keyring-backend test --chain-id demo
 register-sai-vote: 
-	simd tx zk-gov register-vote 1 1 --from sai --keyring-backend test --chain-id demo
+	simd tx zk-gov register-vote 1 "NO" --from sai --keyring-backend test --chain-id demo
 register-teja-vote: 
-	simd tx zk-gov register-vote 1 0 --from teja --keyring-backend test --chain-id demo
+	simd tx zk-gov register-vote 1 "YES" --from teja --keyring-backend test --chain-id demo
 
 broadcast-alice-vote:
 	simd tx zk-gov vote 1 cosmos1ux2hl3y42nz6vtdl8k7t7f05k9p3r2k62zfvtv --from unknown --keyring-backend test --chain-id demo
