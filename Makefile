@@ -483,3 +483,66 @@ localnet-start: localnet-stop localnet-build-env localnet-build-nodes
 localnet-debug: localnet-stop localnet-build-dlv localnet-build-nodes
 
 .PHONY: localnet-start localnet-stop localnet-debug localnet-build-env localnet-build-dlv localnet-build-nodes
+
+######################################################################
+#######                ZK keys Generations                ############
+######################################################################
+
+generate-zk-keys:
+	go run ./x/zkgov/client/zk/main.go ./x/zkgov/client/zk/keys.go
+
+.PHONY: generate-zk-keys
+
+######################################################################
+#######                     Relayer                       ############
+######################################################################
+
+run-alice-relayer:
+	simd tx zk-gov run-relayer --from alice --keyring-backend test --chain-id demo
+run-bob-relayer:
+	simd tx zk-gov run-relayer --from bob --keyring-backend test --chain-id demo
+run-sai-relayer:
+	simd tx zk-gov run-relayer --from sai --keyring-backend test --chain-id demo
+run-teja-relayer:
+	simd tx zk-gov run-relayer --from teja --keyring-backend test --chain-id demo
+
+.PHONY: run-alice-relayer run-bob-relayer run-sai-relayer run-teja-relayer
+
+######################################################################
+#######                  Transactions                     ############
+######################################################################
+
+create-proposal-a: 
+	simd tx zk-gov create-proposal "proposal-A" "proposal-A description" --from alice --keyring-backend test --chain-id demo
+create-proposal-b: 
+	simd tx zk-gov create-proposal "proposal-B" "proposal-B description" --from alice --keyring-backend test --chain-id demo
+
+register-alice-vote: 
+	simd tx zk-gov register-vote 1 1 --from alice --keyring-backend test --chain-id demo
+register-bob-vote: 
+	simd tx zk-gov register-vote 1 0 --from bob --keyring-backend test --chain-id demo
+register-sai-vote: 
+	simd tx zk-gov register-vote 1 1 --from sai --keyring-backend test --chain-id demo
+register-teja-vote: 
+	simd tx zk-gov register-vote 1 0 --from teja --keyring-backend test --chain-id demo
+
+broadcast-alice-vote:
+	simd tx zk-gov vote 1 cosmos1ux2hl3y42nz6vtdl8k7t7f05k9p3r2k62zfvtv --from unknown --keyring-backend test --chain-id demo
+broadcast-bob-vote:
+	simd tx zk-gov vote 1 cosmos13j3mn8n2d3scd2yy3urmw5vqhn53rej6p050np --from unknown --keyring-backend test --chain-id demo
+broadcast-sai-vote:
+	simd tx zk-gov vote 1 cosmos1mg4t0l2nc98vhjdmg6kzee5wh6uhx9jlfrgfu9 --from unknown --keyring-backend test --chain-id demo
+broadcast-teja-vote:
+	simd tx zk-gov vote 1 cosmos1pf0m5ch2673r6lv5lwm2mkyw433xapzx7nuemu --from unknown --keyring-backend test --chain-id demo
+
+broadcast-alice-vote-via-relayer:
+	simd tx zk-gov vote 1 cosmos1ux2hl3y42nz6vtdl8k7t7f05k9p3r2k62zfvtv --relayer "http://localhost:8080"
+broadcast-bob-vote-via-relayer:
+	simd tx zk-gov vote 1 cosmos13j3mn8n2d3scd2yy3urmw5vqhn53rej6p050np --relayer "http://localhost:8080"
+broadcast-sai-vote-via-relayer:
+	simd tx zk-gov vote 1 cosmos1mg4t0l2nc98vhjdmg6kzee5wh6uhx9jlfrgfu9 --relayer "http://localhost:8080"
+broadcast-teja-vote-via-relayer:
+	simd tx zk-gov vote 1 cosmos1pf0m5ch2673r6lv5lwm2mkyw433xapzx7nuemu --relayer "http://localhost:8080"
+
+
+.PHONY: create-proposal-a create-proposal-b broadcast-alice-vote broadcast-bob-vote broadcast-sai-vote broadcast-teja-vote broadcast-alice-vote-via-relayer broadcast-bob-vote-via-relayer broadcast-sai-vote-via-relayer broadcast-teja-vote-via-relayer
