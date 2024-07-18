@@ -46,7 +46,11 @@ func (k *Keeper) Vote(ctx context.Context, votePropal types.MsgVoteProposal) err
 		return err
 	}
 
-	//
+	err = storeImpl.StoreVote(ctx, store, proposalID, voteOption)
+	if err != nil {
+		return err
+	}
+
 	publicWitness := circuit.PreparePublicWitness(nullifier, uint64(voteOption), merkleRoot)
 	zkProof, err := circuit.UnMarshalZkProof(zkProofBytes[:])
 	if err != nil {
@@ -106,6 +110,11 @@ func (k *Keeper) CreatePropsal(ctx context.Context, proposal types.MsgCreateProp
 	}
 
 	err = storeImpl.InitUsers(ctx, store, proposalID)
+	if err != nil {
+		return proposalID, err
+	}
+
+	err = storeImpl.InitVotes(ctx, store, proposalID)
 
 	return proposalID, err
 

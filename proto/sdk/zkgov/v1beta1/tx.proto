@@ -57,9 +57,9 @@ message MsgCreateProposal {
   option (cosmos.msg.v1.signer) = "sender";
   string title = 1;
   string description = 2;
-  google.protobuf.Timestamp registration_deadline = 4;
-  google.protobuf.Timestamp voting_deadline = 5;
-  string sender = 6;
+  google.protobuf.Timestamp registration_deadline = 3;
+  google.protobuf.Timestamp voting_deadline = 4;
+  string sender = 5;
 }
 
 // CreateProposalResponse

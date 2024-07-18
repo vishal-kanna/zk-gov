@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	Query_CommitmentMerkleProof_FullMethodName = "/sdk.zkgov.v1beta1.Query/CommitmentMerkleProof"
+	Query_ProposalAllInfo_FullMethodName       = "/sdk.zkgov.v1beta1.Query/ProposalAllInfo"
 )
 
 // QueryClient is the client API for Query service.
@@ -28,6 +29,8 @@ const (
 type QueryClient interface {
 	// CommitmentMerkleProof
 	CommitmentMerkleProof(ctx context.Context, in *QueryCommitmentMerkleProofRequest, opts ...grpc.CallOption) (*QueryCommitmentMerkleProofResponse, error)
+	// ProposalAllInfo
+	ProposalAllInfo(ctx context.Context, in *QueryProposalAllInfoRequest, opts ...grpc.CallOption) (*QueryProposalAllInfoResponse, error)
 }
 
 type queryClient struct {
@@ -47,12 +50,23 @@ func (c *queryClient) CommitmentMerkleProof(ctx context.Context, in *QueryCommit
 	return out, nil
 }
 
+func (c *queryClient) ProposalAllInfo(ctx context.Context, in *QueryProposalAllInfoRequest, opts ...grpc.CallOption) (*QueryProposalAllInfoResponse, error) {
+	out := new(QueryProposalAllInfoResponse)
+	err := c.cc.Invoke(ctx, Query_ProposalAllInfo_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
 type QueryServer interface {
 	// CommitmentMerkleProof
 	CommitmentMerkleProof(context.Context, *QueryCommitmentMerkleProofRequest) (*QueryCommitmentMerkleProofResponse, error)
+	// ProposalAllInfo
+	ProposalAllInfo(context.Context, *QueryProposalAllInfoRequest) (*QueryProposalAllInfoResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -62,6 +76,9 @@ type UnimplementedQueryServer struct {
 
 func (UnimplementedQueryServer) CommitmentMerkleProof(context.Context, *QueryCommitmentMerkleProofRequest) (*QueryCommitmentMerkleProofResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CommitmentMerkleProof not implemented")
+}
+func (UnimplementedQueryServer) ProposalAllInfo(context.Context, *QueryProposalAllInfoRequest) (*QueryProposalAllInfoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ProposalAllInfo not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -94,6 +111,24 @@ func _Query_CommitmentMerkleProof_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_ProposalAllInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryProposalAllInfoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ProposalAllInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_ProposalAllInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ProposalAllInfo(ctx, req.(*QueryProposalAllInfoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -104,6 +139,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CommitmentMerkleProof",
 			Handler:    _Query_CommitmentMerkleProof_Handler,
+		},
+		{
+			MethodName: "ProposalAllInfo",
+			Handler:    _Query_ProposalAllInfo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

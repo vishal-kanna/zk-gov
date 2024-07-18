@@ -23,6 +23,7 @@ var (
 	ProposalCounterKey = []byte{0x05}
 	ProposalInfoKey    = []byte{0x06}
 	ProposalResultKey  = []byte{0x07}
+	VotesKey           = []byte{0x08}
 )
 
 func ProposalInfoStoreKey(proposalID uint64) []byte {
@@ -75,6 +76,14 @@ func MerkleRootStoreKey(proposalID uint64) []byte {
 	proposalIDBytes := make([]byte, 8)
 	binary.BigEndian.PutUint64(proposalIDBytes, proposalID)
 	key := append(MerkleRootKey, proposalIDBytes...)
-	return key
 
+	return key
+}
+
+func VotesStoreKey(proposalID uint64) []byte {
+	proposalIDBytes := make([]byte, 8)
+	binary.BigEndian.PutUint64(proposalIDBytes, proposalID)
+	key := append(VotesKey, proposalIDBytes...)
+
+	return key
 }
