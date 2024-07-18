@@ -56,5 +56,5 @@ message UserInfo {
 
 message VoteInfo {
   string nullifer = 1;
-  VoteInfo vote_option = 2;
+  VoteOption vote_option = 2;
 }

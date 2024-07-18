@@ -24,9 +24,6 @@ func StoreVote(ctx context.Context, store cosmosstore.KVStore, proposalID uint64
 	}
 
 	voteOptionBytes := types.MarshalVoteOption(voteOption)
-	if err != nil {
-		return err
-	}
 
 	Votes = append(Votes, voteOptionBytes...)
 	if err := store.Set(votesKey, Votes); err != nil {

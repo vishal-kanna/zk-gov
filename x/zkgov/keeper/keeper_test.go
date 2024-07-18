@@ -1,6 +1,7 @@
 package keeper_test
 
 import (
+	"fmt"
 	"testing"
 
 	addresstypes "cosmossdk.io/core/address"
@@ -85,18 +86,36 @@ func TestTestSuite(t *testing.T) {
 	suite.Run(t, new(TestSuite))
 }
 
-// func (s *TestSuite) TestGetUserInfo() {
-// 	_, err := s.addressCodec.BytesToString([]byte("alice"))
-// 	s.Require().NoError(err)
+func (s *TestSuite) TestGetUserInfo() {
+	alice := "cosmos1ee0gzn3f3f0h2l4djk9rfvwmr4h0z8xlqvdc3k"
 
-// 	// 	_, err = s.msgSrvr.RegisterUser(s.ctx, &types.RegisterUserRequest{
-// 	// 	// 	Sender: alice,
-// 	// 	// })
-// 	// 	// s.Require().NoError(err)
+	bob := "cosmos1rns9w3kgpsc5rtcleagaul79hvjxeu4h26jyfd"
 
-// 	//		// res, err := s.queryClient.GetUser(s.ctx, &types.QueryUserRequset{Userid: 1})
-// 	//		// fmt.Println("the result is>>>>>>>>>>", res)
-// 	//		// s.Require().Equal(res.Ust.Userid, 1)
-// 	//		// s.Require().NoError(err)
-// 	//	}
-// }
+	_, err := s.msgSrvr.CreateProposal(s.ctx, &types.MsgCreateProposal{
+		Title:                "dummy proposal",
+		Description:          "This is the dummy proposal",
+		RegistrationDeadline: nil,
+		VotingDeadline:       nil,
+		Sender:               alice,
+	})
+	s.Require().NoError(err)
+
+	_, err = s.msgSrvr.RegisterUser(s.ctx, &types.MsgRegisterUser{
+		Sender:     alice,
+		Commitment: "0a8b34dc58d41b24c4a3e961cd78b45221b9eac800bb2e173133e3496381f898",
+		ProposalId: 1,
+	})
+	s.Require().NoError(err)
+
+	_, err = s.msgSrvr.RegisterUser(s.ctx, &types.MsgRegisterUser{
+		Sender:     bob,
+		Commitment: "0a8b34dc58d41b24c4a3e961cd78b45221b9eac800bb2e173133e3496381f898",
+		ProposalId: 1,
+	})
+	s.Require().NoError(err)
+
+	res, err := s.queryClient.ProposalAllInfo(s.ctx, &types.QueryProposalAllInfoRequest{ProposalId: 1})
+	fmt.Println("the result is>>>>>>>>>>", res.Description)
+
+	s.Require().NoError(err)
+}
