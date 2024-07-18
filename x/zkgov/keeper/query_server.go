@@ -9,7 +9,9 @@ import (
 var _ types.QueryServer = Keeper{}
 
 func (k Keeper) CommitmentMerkleProof(ctx context.Context, req *types.QueryCommitmentMerkleProofRequest) (*types.QueryCommitmentMerkleProofResponse, error) {
-
 	return k.MerkleProof(ctx, req)
+}
 
+func (k Keeper) ProposalAllInfo(ctx context.Context, req *types.QueryProposalAllInfoRequest) (*types.QueryProposalAllInfoResponse, error) {
+	return &types.QueryProposalAllInfoResponse{}, nil
 }

@@ -190,7 +190,9 @@ build-docs:
 # Usage: make install && make init-simapp && simd start
 # Warning: make init-simapp will remove all data in simapp home directory
 init-simapp:
-	./scripts/init-simapp.sh
+	rm -rf ~/.zkapp/
+	bash ./scripts/init-simapp.sh
+	simd start
 
 test: test-unit
 test-e2e:

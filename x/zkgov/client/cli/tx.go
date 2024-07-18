@@ -14,11 +14,15 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/circuit"
+	relayerCLient "github.com/vishal-kanna/zk/zk-gov/x/zkgov/client/relayer/client"
+	relayerServer "github.com/vishal-kanna/zk/zk-gov/x/zkgov/client/relayer/server"
 	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/store"
 	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/types"
 )
 
 var FlagSplit = "split"
+var FlagRelayer = "relayer"
+var FlagRelayerPort = "relayerPort"
 
 // NewTxCmd returns a root CLI command handler for all x/bank transaction commands.
 func NewTxCmd() *cobra.Command {
@@ -31,10 +35,10 @@ func NewTxCmd() *cobra.Command {
 	}
 
 	txCmd.AddCommand(
-		// NewRegisterCmd(),
 		NewRegisterVoteCmd(),
 		NewCreateProposalCmd(),
 		NewVote(),
+		Relayer(),
 	)
 
 	return txCmd
@@ -208,13 +212,46 @@ func NewVote() *cobra.Command {
 				MerkleproofSize:   uint64(merkleproofSize),
 			}
 
-			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), &msg)
+			relayerFlag := cmd.Flag(FlagRelayer)
+			relayerAddress := relayerFlag.Value.String()
+			if relayerAddress == "" {
+				return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), &msg)
+			}
+
+			relayerClient := relayerCLient.NewRelayerClient(relayerAddress)
+			err = relayerClient.BroadCastTx(msg)
+			if err != nil {
+				return err
+			}
+			return nil
 		},
 	}
 
-	cmd.Flags().Bool(FlagSplit, false, "Send the equally split token amount to each address")
+	cmd.Flags().String(FlagRelayer, "", "Broadcast the transaction Relayer end point")
 	flags.AddTxFlagsToCmd(cmd)
 
+	return cmd
+}
+
+func Relayer() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "run-relayer",
+		Short: "relayer will listen to transactions from users, signs them and broadcast them to network",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			relayer := relayerServer.NewRelayer(&clientCtx, cmd)
+			port := cmd.Flag(FlagRelayerPort).Value.String()
+
+			return relayer.Run(port)
+		},
+	}
+
+	cmd.Flags().Uint64(FlagRelayerPort, 8080, "port on which relayer runs")
+	flags.AddTxFlagsToCmd(cmd)
 	return cmd
 }
 
