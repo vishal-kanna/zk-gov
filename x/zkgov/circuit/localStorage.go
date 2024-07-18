@@ -19,7 +19,15 @@ type VoterInfo struct {
 }
 
 // SaveInfo saves the voter info as JSON
-func SaveInfo(proposalID uint64, commitment []byte, nullifier []byte, voteOption uint64, randomSecret1 uint64, randomSecret2 uint64) error {
+func SaveInfo(
+	proposalID uint64,
+	commitment []byte,
+	nullifier []byte,
+	voteOption uint64,
+	randomSecret1 uint64,
+	randomSecret2 uint64,
+	sender string,
+) error {
 	commitmentString := types.BytesToHexString(commitment)
 	nullifierString := types.BytesToHexString(nullifier)
 	info := VoterInfo{
@@ -34,13 +42,13 @@ func SaveInfo(proposalID uint64, commitment []byte, nullifier []byte, voteOption
 	if err != nil {
 		return err
 	}
-	return os.WriteFile(filepath.Join("commitments", fmt.Sprint(proposalID)+".json"), data, 0666)
+	return os.WriteFile(filepath.Join("commitments", fmt.Sprintf("%s-%d.json", sender, proposalID)), data, 0666)
 }
 
 // FetchInfo fetches the voter info from JSON
-func FetchInfo(proposalID string) (VoterInfo, error) {
+func FetchInfo(proposalID string, sender string) (VoterInfo, error) {
 	var info VoterInfo
-	data, err := os.ReadFile(filepath.Join("commitments", proposalID+".json"))
+	data, err := os.ReadFile(filepath.Join("commitments", fmt.Sprintf("%s-%s.json", sender, proposalID)))
 	if err != nil {
 		return info, err
 	}
