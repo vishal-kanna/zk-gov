@@ -3654,7 +3654,7 @@ func (x *VoteInfo) GetVoteOption() VoteOption {
 	if x != nil {
 		return x.VoteOption
 	}
-	return VoteOption_VOTE_OPTION_YES
+	return VoteOption_VOTE_OPTION_NO
 }
 
 var File_sdk_zkgov_v1beta1_query_proto protoreflect.FileDescriptor

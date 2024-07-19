@@ -15,6 +15,6 @@ message User {
 }
 
 enum VoteOption {
-  VOTE_OPTION_YES = 0;
-  VOTE_OPTION_NO = 1;
+  VOTE_OPTION_NO = 0;
+  VOTE_OPTION_YES = 1;
 }

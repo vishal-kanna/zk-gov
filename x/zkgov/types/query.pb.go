@@ -360,7 +360,7 @@ func (m *VoteInfo) GetVoteOption() VoteOption {
 	if m != nil {
 		return m.VoteOption
 	}
-	return VoteOption_VOTE_OPTION_YES
+	return VoteOption_VOTE_OPTION_NO
 }
 
 func init() {

@@ -4143,7 +4143,7 @@ func (x *MsgVoteProposal) GetVoteOption() VoteOption {
 	if x != nil {
 		return x.VoteOption
 	}
-	return VoteOption_VOTE_OPTION_YES
+	return VoteOption_VOTE_OPTION_NO
 }
 
 func (x *MsgVoteProposal) GetProposalStateRoot() string {
@@ -4382,7 +4382,7 @@ func (x *MsgProcessProposalResponse) GetResult() VoteOption {
 	if x != nil {
 		return x.Result
 	}
-	return VoteOption_VOTE_OPTION_YES
+	return VoteOption_VOTE_OPTION_NO
 }
 
 var File_sdk_zkgov_v1beta1_tx_proto protoreflect.FileDescriptor

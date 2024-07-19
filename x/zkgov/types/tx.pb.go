@@ -189,7 +189,7 @@ func (m *MsgVoteProposal) GetVoteOption() VoteOption {
 	if m != nil {
 		return m.VoteOption
 	}
-	return VoteOption_VOTE_OPTION_YES
+	return VoteOption_VOTE_OPTION_NO
 }
 
 func (m *MsgVoteProposal) GetProposalStateRoot() string {
@@ -474,7 +474,7 @@ func (m *MsgProcessProposalResponse) GetResult() VoteOption {
 	if m != nil {
 		return m.Result
 	}
-	return VoteOption_VOTE_OPTION_YES
+	return VoteOption_VOTE_OPTION_NO
 }
 
 func init() {

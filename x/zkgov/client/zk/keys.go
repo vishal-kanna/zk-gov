@@ -31,13 +31,13 @@ func GenerateZKKeys(merkleProofSize int) {
 	vk.WriteTo(vkBuf)
 	ccs.WriteTo(ccsBuf)
 
-	proverKeyfileName := fmt.Sprintf("../../../../keys/prover-%d", merkleProofSize)
+	proverKeyfileName := fmt.Sprintf("./keys/prover-%d", merkleProofSize)
 	WriteToFile(proverKeyfileName, pkBuf)
 
-	verifierfileName := fmt.Sprintf("../../../../keys/verifier-%d", merkleProofSize)
+	verifierfileName := fmt.Sprintf("./keys/verifier-%d", merkleProofSize)
 	WriteToFile(verifierfileName, vkBuf)
 
-	ccsfilename := fmt.Sprintf("../../../../keys/ccs-%d", merkleProofSize)
+	ccsfilename := fmt.Sprintf("./keys/ccs-%d", merkleProofSize)
 	WriteToFile(ccsfilename, ccsBuf)
 
 	slog.Info("Keys are successfully generated and stored in {keys} folder")
