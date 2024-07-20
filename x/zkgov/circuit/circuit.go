@@ -1,55 +1,124 @@
 package circuit
 
 import (
+	"crypto/sha256"
+	"encoding/binary"
+	"fmt"
+	"math/big"
+
+	"github.com/consensys/gnark-crypto/ecc"
+	"github.com/consensys/gnark/backend/witness"
 	"github.com/consensys/gnark/frontend"
 	"github.com/consensys/gnark/std/accumulator/merkle"
 	"github.com/consensys/gnark/std/hash/mimc"
+	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/types"
 )
 
 // Define the circuit
-type Circuit struct {
-	UniqueId1  frontend.Variable
-	ProofIndex frontend.Variable `gnark:",public"`
-	UniqueId2  frontend.Variable
-	Commitment frontend.Variable
-	Nullifier  frontend.Variable `gnark:",public"`
+type PrivateVotingCircuit struct {
+	SecretUniqueId1 frontend.Variable // randomly generated
+	SecretUniqueId2 frontend.Variable // randomly generated
+
+	Commitment frontend.Variable //  hash(secret1 + secret2 + voteOption)
+	Nullifier  frontend.Variable `gnark:",public"` // hash(secret2 + voteOption)
 	VoteOption frontend.Variable `gnark:",public"`
-	//Signature   eddsa.Signature //todo
-	MerkleProof merkle.MerkleProof
-	MerkleRoot  frontend.Variable
+
+	MerkleProof     merkle.MerkleProof
+	CommitmentIndex frontend.Variable
+	MerkleRoot      frontend.Variable `gnark:",public"`
 }
 
-func (circuit *Circuit) Define(api frontend.API) error {
-	hashFunc, err := mimc.NewMiMC(api)
+func (circuit *PrivateVotingCircuit) Define(api frontend.API) error {
+
+	mimc, _ := mimc.NewMiMC(api)
+
+	circuit.checkCommitment(api, mimc)
+	circuit.checkNullifier(api, mimc)
+	circuit.checkMerkleProof(api, mimc)
+
+	return nil
+}
+
+func (circuit *PrivateVotingCircuit) checkCommitment(api frontend.API, hFunc mimc.MiMC) error {
+
+	hFunc.Reset()
+	hFunc.Write(circuit.SecretUniqueId1)
+	hFunc.Write(circuit.SecretUniqueId2)
+	hFunc.Write(circuit.VoteOption)
+
+	computedCommitment := hFunc.Sum()
+	api.AssertIsEqual(circuit.Commitment, computedCommitment)
+
+	return nil
+}
+
+func (circuit *PrivateVotingCircuit) checkMerkleProof(api frontend.API, hFunc mimc.MiMC) error {
+	hFunc.Reset()
+	api.AssertIsEqual(circuit.Commitment, circuit.MerkleProof.Path[0])
+	api.AssertIsEqual(circuit.MerkleRoot, circuit.MerkleProof.RootHash)
+	circuit.MerkleProof.VerifyProof(api, &hFunc, circuit.CommitmentIndex)
+
+	return nil
+}
+
+func (circuit *PrivateVotingCircuit) checkNullifier(api frontend.API, hFunc mimc.MiMC) error {
+
+	hFunc.Reset()
+	hFunc.Write(circuit.SecretUniqueId2)
+	hFunc.Write(circuit.VoteOption)
+
+	computedNullifier := hFunc.Sum()
+	api.AssertIsEqual(circuit.Nullifier, computedNullifier)
+
+	return nil
+}
+
+func PreparePublicWitness(nullifier string, voteOption uint64, merkleRoot string) witness.Witness {
+	nullifierBytes, _ := types.HexStringToBytes(nullifier)
+	merkleRootBytes, _ := types.HexStringToBytes(merkleRoot)
+
+	voteOptionBytes := make([]byte, 8)
+	binary.BigEndian.PutUint64(voteOptionBytes, voteOption)
+	message := append(nullifierBytes, merkleRootBytes...)
+	message = append(message, voteOptionBytes...)
+	messageHash := Sha256Hash(message)
+
+	field := ecc.BN254.ScalarField()
+	publicWitness, err := ConstructWitness(field, merkleRootBytes, nullifierBytes, messageHash)
 	if err != nil {
 		panic(err)
 	}
-	hashFunc.Write(circuit.UniqueId1, circuit.UniqueId2)
-	commitment := hashFunc.Sum()
 
-	// Ensure the commitment matches the provided commitment
-	api.AssertIsEqual(commitment, circuit.Commitment)
+	return publicWitness
 
-	api.AssertIsEqual(circuit.MerkleProof.RootHash, circuit.MerkleRoot)
+}
 
-	// Hash the commitment to generate nullifier
-	hashFunc.Reset()
-	hashFunc.Write(circuit.UniqueId2)
-	nullifier := hashFunc.Sum()
+// constructs new public witness using assignment's public inputs
+func ConstructWitness(field *big.Int, merkleRootBytes []byte, nullifierBytes []byte, message []byte) (witness.Witness, error) {
+	newWitness, err := witness.New(field)
+	if err != nil {
+		return nil, err
+	}
 
-	// Comparing the circuit generated nullifier with provided nullifier
-	api.AssertIsEqual(nullifier, circuit.Nullifier)
-	hashFunc.Reset()
-	circuit.MerkleProof.VerifyProof(api, &hashFunc, circuit.ProofIndex)
+	witnessChan := make(chan any)
+	go passPubInputs(&witnessChan, merkleRootBytes, nullifierBytes, message)
+	newWitness.Fill(3, 0, witnessChan)
 
-	//// Signature verification
-	//curve, err := twistededwards.NewEdCurve(api, tedwards.BN254)
-	//if err != nil {
-	//	return err
-	//}
-	//
-	//hashFunc.Reset()
-	//err = eddsa.Verify(curve, circuit.Signature, circuit.VoteOption, circuit.PubKey, &hashFunc)
+	return newWitness, nil
+}
 
-	return err
+// close the channel after passing the values to end the for loop over channel values
+func passPubInputs(witnessChan *chan any, merkleRootBytes []byte, nullifierBytes []byte, message []byte) {
+	*witnessChan <- nullifierBytes
+	*witnessChan <- message
+	*witnessChan <- merkleRootBytes
+
+	fmt.Println("pulbic values sent via channel for witness construction...")
+	close(*witnessChan)
+}
+
+func Sha256Hash(message []byte) []byte {
+	shaFunc := sha256.New()
+	shaFunc.Write(message)
+	return shaFunc.Sum(nil)
 }

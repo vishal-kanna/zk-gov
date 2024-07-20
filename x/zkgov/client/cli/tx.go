@@ -1,99 +1,235 @@
 package cli
 
-// import (
-// 	"bytes"
-// 	"fmt"
-// 	"math/big"
-// 	"math/rand"
-// 	"os"
-// 	"path/filepath"
-// 	"strconv"
-// 	"time"
+import (
+	"fmt"
+	"math/big"
+	"math/rand"
+	"strconv"
+	"time"
 
-// 	"github.com/consensys/gnark-crypto/accumulator/merkletree"
-// 	"github.com/consensys/gnark-crypto/ecc"
-// 	"github.com/consensys/gnark-crypto/ecc/bn254/fr/mimc"
-// 	"github.com/consensys/gnark/frontend"
-// 	"github.com/consensys/gnark/std/accumulator/merkle"
-// 	"github.com/cosmos/cosmos-sdk/client"
-// 	"github.com/cosmos/cosmos-sdk/client/flags"
-// 	"github.com/cosmos/cosmos-sdk/client/tx"
-// 	"github.com/spf13/cobra"
-// 	"github.com/spf13/viper"
-// 	voting "github.com/vishal-kanna/zk/zk-gov/x/zkgov/circuit"
-// 	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/types"
-// )
+	"github.com/cosmos/cosmos-sdk/client"
+	"github.com/cosmos/cosmos-sdk/client/flags"
+	"github.com/cosmos/cosmos-sdk/client/tx"
+	cosmos_types "github.com/cosmos/gogoproto/types"
+	"github.com/spf13/cobra"
 
-// var FlagSplit = "split"
+	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/circuit"
+	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/store"
+	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/types"
+)
 
-// // NewTxCmd returns a root CLI command handler for all x/bank transaction commands.
-// func NewTxCmd() *cobra.Command {
-// 	txCmd := &cobra.Command{
-// 		Use:                        types.ModuleName,
-// 		Short:                      "Bank transaction subcommands",
-// 		DisableFlagParsing:         true,
-// 		SuggestionsMinimumDistance: 2,
-// 		RunE:                       client.ValidateCmd,
-// 	}
+var FlagSplit = "split"
 
-// 	txCmd.AddCommand(
-// 		// NewRegisterCmd(),
-// 		NewUserRegisterCmd(),
-// 	)
+// NewTxCmd returns a root CLI command handler for all x/bank transaction commands.
+func NewTxCmd() *cobra.Command {
+	txCmd := &cobra.Command{
+		Use:                        types.ModuleName,
+		Short:                      "Zk-gov transaction subcommands",
+		DisableFlagParsing:         true,
+		SuggestionsMinimumDistance: 2,
+		RunE:                       client.ValidateCmd,
+	}
 
-// 	return txCmd
-// }
-// func NewRegisterCmd() *cobra.Command {
-// 	cmd := &cobra.Command{
-// 		Use:   "register",
-// 		Short: "Register a new Voter",
-// 		RunE: func(cmd *cobra.Command, args []string) error {
-// 			clientCtx, err := client.GetClientTxContext(cmd)
-// 			if err != nil {
-// 				return err
-// 			}
-// 			userId := viper.GetInt64("userId")
-// 			if userId > 0 {
-// 				fmt.Println("UserId is required")
-// 				return err
-// 			}
+	txCmd.AddCommand(
+		// NewRegisterCmd(),
+		NewRegisterVoteCmd(),
+		NewCreateProposalCmd(),
+		NewVote(),
+	)
 
-// 			randomId := getRandomNumber()
-// 			commitment, nullifier := createCommitmentAndNullifier(userId, randomId)
+	return txCmd
+}
 
-// 			cmtBuf, nulBuf := bytes.NewBuffer([]byte{}), bytes.NewBuffer([]byte{})
-// 			cmtBuf.Write(commitment)
-// 			nulBuf.Write(nullifier)
+// takes the proposal id and his option vote
+func NewRegisterVoteCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:     "register-vote proposal-id voteOption ",
+		Short:   "Register a new Voter",
+		Example: "simd tx zk-gov register-vote 1 1 --from alice --keyring-backend test --chain-id testnet",
+		Args:    cobra.ExactArgs(2),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+			sender := clientCtx.GetFromAddress().String()
+			proposalID := args[0]
+			voteOption := args[1]
+			Pid, _ := strconv.Atoi(proposalID)
+			vote, _ := strconv.Atoi(voteOption)
 
-// 			// store the above voterInfo
-// 			userPath := strconv.FormatInt(userId, 10)
-// 			err = SaveInfo("commitment_"+userPath, cmtBuf.Bytes())
-// 			if err != nil {
-// 				fmt.Println("Error writing commitment to file:", err.Error())
-// 				return err
-// 			}
+			randomSecret1 := getRandomNumber()
+			randomSecret2 := getRandomNumber()
 
-// 			err = SaveInfo("nullifier_"+userPath, nulBuf.Bytes())
-// 			if err != nil {
-// 				fmt.Println("Error writing nullifier to file:", err.Error())
-// 				return err
-// 			}
+			commitment := circuit.CreateCommitment(randomSecret1, randomSecret2, int64(vote))
+			nullifier := circuit.CreateNullifier(randomSecret2, int64(vote))
 
-// 			err = SaveInfo("voterId_"+userPath, []byte(fmt.Sprintf("%d\n", randomId)))
-// 			if err != nil {
-// 				fmt.Println("Error writing to file:", err.Error())
-// 				return err
-// 			}
-// 			msg := types.RegisterCommitmentRequest{Commitment: string(commitment)}
-// 			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), &msg)
-// 		},
-// 	}
+			err = circuit.SaveInfo(uint64(Pid), commitment, nullifier, uint64(vote), uint64(randomSecret1), uint64(randomSecret2))
+			if err != nil {
+				fmt.Println("Error while saving to file:", err.Error())
+				return err
+			}
 
-// 	cmd.Flags().Bool(FlagSplit, false, "Send the equally split token amount to each address")
-// 	flags.AddTxFlagsToCmd(cmd)
+			commitmentString := types.BytesToHexString(commitment)
+			msg := types.MsgRegisterUser{ProposalId: uint64(Pid), Sender: sender, Commitment: commitmentString}
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), &msg)
+		},
+	}
 
-// 	return cmd
-// }
+	cmd.Flags().Bool(FlagSplit, false, "Send the equally split token amount to each address")
+	flags.AddTxFlagsToCmd(cmd)
+
+	return cmd
+}
+
+// create new proposal
+func NewCreateProposalCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:     "create-proposal [title] [description] ",
+		Short:   "Create a new Proposal",
+		Example: "simd tx zk-gov create-proposal dummy-proposal dummy-description --from alice --keyring-backend test --chain-id demo",
+		Args:    cobra.ExactArgs(2),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			sender := clientCtx.GetFromAddress().String()
+			title := args[0]
+			description := args[1]
+			registration_deadline := time.Now().Add(time.Hour)
+			registration_deadline_timestamp, err := cosmos_types.TimestampProto(registration_deadline)
+			if err != nil {
+				return err
+			}
+
+			voting_deadline := registration_deadline.Add(time.Hour)
+			voting_deadline_timestamp, err := cosmos_types.TimestampProto(voting_deadline)
+			if err != nil {
+				return err
+			}
+
+			msg := types.MsgCreateProposal{
+				Title:                title,
+				Sender:               sender,
+				Description:          description,
+				RegistrationDeadline: registration_deadline_timestamp,
+				VotingDeadline:       voting_deadline_timestamp,
+			}
+
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), &msg)
+		},
+	}
+
+	cmd.Flags().Bool(FlagSplit, false, "Send the equally split token amount to each address")
+	flags.AddTxFlagsToCmd(cmd)
+
+	return cmd
+}
+
+// get the proposal_state_root zk_proof and proposal_state_root
+// get nullifier and commitment from the store
+func NewVote() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "vote [proposal-id]",
+		Short: "Create a vote transaction for previously generated values (register-vote)",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+			queryClient := types.NewQueryClient(clientCtx)
+
+			proposalID := args[0]
+			Pid, _ := strconv.Atoi(proposalID)
+			VoterInfo, err := circuit.FetchInfo(proposalID)
+			if err != nil {
+				fmt.Println("Error while fetching file:", err.Error())
+				return err
+			}
+
+			nullifier := VoterInfo.Nullifier
+			nullifierBytes, _ := types.HexStringToBytes(nullifier)
+			voteOption := *big.NewInt(int64(VoterInfo.VoteOption))
+			commitment := VoterInfo.Commitment
+			commitmentBytes, _ := types.HexStringToBytes(commitment)
+			randomSecret1 := *big.NewInt(int64(VoterInfo.RandomSecret1))
+			randomSecret2 := *big.NewInt(int64(VoterInfo.RandomSecret2))
+			sender := clientCtx.GetFromAddress().String()
+
+			var opt types.VoteOption
+			if VoterInfo.VoteOption == 0 {
+				opt = types.VoteOption_VOTE_OPTION_YES
+			} else {
+				opt = types.VoteOption_VOTE_OPTION_NO
+			}
+
+			// merkle proof request
+			var req types.QueryCommitmentMerkleProofRequest
+
+			req.Commitment = commitment
+			req.ProposalId = uint64(Pid)
+			res, err := queryClient.CommitmentMerkleProof(cmd.Context(), &req)
+			if err != nil {
+				fmt.Println("Error while questing MerkleProof", err.Error())
+			}
+
+			merkleroot := res.GetRoot()
+			merklerootString := types.BytesToHexString(merkleroot)
+			merkleproofBytes := res.GetMerkleProof()
+			merkleproof := store.GetMerkleProofFromBytes(merkleroot, merkleproofBytes)
+			commitmentIndex := res.GetCommitmentIndex()
+			merkleproofSize := len(merkleproof.Path)
+
+			assignment := circuit.PrivateVotingCircuit{
+				SecretUniqueId1: randomSecret1,
+				SecretUniqueId2: randomSecret2,
+				Commitment:      commitmentBytes,
+				Nullifier:       nullifierBytes,
+				VoteOption:      voteOption,
+				CommitmentIndex: commitmentIndex,
+				MerkleRoot:      merkleroot,
+				MerkleProof:     merkleproof,
+			}
+
+			fmt.Println("secret1:", VoterInfo.RandomSecret1,
+
+				"secret2:", randomSecret2,
+				"comm", commitmentBytes,
+				"null", nullifierBytes,
+				"vote option", voteOption,
+				"index", commitmentIndex,
+				"merkleroot", merkleroot,
+				"merkleproof", merkleproof,
+			)
+
+			circuit.TestZKProof(&assignment)
+
+			zkProofBytes, err := circuit.GenerateProof(&assignment)
+
+			msg := types.MsgVoteProposal{
+				ProposalId:        uint64(Pid),
+				Nullifier:         nullifier,
+				VoteOption:        opt,
+				Sender:            sender,
+				ZkProof:           zkProofBytes,
+				ProposalStateRoot: merklerootString,
+				MerkleproofSize:   uint64(merkleproofSize),
+			}
+
+			fmt.Println("cli done.........")
+
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), &msg)
+		},
+	}
+
+	cmd.Flags().Bool(FlagSplit, false, "Send the equally split token amount to each address")
+	flags.AddTxFlagsToCmd(cmd)
+
+	return cmd
+}
+
 // func GenerateProofCmd() *cobra.Command {
 
 // 	generateProofCmd := &cobra.Command{
@@ -206,13 +342,13 @@ package cli
 // 	return cmd
 // }
 
-// // Generate a random 5-digit salt
-// func getRandomNumber() int64 {
-// 	seed := time.Now().UnixNano()
-// 	rng := rand.New(rand.NewSource(seed))
+// Generate a random 5-digit salt
+func getRandomNumber() int64 {
+	seed := time.Now().UnixNano()
+	rng := rand.New(rand.NewSource(seed))
 
-// 	return int64(rng.Intn(10000))
-// }
+	return int64(rng.Intn(10000))
+}
 
 // // To create a commitment and nullifier
 // func createCommitmentAndNullifier(userId, randomId int64) ([]byte, []byte) {

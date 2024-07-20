@@ -13,3 +13,8 @@ message User {
   uint64 random_number = 3;
   bytes nullifier = 4;
 }
+
+enum VoteOption {
+  VOTE_OPTION_YES = 0;
+  VOTE_OPTION_NO = 1;
+}

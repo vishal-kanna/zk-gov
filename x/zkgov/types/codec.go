@@ -11,14 +11,14 @@ import (
 // RegisterLegacyAminoCodec registers the necessary x/bank interfaces and concrete types
 // on the provided LegacyAmino codec. These types are used for Amino JSON serialization.
 func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
-	legacy.RegisterAminoMsg(cdc, &RegisterCommitmentRequest{}, "zkgov/RegisterCommitment")
-	legacy.RegisterAminoMsg(cdc, &RegisterUserRequest{}, "zkgov/RegisterUser")
+	legacy.RegisterAminoMsg(cdc, &MsgRegisterUser{}, "zkgov/RegisterUser")
+	legacy.RegisterAminoMsg(cdc, &MsgVoteProposal{}, "zkgov/VoteProposal")
 }
 
 func RegisterInterfaces(registry types.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&RegisterCommitmentRequest{},
-		&RegisterUserRequest{},
+		&MsgRegisterUser{},
+		&MsgVoteProposal{},
 	)
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)
 }
