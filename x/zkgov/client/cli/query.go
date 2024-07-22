@@ -19,6 +19,7 @@ func GetQueryCmd() *cobra.Command {
 
 	cmd.AddCommand(
 		GetProposalAllInfo(),
+		GetAllProposal(),
 	)
 
 	return cmd
@@ -41,6 +42,28 @@ func GetProposalAllInfo() *cobra.Command {
 
 			req := &types.QueryProposalAllInfoRequest{ProposalId: uint64(proposalID)}
 			res, _ := queryClient.ProposalAllInfo(cmd.Context(), req)
+
+			return clientCtx.PrintProto(res)
+		},
+	}
+	flags.AddQueryFlagsToCmd(cmd)
+	return cmd
+}
+
+func GetAllProposal() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "get-proposals [proposal_id]",
+		Short: "Show all proposals",
+		Long: `Show all proposals,
+		`,
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientQueryContext(cmd)
+			if err != nil {
+				return err
+			}
+			queryClient := types.NewQueryClient(clientCtx)
+			req := &types.GetProposalRequest{}
+			res, _ := queryClient.GetProposals(cmd.Context(), req)
 
 			return clientCtx.PrintProto(res)
 		},

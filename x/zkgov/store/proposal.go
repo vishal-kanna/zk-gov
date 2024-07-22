@@ -8,13 +8,20 @@ import (
 	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/types"
 )
 
-func StoreProposal(ctx context.Context, store cosmosstore.KVStore, proposal types.MsgCreateProposal) (uint64, error) {
+func StoreProposal(ctx context.Context, store cosmosstore.KVStore, req types.MsgCreateProposal) (uint64, error) {
 
 	proposalCounter := GetProposalCounter(ctx, store)
 	proposalCounter++
 	StoreProposalCounter(ctx, store, proposalCounter)
 
 	proposalInfoStoreKey := types.ProposalInfoStoreKey(proposalCounter)
+	proposal := types.Proposal{
+		ProposalId:           proposalCounter,
+		Title:                req.Title,
+		Description:          req.Description,
+		RegistrationDeadline: req.RegistrationDeadline,
+		VotingDeadline:       req.VotingDeadline,
+	}
 
 	proposalBytes, err := proposal.Marshal()
 	if err != nil {
@@ -55,11 +62,10 @@ func StoreProposalCounter(ctx context.Context, store cosmosstore.KVStore, propos
 	return store.Set(proposalCounterKey, proposalCounterBytes)
 }
 
-func GetProposal(ctx context.Context, store cosmosstore.KVStore, proposalID uint64) (*types.MsgCreateProposal, error) {
-	// querying the stored proposal
-	proposalStoreKey := types.ProposalInfoStoreKey(proposalID)
+// Get the stored proposals
+func GetProposal(ctx context.Context, store cosmosstore.KVStore) (*types.MsgCreateProposal, error) {
 	var proposal types.MsgCreateProposal
-	proposalInfo, err := store.Get(proposalStoreKey)
+	proposalInfo, err := store.Get(types.ProposalInfoKey)
 	if err != nil {
 		return &types.MsgCreateProposal{}, err
 	}

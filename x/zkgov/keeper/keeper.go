@@ -9,6 +9,9 @@ import (
 	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/circuit"
 	storeImpl "github.com/vishal-kanna/zk/zk-gov/x/zkgov/store"
 	"github.com/vishal-kanna/zk/zk-gov/x/zkgov/types"
+
+	storetypes "cosmossdk.io/store/types"
+	"github.com/cosmos/cosmos-sdk/runtime"
 )
 
 type Keeper struct {
@@ -128,26 +131,8 @@ func (k *Keeper) MerkleProof(ctx context.Context, req *types.QueryCommitmentMerk
 func (k *Keeper) GetProposalAllInfo(ctx context.Context, req *types.QueryProposalAllInfoRequest) (*types.QueryProposalAllInfoResponse, error) {
 	store := k.storeKey.OpenKVStore(ctx)
 
-	// querying the stored proposal
-	proposal, err := storeImpl.GetProposal(ctx, store, req.ProposalId)
-	if err != nil {
-		return nil, err
-	}
-
-	// query the registered users
-	users, err := storeImpl.GetUsers(ctx, store, req.ProposalId)
-	if err != nil {
-		return nil, err
-	}
-
 	// query the store votes
 	votes, err := storeImpl.GetVotes(ctx, store, req.ProposalId)
-	if err != nil {
-		return nil, err
-	}
-
-	// query the commitments
-	commitments, err := storeImpl.GetCommitments(ctx, store, req.ProposalId)
 	if err != nil {
 		return nil, err
 	}
@@ -158,16 +143,10 @@ func (k *Keeper) GetProposalAllInfo(ctx context.Context, req *types.QueryProposa
 		return nil, err
 	}
 
-	usersInfo := GetUsersInfo(commitments, users)
 	votesInfo := GetVotesInfo(nullifiers, votes)
 
 	return &types.QueryProposalAllInfoResponse{
-		Title:                proposal.Title,
-		Description:          proposal.Description,
-		RegistrationDeadline: proposal.RegistrationDeadline,
-		VotingDeadline:       proposal.VotingDeadline,
-		RegisteredUsers:      usersInfo,
-		Votes:                votesInfo,
+		Votes: votesInfo,
 	}, nil
 }
 
@@ -196,4 +175,16 @@ func GetUsersInfo(commitments []string, users []string) []*types.UserInfo {
 	}
 
 	return usersInfo
+}
+
+func (k *Keeper) GetAllProposals(ctx context.Context, req *types.GetProposalRequest) (*types.GetProposalsResponse, error) {
+	store := runtime.KVStoreAdapter(k.storeKey.OpenKVStore(ctx))
+	var lists []*types.Proposal
+	iter := storetypes.KVStorePrefixIterator(store, types.ProposalInfoKey)
+	for ; iter.Valid(); iter.Next() {
+		var list types.Proposal
+		k.cdc.Unmarshal(iter.Value(), &list)
+		lists = append(lists, &list)
+	}
+	return &types.GetProposalsResponse{Proposals: lists}, nil
 }

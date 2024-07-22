@@ -21,6 +21,11 @@ service Query {
       returns (QueryProposalAllInfoResponse) {
     option (google.api.http).get = "/zk-gov/{proposal_id}";
   }
+
+  // List Proposals
+  rpc GetProposals(GetProposalRequest) returns (GetProposalsResponse) {
+    option (google.api.http).get = "/zk-gov/proposals";
+  }
 }
 
 // QueryCommitmentMerkleProofRequest
@@ -38,23 +43,25 @@ message QueryCommitmentMerkleProofResponse {
   uint64 commitment_index = 3;
 }
 
+// QueryProposalAllInfoRequest
 message QueryProposalAllInfoRequest { uint64 proposal_id = 1; }
 
-message QueryProposalAllInfoResponse {
-  string title = 1;
-  string description = 2;
-  google.protobuf.Timestamp registration_deadline = 3;
-  google.protobuf.Timestamp voting_deadline = 4;
-  repeated UserInfo registered_users = 5;
-  repeated VoteInfo votes = 6;
-}
+// QueryProposalAllInfoResponse
+message QueryProposalAllInfoResponse { repeated VoteInfo votes = 1; }
 
+// UserInfo
 message UserInfo {
   string commitment = 1;
   string user_address = 2;
 }
 
+// VoteInfo
 message VoteInfo {
   string nullifer = 1;
   VoteOption vote_option = 2;
 }
+// GetProposalRequest
+message GetProposalRequest {}
+
+// GetProposalsResponse
+message GetProposalsResponse { repeated Proposal proposals = 1; }
