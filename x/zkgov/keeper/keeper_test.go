@@ -115,7 +115,7 @@ func (s *TestSuite) TestGetUserInfo() {
 	s.Require().NoError(err)
 
 	res, err := s.queryClient.ProposalAllInfo(s.ctx, &types.QueryProposalAllInfoRequest{ProposalId: 1})
-	fmt.Println("the result is>>>>>>>>>>", res.Description)
+	fmt.Println("the result is>>>>>>>>>>", res.Votes)
 
 	s.Require().NoError(err)
 }
